@@ -1,0 +1,592 @@
+* {
+  box-sizing: border-box;
+}
+
+#button-contact-vr {
+  position: fixed;
+  bottom: 80px;
+  z-index: 99999;
+  right: 5px;
+}
+
+#gom-all-in-one .button-contact {
+  transition: 1.6s all;
+  -moz-transition: 1.6s all;
+  -webkit-transition: 1.6s all;
+}
+
+@-webkit-keyframes phone-vr-circle-fill {
+  0% {
+    -webkit-transform: rotate(0) scale(1) skew(1deg);
+  }
+
+  10% {
+    -webkit-transform: rotate(-25deg) scale(1) skew(1deg);
+  }
+
+  20% {
+    -webkit-transform: rotate(25deg) scale(1) skew(1deg);
+  }
+
+  30% {
+    -webkit-transform: rotate(-25deg) scale(1) skew(1deg);
+  }
+
+  40% {
+    -webkit-transform: rotate(25deg) scale(1) skew(1deg);
+  }
+
+  50% {
+    -webkit-transform: rotate(0) scale(1) skew(1deg);
+  }
+
+  100% {
+    -webkit-transform: rotate(0) scale(1) skew(1deg);
+  }
+}
+
+@keyframes phone-vr-circle-fill {
+  0% {
+    transform: rotate(0) scale(1) skew(1deg);
+  }
+
+  10% {
+    transform: rotate(-25deg) scale(1) skew(1deg);
+  }
+
+  20% {
+    transform: rotate(25deg) scale(1) skew(1deg);
+  }
+
+  30% {
+    transform: rotate(-25deg) scale(1) skew(1deg);
+  }
+
+  40% {
+    transform: rotate(25deg) scale(1) skew(1deg);
+  }
+
+  50% {
+    transform: rotate(0) scale(1) skew(1deg);
+  }
+
+  100% {
+    transform: rotate(0) scale(1) skew(1deg);
+  }
+}
+
+@-webkit-keyframes zoom {
+  70% {
+    -webkit-transform: scale(1);
+    box-shadow: 0 0 0 15px transparent;
+  }
+
+  100% {
+    -webkit-transform: scale(0.9);
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+
+@keyframes zoom {
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 15px transparent;
+  }
+
+  100% {
+    transform: scale(0.9);
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+
+#button-contact-vr .button-contact {
+  position: relative;
+  margin-top: -5px;
+}
+
+#button-contact-vr .button-contact .phone-vr {
+  visibility: visible;
+  cursor: pointer;
+}
+
+#button-contact-vr .button-contact .phone-vr {
+  position: relative;
+  visibility: visible;
+  background-color: transparent;
+  width: 90px;
+  height: 90px;
+  cursor: pointer;
+  z-index: 11;
+  -webkit-backface-visibility: hidden;
+  -webkit-transform: translateZ(0);
+  transition: visibility 0.5s;
+  left: 0;
+  bottom: 0;
+  display: block;
+}
+
+#zalo-vr .phone-vr-circle-fill {
+  box-shadow: 0 0 0 0 #2196f3;
+  background-color: rgba(33, 150, 243, 0.7);
+}
+
+#zalo-vr .phone-vr-img-circle {
+  background-color: #2196f3;
+}
+
+.phone-vr-circle-fill {
+  width: 65px;
+  height: 65px;
+  top: 12px;
+  left: 12px;
+  position: absolute;
+  box-shadow: 0 0 0 0 #c31d1d;
+  background-color: rgba(230, 8, 8, 0.7);
+  border-radius: 50%;
+  border: 2px solid transparent;
+  -webkit-animation: phone-vr-circle-fill 2.3s infinite ease-in-out;
+  animation: phone-vr-circle-fill 2.3s infinite ease-in-out;
+  transition: all 0.5s;
+  -webkit-transform-origin: 50% 50%;
+  -ms-transform-origin: 50% 50%;
+  transform-origin: 50% 50%;
+  -webkit-animuiion: zoom 1.3s infinite;
+  animation: zoom 1.3s infinite;
+}
+
+.phone-vr-img-circle {
+  background-color: #e60808;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  top: 25px;
+  left: 25px;
+  position: absolute;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  -webkit-animation: phonering-alo-circle-img-anim 1s infinite ease-in-out;
+  animation: phone-vr-circle-fill 1s infinite ease-in-out;
+}
+
+.phone-vr-img-circle a {
+  display: block;
+  line-height: 37px;
+}
+
+.phone-vr-img-circle img {
+  max-height: 25px;
+  max-width: 27px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+}
+
+img {
+  height: auto;
+  max-width: 100%;
+}
+
+/* 1. Fade In */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+/* 2. Slide In từ trái */
+@keyframes slideInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.slide-in-left {
+  animation: slideInLeft 0.8s ease-out forwards;
+}
+
+/* 3. Slide In từ phải */
+@keyframes slideInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.slide-in-right {
+  animation: slideInRight 0.8s ease-out forwards;
+}
+
+/* 4. Zoom In */
+@keyframes zoomIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.zoom-in {
+  animation: zoomIn 0.6s ease-out forwards;
+}
+
+/* 5. Bounce Nhẹ */
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.bounce {
+  animation: bounce 1s ease-in-out infinite;
+}
+
+/* 6. Spin (xoay) */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.spin {
+  animation: spin 2s linear infinite;
+}
+
+/* 1. Nhấp nháy (Blink) */
+@keyframes blink {
+  0%,
+  50%,
+  100% {
+    opacity: 1;
+  }
+
+  25%,
+  75% {
+    opacity: 0.3;
+  }
+}
+
+.blink {
+  animation: blink 1.5s ease-in-out infinite;
+}
+
+/* 2. Rung nhẹ (Pulse) */
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* 3. Lắc ngang (Shake) */
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-5px);
+  }
+
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+.shake {
+  animation: shake 0.6s ease-in-out infinite;
+}
+
+/* 4. Trôi lên xuống (Float) */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* 5. Xoay chậm (Slow Spin) */
+@keyframes slowSpin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.slow-spin {
+  animation: slowSpin 10s linear infinite;
+}
+
+/* 6. Chớp sáng (Glow) */
+@keyframes glow {
+  0%,
+  100% {
+    box-shadow: 0 0 5px rgba(255, 200, 0, 0.4);
+  }
+
+  50% {
+    box-shadow: 0 0 20px rgba(255, 200, 0, 0.8);
+  }
+}
+
+.glow {
+  animation: glow 2s ease-in-out infinite;
+}
+
+/* 1. Nhấp nháy nhẹ (Fade Blink) */
+@keyframes fadeBlink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.fade-blink {
+  animation: fadeBlink 1.2s ease-in-out infinite;
+}
+
+/* 2. Rung tròn (Circle Shake) */
+@keyframes circleShake {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+
+  25% {
+    transform: translate(2px, 2px);
+  }
+
+  50% {
+    transform: translate(-2px, -2px);
+  }
+
+  75% {
+    transform: translate(2px, -2px);
+  }
+}
+
+.circle-shake {
+  animation: circleShake 0.5s linear infinite;
+}
+
+/* 3. Nhảy nhẹ (Hop) */
+@keyframes hop {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+.hop {
+  animation: hop 1.5s ease-in-out infinite;
+}
+
+/* 4. Zoom In-Out liên tục */
+@keyframes zoomLoop {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+.zoom-loop {
+  animation: zoomLoop 2s ease-in-out infinite;
+}
+
+/* 5. Đổi màu chữ (Text Color Change) */
+@keyframes textColorChange {
+  0% {
+    color: #ff0000;
+  }
+
+  33% {
+    color: #00ff00;
+  }
+
+  66% {
+    color: #0000ff;
+  }
+
+  100% {
+    color: #ff0000;
+  }
+}
+
+.text-color-change {
+  animation: textColorChange 3s linear infinite;
+}
+
+/* 6. Đổi màu nền (Background Color Pulse) */
+@keyframes bgPulse {
+  0%,
+  100% {
+    background-color: #ff4d4d;
+  }
+
+  50% {
+    background-color: #ffa64d;
+  }
+}
+
+.bg-pulse {
+  animation: bgPulse 2s ease-in-out infinite;
+}
+
+/* 7. Phóng to thu nhỏ + mờ (Pop Fade) */
+@keyframes popFade {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.6;
+    transform: scale(1.15);
+  }
+}
+
+.pop-fade {
+  animation: popFade 2s ease-in-out infinite;
+}
+
+/* 8. Xoay qua lại (Rotate Swing) */
+@keyframes rotateSwing {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  25% {
+    transform: rotate(5deg);
+  }
+
+  50% {
+    transform: rotate(0deg);
+  }
+
+  75% {
+    transform: rotate(-5deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.rotate-swing {
+  animation: rotateSwing 1.2s ease-in-out infinite;
+}
+
+/* 9. Lắc mạnh (Hard Shake) */
+@keyframes hardShake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translateX(-8px);
+  }
+
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translateX(8px);
+  }
+}
+
+.hard-shake {
+  animation: hardShake 0.8s ease-in-out infinite;
+}
+
+/* 10. Trượt qua lại (Slide Left-Right) */
+@keyframes slideLR {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  50% {
+    transform: translateX(15px);
+  }
+}
+
+.slide-lr {
+  animation: slideLR 2s ease-in-out infinite;
+}

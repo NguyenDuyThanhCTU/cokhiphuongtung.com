@@ -1,0 +1,26 @@
+export const cacheTags = {
+  site: "site",
+  settings: "settings",
+  navigation: "navigation",
+  home: "home",
+  banners: "banners",
+  catalog: "catalog",
+  catalogCategories: "catalog-categories",
+  catalogTags: "catalog-tags",
+  posts: "posts",
+  postCategories: "post-categories",
+  postTags: "post-tags",
+  pages: "pages",
+  sitemap: "sitemap",
+  faq: "faq",
+  testimonials: "testimonials",
+  staticPages: "pages",
+  paymentSettings: "payment-settings",
+  shippingSettings: "shipping-settings",
+  promotion: "promotion",
+  promotions: "promotions",
+  bookingServices: "booking-services",
+  customerPortalSettings: "customer-portal-settings",
+} as const;
+
+export type CacheTag = (typeof cacheTags)[keyof typeof cacheTags];

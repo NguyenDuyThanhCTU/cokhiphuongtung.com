@@ -1,0 +1,38 @@
+{
+  "name": "my-app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test lib/frontend-revalidation/__tests__/frontend-revalidation.test.ts"
+  },
+  "dependencies": {
+    "antd": "^6.5.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.24.0",
+    "next": "^13.5.11",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-icons": "^5.7.0",
+    "slugify": "^1.6.9",
+    "swiper": "^14.0.5",
+    "tailwind-merge": "^3.6.0",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "autoprefixer": "^10",
+    "eslint": "^8",
+    "eslint-config-next": "13.5.4",
+    "postcss": "^8",
+    "tailwindcss": "^3",
+    "tsx": "^4.23.1",
+    "typescript": "^5"
+  }
+}
