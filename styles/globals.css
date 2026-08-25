@@ -4,6 +4,36 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100;200;300;400;500;600;700&display=swap");
 
+
+@layer base {
+  /* 1. Font Normal (Thường) */
+  @font-face {
+    font-family: 'iCielPequena';
+    src: url('../assets/iCielPequena.otf') format('opentype');
+    font-style: normal;
+    font-display: swap;
+  }
+
+  /* 2. Font Bold (Đậm) - Nếu bạn có */
+  @font-face {
+    font-family: 'UTMAmericanSans';
+    src: url('../assets/UTMAmericanSans.ttf') format('truetype');
+
+    font-style: normal;
+    font-display: swap;
+  }
+
+  /* 3. Font Light (Mỏng) - Nếu bạn có */
+  @font-face {
+    font-family: 'UTMFleur';
+    src: url('../assets/UTMFleur.ttf') format('truetype');
+
+    font-style: normal;
+    font-display: swap;
+  }
+}
+
+
 :root {
   color-scheme: light;
   --brand-yellow: #f5b800;
@@ -125,6 +155,20 @@ img {
   visibility: hidden;
   transform: translateY(10px);
   transition: all 0.35s ease-in;
+}
+
+.catalog-menu-children {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(8px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+}
+
+.catalog-menu-node:hover > .catalog-menu-children,
+.catalog-menu-node:focus-within > .catalog-menu-children {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
 }
 
 .footer-map iframe {

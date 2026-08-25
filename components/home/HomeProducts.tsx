@@ -3,17 +3,18 @@ import Link from "next/link";
 
 import type { CatalogCategory, CatalogItem } from "@/features/catalog/types";
 import { getProductPriceLabel } from "@/features/catalog/utils/get-product-price-label";
-import type { PublicSiteSettings } from "@/features/site/types";
 
 export const InterprovincialCard = ({ Data }: { Data: CatalogItem; Hotline?: string }) => (
-  <Link href={`/san-pham/${Data.slug}`} className="block cursor-pointer">
-    <article className="flex h-[330px] flex-col justify-between border bg-white">
-      <div className="flex flex-col items-center gap-2">
-        <div className="flex h-[220px] w-full items-center justify-center overflow-hidden">
-          {Data.thumbnailUrl ? <Image src={Data.thumbnailUrl} alt={Data.title} width={500} height={500} className="h-full w-full object-contain px-2 duration-300 hover:scale-110" /> : <div className="flex h-full w-full items-center justify-center bg-gray-100 text-mainColorHover">Đang cập nhật</div>}
-        </div>
-        <h3 className="truncate2 px-4 text-center font-semibold">{Data.title}</h3>
-        <div className="flex items-end gap-2 font-normal text-red-500">{getProductPriceLabel(Data, "Liên hệ")}</div>
+  <Link href={`/san-pham/${Data.slug}`} className="group block h-full cursor-pointer">
+    <article className="flex h-full min-h-[330px] flex-col border border-[#d8c391] bg-white shadow-[0_8px_24px_rgba(59,40,20,0.08)] transition duration-300 group-hover:-translate-y-1 group-hover:border-mainColorHover group-hover:shadow-[0_16px_32px_rgba(59,40,20,0.16)]">
+      <div className="relative flex h-[220px] w-full items-center justify-center overflow-hidden bg-[#faf8f2]">
+        {Data.thumbnailUrl ? <Image src={Data.thumbnailUrl} alt={Data.title} width={500} height={500} className="h-full w-full object-contain p-2 duration-500 group-hover:scale-105" /> : <div className="flex h-full w-full items-center justify-center text-mainColorHover">Đang cập nhật</div>}
+        <span className="absolute left-2 top-2 h-5 w-5 border-l border-t border-mainColorHover/50" />
+        <span className="absolute bottom-2 right-2 h-5 w-5 border-b border-r border-mainColorHover/50" />
+      </div>
+      <div className="flex flex-1 flex-col items-center gap-2 border-t border-[#eadfbe] px-4 py-4 text-center">
+        <h3 className="truncate2 font-medium leading-6 text-[#332514] transition group-hover:text-mainColorHover">{Data.title}</h3>
+        <div className="mt-auto font-normal text-red-600">{getProductPriceLabel(Data, "Liên hệ")}</div>
       </div>
     </article>
   </Link>
@@ -24,31 +25,50 @@ function belongsToCategory(item: CatalogItem, category: CatalogCategory) {
   return item.categories?.some((value) => value.id === category.id || value.slug === category.slug) ?? false;
 }
 
-export default function HomeProducts({ Data, categories = [] }: { title?: string; Data: CatalogItem[]; settings?: PublicSiteSettings; categories?: CatalogCategory[] }) {
-  const visible = categories.filter((category) => category.isActive !== false);
-  const groups = visible.map((category) => ({ category, items: Data.filter((item) => belongsToCategory(item, category)).slice(0, 5) })).filter((group) => group.items.length);
-  const renderedGroups = groups.length ? groups : [{ category: { id: "all", name: "Sản phẩm", slug: "" } as CatalogCategory, items: Data.slice(0, 5) }];
+function sortCategories(categories: CatalogCategory[]) {
+  return categories
+    .map((category, index) => ({ category, index }))
+    .filter(({ category }) => category.isActive !== false)
+    .sort((left, right) => (left.category.sortOrder ?? Number.MAX_SAFE_INTEGER) - (right.category.sortOrder ?? Number.MAX_SAFE_INTEGER) || left.index - right.index)
+    .map(({ category }) => category);
+}
+
+export default function HomeProducts({ Data, categories = [] }: { Data: CatalogItem[]; categories?: CatalogCategory[] }) {
+  const orderedCategories = sortCategories(categories);
+  const groups = orderedCategories.length
+    ? orderedCategories.map((category) => ({ category, items: Data.filter((item) => belongsToCategory(item, category)) }))
+    : [{ category: { id: "all", name: "Sản phẩm", slug: "" } as CatalogCategory, items: Data }];
 
   return (
-    <div className="flex flex-col gap-4">
-      {renderedGroups.map(({ category, items }) => (
-        <section key={category.id}>
-          <div className="flex justify-center border-b border-mainColorHover">
-            <h2 className="w-max rounded-t-lg bg-mainColorHover px-4 py-2 text-[20px] font-normal uppercase text-white">{category.name}</h2>
-          </div>
-          <div className="mt-3 grid w-full gap-5 p:grid-cols-2 d:grid-cols-5">
-            {items.map((item) => (
-              <Link key={item.id} href={`/san-pham/${item.slug}`} className="flex cursor-pointer flex-col items-center gap-2 duration-300 hover:bg-slate-100">
-                <div className="p:h-[150px] p:w-[150px] d:h-[200px] d:w-[200px]">
-                  {item.thumbnailUrl ? <Image src={item.thumbnailUrl} alt={item.title} width={400} height={400} className="h-full w-full object-cover" /> : <div className="flex h-full items-center justify-center bg-gray-200 text-xs">Đang cập nhật</div>}
-                </div>
-                <div className="truncate1 text-center text-[14px] font-light hover:text-mainColorHover">{item.title}</div>
-                <div className="text-center font-normal text-red-500">{getProductPriceLabel(item, "Liên hệ")}</div>
+    <section className="bg-[#fffdf8] py-10 d:py-14">
+      <header className="mx-auto mb-12 max-w-3xl px-4 text-center">
+        <p className="font-UTMFleur text-[38px] leading-none text-mainColorHover">Tinh hoa trong từng đường nét</p>
+        <h2 className="mt-3 font-iCielPequena text-[28px] uppercase tracking-[0.08em] text-[#241a10] d:text-[34px]">Danh mục sắt mỹ thuật</h2>
+        <div className="mx-auto mt-5 flex max-w-[360px] items-center justify-center gap-3"><span className="h-px flex-1 bg-mainColorHover/40" /><span className="h-3 w-3 rotate-45 border border-mainColorHover bg-mainColor" /><span className="h-px flex-1 bg-mainColorHover/40" /></div>
+      </header>
+
+      <div className="space-y-16 px-2 d:px-5">
+        {groups.map(({ category, items }, groupIndex) => (
+          <section key={category.id || category.slug} aria-labelledby={`home-category-${category.slug || groupIndex}`}>
+            <div className="mb-7 flex flex-col items-center text-center">
+              <span className="font-UTMFleur text-[30px] leading-none text-mainColorHover/80">Bộ sưu tập</span>
+              <Link href={category.slug ? `/danh-muc/${category.slug}` : "/danh-muc"} className="mt-1 transition hover:text-mainColorHover">
+                <h3 id={`home-category-${category.slug || groupIndex}`} className="font-UTMAmericanSans text-[27px] uppercase tracking-[0.06em] text-[#332514] d:text-[34px]">{category.name}</h3>
               </Link>
-            ))}
-          </div>
-        </section>
-      ))}
-    </div>
+              <div className="mt-3 flex w-full max-w-[520px] items-center gap-3"><span className="h-px flex-1 bg-gradient-to-r from-transparent to-mainColorHover/60" /><span className="h-2.5 w-2.5 rotate-45 bg-mainColorHover" /><span className="h-px flex-1 bg-gradient-to-l from-transparent to-mainColorHover/60" /></div>
+              {category.description ? <p className="mt-3 max-w-2xl text-sm leading-7 text-stone-600">{category.description}</p> : null}
+            </div>
+
+            {items.length ? (
+              <div className="grid w-full gap-4 p:grid-cols-2 d:grid-cols-5">
+                {items.map((item) => <InterprovincialCard key={item.id || item.slug} Data={item} />)}
+              </div>
+            ) : (
+              <div className="border border-dashed border-mainColorHover/35 bg-white px-5 py-8 text-center text-sm text-stone-500">Sản phẩm thuộc danh mục này đang được cập nhật.</div>
+            )}
+          </section>
+        ))}
+      </div>
+    </section>
   );
 }

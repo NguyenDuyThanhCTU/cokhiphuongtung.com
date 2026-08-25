@@ -1,27 +1,31 @@
-import { CheckCircle2, Headphones, Search, Send } from "lucide-react";
+import { ClipboardList, Hammer, Ruler, ShieldCheck } from "lucide-react";
 
 const steps = [
-  { icon: Search, title: "Chọn hạng mục", description: "Tham khảo sản phẩm hoặc mô tả nhu cầu thực tế của công trình." },
-  { icon: Send, title: "Gửi yêu cầu", description: "Cung cấp kích thước, địa điểm và thông tin liên hệ cơ bản." },
-  { icon: Headphones, title: "Nhận tư vấn", description: "Đội ngũ kỹ thuật liên hệ làm rõ phương án và gửi báo giá." },
+  { icon: ClipboardList, title: "Tiếp nhận yêu cầu", description: "Lắng nghe nhu cầu, mẫu mong muốn, kích thước dự kiến và điều kiện công trình." },
+  { icon: Ruler, title: "Khảo sát & tư vấn", description: "Kiểm tra thực tế, tư vấn vật liệu, kết cấu và giải pháp phù hợp với không gian." },
+  { icon: Hammer, title: "Gia công hoàn thiện", description: "Sản xuất theo bản vẽ, kiểm soát kỹ mối hàn, hoa văn, bề mặt và lớp bảo vệ." },
+  { icon: ShieldCheck, title: "Lắp đặt & nghiệm thu", description: "Thi công đúng kỹ thuật, vệ sinh hoàn thiện và bàn giao sau khi khách hàng kiểm tra." },
 ];
 
 export default function HomeBookingSteps() {
   return (
-    <section className="bg-slate-950 py-14 text-white d:py-20">
-      <div className="mx-auto w-full max-w-[1200px] px-4 sm:px-6 d:px-0">
-        <div className="max-w-2xl">
-          <p className="inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-[0.18em] text-brand-300"><CheckCircle2 size={16} /> Quy trình đơn giản</p>
-          <h2 className="mt-3 text-3xl font-black tracking-tight sm:text-4xl">Nhận tư vấn chỉ với 3 bước</h2>
-          <p className="mt-4 leading-7 text-slate-300">Mỗi báo giá được xây dựng theo yêu cầu, kích thước và điều kiện thi công thực tế.</p>
-        </div>
-        <div className="mt-9 grid gap-4 d:grid-cols-3">
+    <section className="relative overflow-hidden bg-[#241b14] py-16 text-white d:py-20">
+      <div className="absolute inset-0 opacity-25 [background-image:linear-gradient(135deg,transparent_48%,rgba(243,197,41,.18)_49%,rgba(243,197,41,.18)_51%,transparent_52%)] [background-size:44px_44px]" />
+      <div className="relative mx-auto w-full max-w-[1200px] px-4 sm:px-6 d:px-0">
+        <header className="mx-auto max-w-3xl text-center">
+          <p className="font-UTMFleur text-[38px] leading-none text-mainColor">Tận tâm từ ý tưởng đến công trình</p>
+          <h2 className="mt-3 font-UTMAmericanSans text-[31px] uppercase tracking-[0.08em] d:text-[40px]">Quy trình xử lý chuyên nghiệp</h2>
+          <p className="mx-auto mt-4 max-w-2xl text-sm font-light leading-7 text-stone-300">Mỗi hạng mục được thực hiện theo một quy trình rõ ràng để bảo đảm tính thẩm mỹ, độ bền và sự phù hợp với công trình thực tế.</p>
+        </header>
+
+        <div className="relative mt-12 grid gap-5 sm:grid-cols-2 d:grid-cols-4">
+          <div className="absolute left-[12.5%] right-[12.5%] top-8 hidden h-px bg-mainColor/45 d:block" />
           {steps.map((step, index) => (
-            <article key={step.title} className="relative rounded-3xl border border-white/10 bg-white/[0.04] p-6">
-              <span className="absolute right-5 top-4 text-5xl font-black text-white/[0.05]">0{index + 1}</span>
-              <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-400 text-slate-950"><step.icon size={23} aria-hidden="true" /></span>
-              <h3 className="mt-5 text-xl font-extrabold">{step.title}</h3>
-              <p className="mt-3 text-sm leading-7 text-slate-400">{step.description}</p>
+            <article key={step.title} className="relative border border-white/10 bg-black/20 px-5 pb-6 pt-8 text-center backdrop-blur-sm">
+              <span className="absolute -top-3 left-4 font-iCielPequena text-[18px] text-mainColor">0{index + 1}</span>
+              <span className="relative z-10 mx-auto flex h-16 w-16 rotate-45 items-center justify-center border border-mainColor bg-[#2f241a] shadow-[0_0_0_6px_rgba(243,197,41,0.08)]"><step.icon className="-rotate-45 text-mainColor" size={27} aria-hidden="true" /></span>
+              <h3 className="mt-7 font-iCielPequena text-[20px] uppercase tracking-wide text-mainColor">{step.title}</h3>
+              <p className="mt-3 text-sm font-light leading-7 text-stone-300">{step.description}</p>
             </article>
           ))}
         </div>

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { ArrowRight, CalendarDays } from "lucide-react";
 
 import type { BlogPost } from "@/features/content/types";
 import { formatDate } from "@/lib/utils/format-date";
@@ -22,6 +23,41 @@ export const BlogCard = ({ Data }: { Data: BlogPost }) => {
 };
 
 export default function HomeNews({ Data }: { Data: BlogPost[] }) {
-  if (!Data.length) return null;
-  return <section><div className="flex justify-center border-b border-mainColorHover"><h2 className="w-max rounded-t-lg bg-mainColorHover px-4 py-2 text-[20px] font-normal uppercase text-white">Tin tức</h2></div><div className="mt-3 flex flex-col gap-7">{Data.slice(0, 5).map((item) => <BlogCard key={item.id} Data={item} />)}</div></section>;
+  return (
+    <section className="bg-white py-16 d:py-20">
+      <div className="mx-auto w-full max-w-[1200px] px-4 sm:px-6 d:px-0">
+        <header className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="font-UTMFleur text-[38px] leading-none text-mainColorHover">Chuyện nghề & cảm hứng</p>
+            <h2 className="mt-3 font-UTMAmericanSans text-[31px] uppercase tracking-[0.08em] text-[#2d2116] d:text-[40px]">Tin tức</h2>
+          </div>
+          <Link href="/chuyen-muc" className="inline-flex items-center gap-2 border-b border-mainColorHover pb-1 text-sm font-semibold text-mainColorHover transition hover:text-mainColor">Xem tất cả bài viết <ArrowRight size={17} aria-hidden="true" /></Link>
+        </header>
+
+        {Data.length ? (
+          <div className="mt-9 grid gap-6 sm:grid-cols-2 d:grid-cols-3">
+            {Data.slice(0, 6).map((item) => {
+              const date = item.publishedAt ?? item.createdAt;
+              return (
+                <article key={item.id} className="group overflow-hidden border border-[#dfd2b5] bg-[#fffdf8] shadow-[0_8px_24px_rgba(59,40,20,.07)]">
+                  <Link href={`/bai-viet/${item.slug}`} className="relative block h-[230px] overflow-hidden bg-stone-100">
+                    {item.thumbnailUrl ? <Image src={item.thumbnailUrl} alt={item.title} fill sizes="(max-width: 767px) 100vw, 33vw" className="object-cover transition duration-500 group-hover:scale-105" /> : <div className="flex h-full items-center justify-center font-UTMFleur text-4xl text-mainColorHover">Phương Tùng</div>}
+                    <span className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/55 to-transparent" />
+                  </Link>
+                  <div className="p-5">
+                    {date ? <p className="flex items-center gap-2 text-xs text-stone-500"><CalendarDays size={14} className="text-mainColorHover" aria-hidden="true" />{formatDate(date)}</p> : null}
+                    <h3 className="mt-3 font-iCielPequena text-[20px] uppercase leading-7 text-[#332514]"><Link href={`/bai-viet/${item.slug}`} className="transition hover:text-mainColorHover">{item.title}</Link></h3>
+                    {item.excerpt ? <p className="mt-3 line-clamp-3 text-sm leading-7 text-stone-600">{item.excerpt}</p> : null}
+                    <Link href={`/bai-viet/${item.slug}`} className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-mainColorHover">Xem thêm <ArrowRight size={15} aria-hidden="true" /></Link>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        ) : (
+          <div className="mt-9 border border-dashed border-mainColorHover/35 bg-[#fffdf8] px-6 py-10 text-center text-sm text-stone-500">Tin tức đang được cập nhật.</div>
+        )}
+      </div>
+    </section>
+  );
 }

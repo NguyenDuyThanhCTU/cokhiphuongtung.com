@@ -16,6 +16,9 @@ const config: Config = {
         LexendDeca: ["Lexend Deca", "sans-serif"],
         Raleway: ["Raleway", "sans-serif"],
         Oswald: ["Oswald", "sans-serif"],
+        iCielPequena: ["iCielPequena", "sans-serif"],
+        UTMAmericanSans: ["UTMAmericanSans", "sans-serif"],
+        UTMFleur: ["UTMFleur", "sans-serif"],
       },
 
       colors: {
