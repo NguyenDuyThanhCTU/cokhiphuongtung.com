@@ -25,7 +25,7 @@ export const TourCard = ({ Data }: { Data: CatalogItem }) => {
           <div className="w-full h-full flex items-center flex-col gap-2 justify-center text-white">
             <p className="text-[25px]  text-center px-2"> {Data?.title}</p>
             <Link
-              href={`/dich-vu/${Data?.slug}`}
+              href={`/san-pham/${Data?.slug}`}
               className="border border-white px-4 py-1"
             >
               Xem chi tiết

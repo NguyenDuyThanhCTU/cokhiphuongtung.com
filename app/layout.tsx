@@ -9,8 +9,6 @@ import { SiteHeader } from "@/components/layout/SiteHeader";
 import { VisitTracker } from "@/features/analytics/components/VisitTracker";
 import { getPublicSiteSettings } from "@/features/site/services/site.service";
 import Hotline from "@/components/layout/Hotline";
-import Copyright from "@/components/layout/Copyright";
-import BookingPage from "@/components/layout/Booking";
 import { getCatalogCategories } from "@/features/catalog/services/catalog.service";
 import { SITE_FALLBACK } from "@/features/site/constants";
 
@@ -39,11 +37,7 @@ export async function generateMetadata(): Promise<Metadata> {
       process.env.NEXT_PUBLIC_SITE_URL ??
       "http://localhost:3000",
   );
-  const ogImage =
-    settings.seo?.ogImage ??
-    settings.ogImageUrl ??
-    settings.logoUrl ??
-    undefined;
+  const ogImage = "/og.png";
 
   return {
     metadataBase,
@@ -53,8 +47,9 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       title,
       description,
-      images: ogImage ? [ogImage] : undefined,
+      images: [ogImage],
     },
+    twitter: { card: "summary_large_image", title, description, images: [ogImage] },
     icons: settings.faviconUrl ? { icon: settings.faviconUrl } : undefined,
     alternates: {
       canonical: "/",
@@ -71,11 +66,6 @@ export default async function RootLayout({
     getPublicSiteSettings(),
     getCatalogCategories(),
   ]);
-  const siteName =
-    settings.siteName && settings.siteName !== "Website"
-      ? settings.siteName
-      : SITE_FALLBACK.name;
-
   return (
     <html lang="vi">
       <body>
@@ -97,20 +87,18 @@ export default async function RootLayout({
 
         <VisitTracker />
 
-        <div className="flex min-h-screen flex-col bg-white text-zinc-950">
+        <div className="min-h-screen bg-white font-LexendDeca font-extralight text-zinc-950">
           <SiteHeader
             settings={settings}
             catalogCategories={catalogCategories}
           />
-          <main>{children}</main>
+          <main className="bg-gray-100 p:mt-[84px] d:mt-[145px]">{children}</main>
 
           <Hotline settings={settings} />
-          <BookingPage settings={settings} />
           <SiteFooter
             settings={settings}
             catalogCategories={catalogCategories}
           />
-          {/* <Copyright siteName={siteName} /> */}
         </div>
       </body>
     </html>

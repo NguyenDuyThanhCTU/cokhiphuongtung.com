@@ -6,7 +6,7 @@ import type { PublicSiteSettings } from "@/features/site/types";
 import { getPhoneHref, getPrimaryHotline } from "@/features/site/utils/contact";
 
 const fallbackFaqs: FaqItem[] = [
-  { id: "fallback-booking", question: "Tôi gửi yêu cầu đặt vé như thế nào?", answer: "Chọn tuyến xe bạn quan tâm, điền form đặt vé hoặc gọi hotline. Nhân viên sẽ liên hệ để xác nhận thông tin.", isActive: true },
+  { id: "fallback-quote", question: "Tôi cần cung cấp gì để nhận báo giá?", answer: "Hãy gửi loại sản phẩm, kích thước dự kiến, địa điểm thi công và hình ảnh tham khảo nếu có. Đội ngũ Phương Tùng sẽ liên hệ để tư vấn.", isActive: true },
   { id: "fallback-price", question: "Giá hiển thị trên website có phải giá cuối cùng không?", answer: "Giá trên website là mức tham khảo. Giá vé áp dụng sẽ được nhân viên xác nhận trực tiếp tại thời điểm tiếp nhận yêu cầu.", isActive: true },
   { id: "fallback-confirm", question: "Gửi form có đồng nghĩa vé đã được xác nhận không?", answer: "Chưa. Form giúp tiếp nhận nhu cầu của bạn. Vé chỉ được xác nhận sau khi nhân viên liên hệ và hai bên thống nhất thông tin.", isActive: true },
 ];
@@ -20,12 +20,12 @@ export default function HomeFAQSection({ settings, faqs }: { settings: PublicSit
       <div className="mx-auto grid w-full max-w-[1200px] gap-10 px-4 sm:px-6 d:grid-cols-[0.8fr_1.2fr] d:px-0">
         <div>
           <p className="inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-[0.18em] text-brand-600"><CircleHelp size={17} /> Giải đáp nhanh</p>
-          <h2 className="mt-3 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">Câu hỏi thường gặp khi đặt vé</h2>
-          <p className="mt-4 leading-7 text-slate-600">Thông tin giúp bạn hiểu rõ quy trình tiếp nhận và xác nhận yêu cầu đặt vé.</p>
+          <h2 className="mt-3 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">Câu hỏi thường gặp</h2>
+          <p className="mt-4 leading-7 text-slate-600">Thông tin giúp bạn hiểu rõ quy trình tư vấn, báo giá và thi công.</p>
           <div className="mt-7 rounded-3xl bg-slate-950 p-6 text-white">
             <p className="text-sm font-bold text-slate-300">Bạn cần hỗ trợ ngay?</p>
             <a href={getPhoneHref(hotline)} className="mt-2 block text-2xl font-black text-brand-300">{hotline}</a>
-            <Link href="#dat-ve" className="mt-5 inline-flex items-center gap-2 text-sm font-extrabold text-white">Gửi yêu cầu đặt vé <ArrowRight size={16} /></Link>
+            <Link href="/bao-gia" className="mt-5 inline-flex items-center gap-2 text-sm font-extrabold text-white">Gửi yêu cầu báo giá <ArrowRight size={16} /></Link>
           </div>
         </div>
 

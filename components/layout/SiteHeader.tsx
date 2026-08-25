@@ -1,161 +1,161 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronDown, Menu, Phone, Ticket } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { FormEvent, useState } from "react";
+import { FaAngleDown, FaSearch } from "react-icons/fa";
+import { IoIosMenu, IoIosSearch } from "react-icons/io";
+import { RxCross2 } from "react-icons/rx";
 
 import type { CatalogCategory } from "@/features/catalog/types";
 import { SITE_FALLBACK } from "@/features/site/constants";
 import type { PublicSiteSettings } from "@/features/site/types";
-import {
-  getHotlines,
-  getPhoneHref,
-} from "@/features/site/utils/contact";
+import { getPrimaryHotline, getPhoneHref } from "@/features/site/utils/contact";
 
 type SiteHeaderProps = {
   settings: PublicSiteSettings;
   catalogCategories: CatalogCategory[];
 };
 
-function getVisibleCategories(categories: CatalogCategory[]) {
-  return categories.filter((category) => category.isActive !== false);
-}
-
-function Brand({ settings }: { settings: PublicSiteSettings }) {
-  const siteName =
-    settings.siteName && settings.siteName !== "Website"
-      ? settings.siteName
-      : SITE_FALLBACK.name;
-
-  return (
-    <Link href="/" className="flex min-w-0 items-center gap-3" aria-label={siteName}>
-      {settings.logoUrl ? (
-        <Image
-          src={settings.logoUrl}
-          alt={siteName}
-          width={180}
-          height={72}
-          priority
-          className="h-12 w-auto max-w-[150px] object-contain d:h-14 d:max-w-[180px]"
-        />
-      ) : (
-        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-brand-400 text-brand-900 shadow-sm">
-          <Ticket size={24} aria-hidden="true" />
-        </span>
-      )}
-      <span className="min-w-0">
-        <strong className="block truncate text-[15px] font-extrabold uppercase tracking-tight text-slate-950 d:text-lg">
-          {siteName}
-        </strong>
-        <span className="hidden text-xs font-medium text-slate-500 sm:block">
-          Tuyến xe & vé xe Hà Giang
-        </span>
-      </span>
-    </Link>
-  );
-}
+const navigation = [
+  { label: "Trang chủ", href: "/" },
+  { label: "Sản phẩm", href: "/danh-muc", products: true },
+  { label: "Báo giá", href: "/bao-gia" },
+  { label: "Dự Án", href: "/du-an" },
+  { label: "Liên hệ", href: "/lien-he" },
+  { label: "Tin tức", href: "/chuyen-muc" },
+];
 
 export function SiteHeader({ settings, catalogCategories }: SiteHeaderProps) {
-  const hotlines = getHotlines(settings);
-  const categories = getVisibleCategories(catalogCategories);
+  const router = useRouter();
+  const [search, setSearch] = useState("");
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
+  const [mobileProductsOpen, setMobileProductsOpen] = useState(false);
+  const categories = catalogCategories.filter((category) => category.isActive !== false);
+  const roots = categories.filter((category) => !category.parentId);
+  const hotline = getPrimaryHotline(settings);
+  const siteName = settings.siteName && settings.siteName !== "Website" ? settings.siteName : SITE_FALLBACK.name;
+
+  const submitSearch = (event: FormEvent) => {
+    event.preventDefault();
+    const keyword = search.trim();
+    router.push(keyword ? `/danh-muc?q=${encodeURIComponent(keyword)}` : "/danh-muc");
+    setMobileSearchOpen(false);
+    setMenuOpen(false);
+  };
 
   return (
-    <header className="sticky top-0 z-50 border-b border-brand-100 bg-white/95 shadow-[0_6px_24px_rgba(15,23,42,0.06)] backdrop-blur">
-      <div className="hidden bg-slate-950 text-white d:block">
-        <div className="mx-auto flex w-default items-center justify-between gap-6 py-2 text-xs">
-          <p className="truncate text-white/70">
-            {settings.slogan || SITE_FALLBACK.slogan}
-          </p>
-          <div className="flex shrink-0 items-center gap-4">
-            <span className="font-semibold text-brand-300">Hỗ trợ đặt vé 24/7</span>
-            {hotlines.map((hotline) => (
-              <a
-                key={hotline}
-                href={getPhoneHref(hotline)}
-                className="inline-flex items-center gap-1.5 font-bold transition hover:text-brand-300"
-                data-track="click_hotline_header"
-              >
-                <Phone size={13} aria-hidden="true" />
-                {hotline}
-              </a>
-            ))}
+    <header className="fixed top-0 z-50 w-full font-LexendDeca">
+      <div className="hidden bg-black d:block">
+        <div className="mx-auto grid h-[100px] w-[1200px] grid-cols-4 items-center justify-between">
+          <Link href="/" className="flex h-[100px] items-center">
+            {settings.logoUrl ? (
+              <Image src={settings.logoUrl} alt={siteName} width={100} height={100} priority className="h-[94px] w-[100px] object-contain" />
+            ) : (
+              <span className="text-lg font-semibold uppercase text-mainColor">{siteName}</span>
+            )}
+          </Link>
+
+          <Link href="/" className="col-span-2 h-[100px] w-full">
+            <Image src="https://pub-84f5bb6490a34f289a7c796e2210e0fc.r2.dev/cokhiphuongtung/1787679691249-z5224833034659_98bc73f9a5398df649cd6675ebad5b95.webp" alt={settings.slogan || siteName} width={1000} height={500} className="h-full w-full object-contain py-2" />
+          </Link>
+
+          <div className="relative h-[100px] w-full p-1">
+            <Image src="https://firebasestorage.googleapis.com/v0/b/cokhiphuongtung-960eb.appspot.com/o/12.png?alt=media&token=9fc9dd81-b271-4c28-8047-1d660695bb36" alt="Hotline hỗ trợ" width={500} height={500} className="h-full w-full object-fill" />
+            <a href={getPhoneHref(hotline)} className="absolute inset-0 z-10 flex items-center justify-center gap-2 text-[18px] font-normal text-white" data-track="click_hotline_header">Hotline Hỗ trợ: {hotline}</a>
+          </div>
+        </div>
+
+        <div className="bg-mainColorHover">
+          <div className="mx-auto flex w-[1200px] justify-between">
+            <nav className="flex items-center" aria-label="Điều hướng chính">
+              {navigation.map((item, index) => (
+                <div key={item.href} className="group relative">
+                  <Link href={item.href} className={`${index === navigation.length - 1 ? "border-x" : "border-l"} flex items-center gap-2 border-white/40 px-5 py-3 text-[14px] font-bold uppercase text-white duration-300 hover:bg-mainColor`}>
+                    <span>{item.label}</span>
+                    {item.products ? <FaAngleDown className="duration-300 group-hover:-rotate-90" /> : null}
+                  </Link>
+                  {item.products && roots.length ? (
+                    <div className="invisible absolute left-0 top-full min-w-[230px] translate-y-1 border-t-2 border-gray-500 bg-white opacity-0 shadow-md transition group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
+                      {roots.map((category) => (
+                        <div key={category.id} className="group/sub relative border-b">
+                          <Link href={`/danh-muc/${category.slug}`} className="flex min-w-[230px] items-center justify-between px-4 py-2 text-sm font-light text-black duration-300 hover:bg-mainColorHover hover:text-white">
+                            {category.name}
+                            {categories.some((child) => child.parentId === category.id) ? <FaAngleDown className="-rotate-90" /> : null}
+                          </Link>
+                          <div className="invisible absolute left-full top-0 min-w-[240px] bg-gray-100 opacity-0 shadow-lg transition group-hover/sub:visible group-hover/sub:opacity-100">
+                            {categories.filter((child) => child.parentId === category.id).map((child) => <Link key={child.id} href={`/danh-muc/${child.slug}`} className="block border-b px-4 py-2 text-sm text-black duration-300 hover:bg-mainColor">{child.name}</Link>)}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : null}
+                </div>
+              ))}
+            </nav>
+
+            <form onSubmit={submitSearch} className="relative ml-2 flex items-center bg-mainColorHover">
+              <div className="flex bg-white px-3 py-2">
+                <input value={search} onChange={(event) => setSearch(event.target.value)} className="outline-none" placeholder="Tìm kiếm ..." aria-label="Tìm kiếm sản phẩm" />
+                <button type="submit" className="border-l-2 border-mainColorHover pl-2 text-[20px]" aria-label="Tìm kiếm"><IoIosSearch /></button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
 
-      <div className="mx-auto flex min-h-[72px] w-full max-w-[1200px] items-center justify-between gap-4 px-3 sm:px-5 d:min-h-[80px] d:px-0">
-        <Brand settings={settings} />
-
-        <nav className="hidden items-center gap-1 d:flex" aria-label="Điều hướng chính">
-          <Link href="/" className="rounded-xl px-4 py-3 text-sm font-bold text-slate-700 transition hover:bg-brand-50 hover:text-brand-700">
-            Trang chủ
-          </Link>
-
-          <div className="group relative">
-            <Link
-              href="/danh-muc"
-              className="flex items-center gap-1 rounded-xl px-4 py-3 text-sm font-bold text-slate-700 transition hover:bg-brand-50 hover:text-brand-700"
-            >
-              Tuyến xe & vé xe
-              <ChevronDown size={15} aria-hidden="true" />
+      <div className="block d:hidden">
+        <div className="h-[84px] bg-gradient-to-bl from-mainColor to-mainColorHover text-white shadow-xl">
+          <div className="flex h-full w-full items-center justify-between px-4">
+            <button type="button" className="p-2 text-[40px]" onClick={() => setMenuOpen(true)} aria-label="Mở menu"><IoIosMenu /></button>
+            <Link href="/" className="h-[84px] w-[120px]">
+              {settings.logoUrl ? <Image src={settings.logoUrl} width={200} height={200} alt={siteName} className="h-full w-full object-contain p-2" /> : <span className="flex h-full items-center text-center text-sm font-semibold uppercase">{siteName}</span>}
             </Link>
-            {categories.length > 0 ? (
-              <div className="invisible absolute left-0 top-full w-[320px] translate-y-2 rounded-2xl border border-brand-100 bg-white p-2 opacity-0 shadow-[0_18px_60px_rgba(15,23,42,0.14)] transition group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
-                {categories.slice(0, 10).map((category) => (
-                  <Link
-                    key={category.id}
-                    href={`/danh-muc/${category.slug}`}
-                    className="block rounded-xl px-4 py-3 text-sm font-semibold text-slate-700 transition hover:bg-brand-50 hover:text-brand-700"
-                  >
-                    {category.name}
-                  </Link>
-                ))}
-                <Link href="/danh-muc" className="mt-1 block rounded-xl bg-slate-950 px-4 py-3 text-center text-sm font-bold text-white transition hover:bg-brand-500 hover:text-slate-950">
-                  Xem tất cả tuyến xe
-                </Link>
-              </div>
-            ) : null}
+            <button type="button" className="p-2 text-[22px]" onClick={() => setMobileSearchOpen((value) => !value)} aria-label="Mở tìm kiếm"><FaSearch /></button>
           </div>
+        </div>
 
-          <Link href="/chuyen-muc" className="rounded-xl px-4 py-3 text-sm font-bold text-slate-700 transition hover:bg-brand-50 hover:text-brand-700">
-            Cẩm nang
-          </Link>
-          <Link href="/lien-he" className="rounded-xl px-4 py-3 text-sm font-bold text-slate-700 transition hover:bg-brand-50 hover:text-brand-700">
-            Liên hệ
-          </Link>
-          <Link
-            href="#dat-ve"
-            className="ml-2 inline-flex items-center gap-2 rounded-xl bg-brand-400 px-5 py-3 text-sm font-extrabold text-slate-950 shadow-sm transition hover:bg-brand-300"
-          >
-            <Ticket size={17} aria-hidden="true" />
-            Đặt vé
-          </Link>
-        </nav>
-
-        <details className="group relative d:hidden">
-          <summary className="flex h-11 w-11 cursor-pointer list-none items-center justify-center rounded-xl border border-brand-200 bg-brand-50 text-slate-900 [&::-webkit-details-marker]:hidden">
-            <Menu size={23} aria-label="Mở menu" />
-          </summary>
-          <div className="absolute right-0 top-14 max-h-[calc(100vh-90px)] w-[min(88vw,340px)] overflow-y-auto rounded-2xl border border-brand-100 bg-white p-3 shadow-[0_20px_60px_rgba(15,23,42,0.18)]">
-            <nav className="grid gap-1" aria-label="Điều hướng mobile">
-              <Link href="/" className="rounded-xl px-4 py-3 font-bold text-slate-800 hover:bg-brand-50">Trang chủ</Link>
-              <Link href="/danh-muc" className="rounded-xl bg-brand-50 px-4 py-3 font-bold text-brand-800">Tuyến xe & vé xe</Link>
-              {categories.slice(0, 10).map((category) => (
-                <Link key={category.id} href={`/danh-muc/${category.slug}`} className="rounded-xl px-6 py-2.5 text-sm font-semibold text-slate-600 hover:bg-slate-50 hover:text-brand-700">
-                  {category.name}
-                </Link>
-              ))}
-              <Link href="/chuyen-muc" className="rounded-xl px-4 py-3 font-bold text-slate-800 hover:bg-brand-50">Cẩm nang</Link>
-              <Link href="/lien-he" className="rounded-xl px-4 py-3 font-bold text-slate-800 hover:bg-brand-50">Liên hệ</Link>
-              <Link href="#dat-ve" className="mt-2 rounded-xl bg-brand-400 px-4 py-3 text-center font-extrabold text-slate-950">Gửi yêu cầu đặt vé</Link>
-            </nav>
-            <div className="mt-3 grid grid-cols-2 gap-2 border-t border-slate-100 pt-3">
-              {hotlines.map((hotline) => (
-                <a key={hotline} href={getPhoneHref(hotline)} className="rounded-xl bg-slate-950 px-2 py-3 text-center text-xs font-bold text-white">
-                  {hotline}
-                </a>
-              ))}
+        {mobileSearchOpen ? (
+          <form onSubmit={submitSearch} className="relative bg-white p-3 shadow-xl">
+            <div className="flex items-center rounded-full border border-mainColorHover bg-white">
+              <input value={search} onChange={(event) => setSearch(event.target.value)} className="w-full rounded-l-full px-4 text-mainColorHover outline-none" placeholder="Tìm kiếm" aria-label="Tìm kiếm sản phẩm" />
+              {search ? <button type="button" onClick={() => setSearch("")} className="mr-2 rounded-full bg-gray-500 p-1 text-[10px] text-gray-200" aria-label="Xóa tìm kiếm"><RxCross2 /></button> : null}
+              <button type="submit" className="rounded-r-full bg-mainColorHover px-6 py-3 text-white" aria-label="Tìm kiếm"><FaSearch /></button>
             </div>
+          </form>
+        ) : null}
+
+        {menuOpen ? (
+          <div className="fixed inset-0 z-[60] bg-black/45" onClick={() => setMenuOpen(false)}>
+            <aside className="h-full w-[300px] overflow-y-auto bg-white p-6 text-black shadow-2xl" onClick={(event) => event.stopPropagation()}>
+              <div className="flex items-start justify-between gap-3">
+                <Link href="/" onClick={() => setMenuOpen(false)} className="p-2">
+                  {settings.logoUrl ? <Image src={settings.logoUrl} alt={siteName} width={170} height={100} className="h-24 w-auto object-contain" /> : <strong>{siteName}</strong>}
+                </Link>
+                <button type="button" onClick={() => setMenuOpen(false)} className="p-2 text-xl" aria-label="Đóng menu"><RxCross2 /></button>
+              </div>
+              <nav className="mt-4 flex flex-col">
+                {navigation.map((item) => (
+                  <div key={item.href}>
+                    {item.products ? (
+                      <button type="button" onClick={() => setMobileProductsOpen((value) => !value)} className="flex w-full items-center justify-between border-b py-2 text-left">{item.label}<FaAngleDown className={mobileProductsOpen ? "rotate-180" : ""} /></button>
+                    ) : (
+                      <Link href={item.href} onClick={() => setMenuOpen(false)} className="block border-b py-2 hover:text-red-500">{item.label}</Link>
+                    )}
+                    {item.products && mobileProductsOpen ? (
+                      <div className="ml-4 max-h-[430px] overflow-y-auto">
+                        <Link href="/danh-muc" onClick={() => setMenuOpen(false)} className="block border-b py-2 font-normal text-mainColorHover">Tất cả sản phẩm</Link>
+                        {roots.map((category) => <Link key={category.id} href={`/danh-muc/${category.slug}`} onClick={() => setMenuOpen(false)} className="block border-b py-2 text-sm">{category.name}</Link>)}
+                      </div>
+                    ) : null}
+                  </div>
+                ))}
+              </nav>
+            </aside>
           </div>
-        </details>
+        ) : null}
       </div>
     </header>
   );

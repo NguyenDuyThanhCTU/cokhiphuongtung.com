@@ -1,9 +1,8 @@
 export const SITE_FALLBACK = {
-  name: "Xe Khách Hà Giang 24H",
-  slogan: "Đặt vé xe Hà Giang nhanh chóng, hỗ trợ tận tâm 24/7",
+  name: "Cơ Khí Phương Tùng",
+  slogan: "Gia công cơ khí và sắt mỹ thuật theo yêu cầu",
   description:
-    "Thông tin tuyến xe và vé xe đi Hà Giang. Gửi yêu cầu đặt vé nhanh, đội ngũ tư vấn liên hệ xác nhận trực tiếp.",
+    "Cơ Khí Phương Tùng thiết kế, gia công và thi công các sản phẩm cơ khí, sắt mỹ thuật cho nhà ở và công trình.",
   primaryHotline: "0969311630",
   secondaryHotline: "0947311630",
 } as const;
-

@@ -20,7 +20,7 @@ export function ServiceBreadcrumb({ service }: ServiceBreadcrumbProps) {
         <li aria-hidden="true">/</li>
         <li>
           <Link href="/danh-muc" className="transition hover:text-brand-700">
-            Tuyến xe
+            Sản phẩm
           </Link>
         </li>
         {primaryCategory ? (

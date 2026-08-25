@@ -11,8 +11,8 @@ export function CatalogCategoryNav({ categories }: { categories: CatalogCategory
   return (
     <section className="mb-8">
       <div className="mb-4 flex items-center justify-between gap-4">
-        <h2 className="text-lg font-extrabold text-slate-950">Nhóm tuyến xe</h2>
-        <span className="text-xs font-semibold text-slate-500">Chọn danh mục để xem vé xe phù hợp</span>
+        <h2 className="text-lg font-extrabold text-slate-950">Nhóm sản phẩm</h2>
+        <span className="text-xs font-semibold text-slate-500">Chọn danh mục để xem sản phẩm phù hợp</span>
       </div>
       <div className="grid gap-3 sm:grid-cols-2 d:grid-cols-4">
         {visibleCategories.slice(0, 8).map((category) => (

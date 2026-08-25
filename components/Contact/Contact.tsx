@@ -1,117 +1,42 @@
 import Link from "next/link";
-import { Clock3, Mail, MapPin, Phone, Send } from "lucide-react";
+import Image from "next/image";
+import { BsPhone } from "react-icons/bs";
+import { CiLocationOn } from "react-icons/ci";
+import { FaEarthAmericas } from "react-icons/fa6";
+import { SiGmail } from "react-icons/si";
 
-import { SocialLinks } from "@/components/layout/SocialLinks";
+import QuoteRequestSection from "@/components/layout/Booking";
 import type { PublicSiteSettings } from "@/features/site/types";
 import { getHotlines, getPhoneHref } from "@/features/site/utils/contact";
 
-export default function Contact({
-  settings,
-}: {
-  settings: PublicSiteSettings;
-}) {
+export default function Contact({ settings }: { settings: PublicSiteSettings }) {
   const hotlines = getHotlines(settings);
   const email = settings.contact?.email || settings.email;
-
+  const website = settings.domain || "cokhiphuongtung.com";
   return (
-    <section className="grid gap-8 d:grid-cols-[0.9fr_1.1fr]">
-      <div>
-        <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-brand-700">
-          Liên hệ hỗ trợ
-        </p>
-        <h1 className="mt-3 text-3xl font-black leading-tight tracking-tight text-slate-950 sm:text-4xl">
-          Tư vấn tuyến xe và vé xe Hà Giang
-        </h1>
-        <p className="mt-4 max-w-xl leading-7 text-slate-600">
-          Liên hệ hotline, Messenger, Zalo hoặc các kênh truyền thông chính
-          thức. Đội ngũ tư vấn sẽ phản hồi và xác nhận thông tin trực tiếp.
-        </p>
-
-        <div className="mt-8 grid gap-4 sm:grid-cols-2">
-          <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:col-span-2">
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-100 text-brand-800">
-              <Phone size={19} />
-            </span>
-            <h2 className="mt-4 text-sm font-extrabold uppercase tracking-wide text-slate-500">
-              Hotline 24/7
-            </h2>
-            <div className="mt-2 flex flex-wrap gap-x-5 gap-y-2">
-              {hotlines.map((hotline) => (
-                <a
-                  key={hotline}
-                  href={getPhoneHref(hotline)}
-                  className="text-xl font-black text-slate-950 hover:text-brand-700"
-                >
-                  {hotline}
-                </a>
-              ))}
-            </div>
-          </article>
-
-          {email ? (
-            <a
-              href={`mailto:${email}`}
-              className="min-w-0 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:border-brand-300"
-            >
-              <Mail size={20} className="text-brand-700" />
-              <h2 className="mt-4 font-extrabold text-slate-950">Email</h2>
-              <p className="mt-2 break-all text-sm text-slate-500">{email}</p>
-            </a>
-          ) : null}
-          {settings.address ? (
-            <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:col-span-2">
-              <MapPin size={20} className="text-brand-700" />
-              <h2 className="mt-4 font-extrabold text-slate-950">Địa chỉ</h2>
-              <p className="mt-2 text-sm leading-6 text-slate-500">
-                {settings.address}
-              </p>
-            </article>
-          ) : null}
-          <section className="rounded-2xl border border-slate-200 bg-slate-50 p-5 sm:col-span-2">
-            <h2 className="text-sm font-extrabold uppercase tracking-wide text-slate-600">
-              Kênh tư vấn và truyền thông
-            </h2>
-            <p className="mt-2 text-sm leading-6 text-slate-500">
-              Theo dõi thông tin tuyến xe hoặc nhắn tin trực tiếp qua kênh phù
-              hợp với bạn.
-            </p>
-            <SocialLinks settings={settings} className="mt-4" />
-          </section>
+    <section className="flex flex-col gap-10 py-10">
+      <div className="grid gap-10 py-5 p:grid-cols-1 d:grid-cols-3">
+        <div><h2 className="py-5 text-[20px] font-semibold">Chúng tôi luôn lắng nghe bạn!</h2><QuoteRequestSection settings={settings} /></div>
+        <div className="col-span-2 flex w-full flex-col items-start justify-start gap-3 font-extralight">
+          <h1 className="text-[48px] font-light"><strong className="font-bold">Liên hệ</strong> với chúng tôi</h1>
+          <div className="flex flex-col gap-3 py-3"><p>Hãy để lại thông tin đầy đủ theo mẫu bên cạnh, chúng tôi sẽ liên hệ hỗ trợ bạn trong thời gian sớm nhất.</p><p className="text-red-500">* là các thông tin bắt buộc</p></div>
+          <Image src="https://firebasestorage.googleapis.com/v0/b/cokhiphuongtung-960eb.appspot.com/o/editor%2Fz5116918608020_d01a1e6462915e378a84909c8e918ab0.jpg?alt=media&token=e95cbb8a-80b4-4a0d-855d-2ee4fb766f3d" width={400} height={400} alt="Cơ khí Phương Tùng" className="max-w-full" />
         </div>
       </div>
-
-      <aside className="overflow-hidden rounded-3xl bg-slate-950 p-6 text-white shadow-[0_24px_70px_rgba(15,23,42,0.16)] sm:p-8">
-        <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-400 text-slate-950">
-          <Send size={22} />
-        </span>
-        <h2 className="mt-5 text-2xl font-black">Bạn muốn đặt vé?</h2>
-        <p className="mt-3 text-sm leading-7 text-slate-300">
-          Form đặt vé nằm ngay cuối trang. Chỉ cần nhập tuyến xe, ngày dự kiến,
-          số lượng vé và thông tin liên hệ.
-        </p>
-        <div className="mt-6 grid gap-3 text-sm text-slate-300">
-          <p className="flex items-start gap-3">
-            <Clock3 size={18} className="mt-0.5 shrink-0 text-brand-300" />
-            {settings.workingHours?.weekday || "Hỗ trợ tiếp nhận yêu cầu 24/7"}
-          </p>
-          <p className="flex items-start gap-3">
-            <Phone size={18} className="mt-0.5 shrink-0 text-brand-300" />
-            Nhân viên liên hệ để xác nhận thông tin
-          </p>
+      <div className="grid gap-5 font-extralight p:grid-cols-1 d:grid-cols-2">
+        <div className="min-h-[520px] w-full border-r">{settings.mapIframe ? <div className="h-full w-full [&_iframe]:h-full [&_iframe]:w-[80%]" dangerouslySetInnerHTML={{ __html: settings.mapIframe }} /> : null}</div>
+        <div>
+          <div className="flex flex-col gap-5"><h2 className="text-[26px] font-bold">Liên hệ</h2><div className="h-1 w-10 bg-black" /></div>
+          <p className="mt-5 py-2">Mọi thông tin liên hệ hợp tác, đặt hàng, tư vấn sản phẩm xin vui lòng liên hệ với chúng tôi qua</p>
+          <div className="flex flex-col gap-5">
+            <h2 className="text-[25px] font-normal uppercase text-red-500">Công ty TNHH Cơ Khí - Xây dựng Phương Tùng</h2>
+            {settings.address ? <div><div className="flex items-center gap-2"><CiLocationOn /><h3>Địa chỉ chúng tôi:</h3></div><p className="font-semibold">{settings.address}</p></div> : null}
+            <div><div className="flex items-center gap-2"><BsPhone /><h3>Hotline:</h3></div>{hotlines.map((phone) => <Link key={phone} href={getPhoneHref(phone)} className="mr-3 font-semibold hover:text-blue-500 hover:underline">{phone}</Link>)}</div>
+            <div><div className="flex items-center gap-2"><FaEarthAmericas /><h3>Website:</h3></div><Link target="_blank" href={`https://${website}`} className="font-semibold">{website}</Link></div>
+            {email ? <div><div className="flex items-center gap-2"><SiGmail /><h3>Email chúng tôi:</h3></div><Link href={`mailto:${email}`} className="font-semibold hover:text-blue-500 hover:underline">{email}</Link></div> : null}
+          </div>
         </div>
-        <Link
-          href="#dat-ve"
-          className="mt-8 inline-flex min-h-12 w-full items-center justify-center rounded-xl bg-brand-400 px-5 py-3 text-sm font-extrabold text-slate-950 transition hover:bg-brand-300"
-        >
-          Đi tới form đặt vé
-        </Link>
-        {settings.mapIframe ? (
-          <div
-            className="footer-map mt-6 overflow-hidden rounded-2xl border border-white/10"
-            dangerouslySetInnerHTML={{ __html: settings.mapIframe }}
-          />
-        ) : null}
-      </aside>
+      </div>
     </section>
   );
 }

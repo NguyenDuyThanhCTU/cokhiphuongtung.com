@@ -23,7 +23,7 @@ export function ProductSearchBox({ defaultValue = "" }: ProductSearchBoxProps) {
       params.delete("q");
     }
     params.delete("page");
-    router.push(`/products?${params.toString()}`);
+    router.push(`/danh-muc?${params.toString()}`);
   }
 
   return (

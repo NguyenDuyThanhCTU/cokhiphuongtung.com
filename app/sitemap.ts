@@ -50,15 +50,6 @@ function getPublicSiteKey() {
   ).trim();
 }
 
-function getCatalogItemRouteBase() {
-  const value = (
-    process.env.CATALOG_ITEM_ROUTE_BASE ||
-    process.env.NEXT_PUBLIC_CATALOG_ITEM_ROUTE_BASE ||
-    "/dich-vu"
-  ).trim();
-  return value === "/san-pham" ? "/san-pham" : "/dich-vu";
-}
-
 function isValidChangeFrequency(
   value: unknown,
 ): value is SitemapChangeFrequency {
@@ -108,7 +99,10 @@ function normalizeLegacyPath(pathname: string) {
     return pathname.replace(/^\/products\/category\//, "/danh-muc/");
   }
   if (pathname.startsWith("/products/")) {
-    return pathname.replace(/^\/products\//, `${getCatalogItemRouteBase()}/`);
+    return pathname.replace(/^\/products\//, "/san-pham/");
+  }
+  if (pathname.startsWith("/dich-vu/")) {
+    return pathname.replace(/^\/dich-vu\//, "/san-pham/");
   }
   return pathname;
 }
@@ -128,6 +122,10 @@ function fallbackSitemap(siteUrl: string): MetadataRoute.Sitemap {
     { url: `${siteUrl}/danh-muc`, lastModified: now, changeFrequency: "daily", priority: 0.9 },
     { url: `${siteUrl}/chuyen-muc`, lastModified: now, changeFrequency: "weekly", priority: 0.7 },
     { url: `${siteUrl}/lien-he`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },
+    { url: `${siteUrl}/du-an`, lastModified: now, changeFrequency: "weekly", priority: 0.8 },
+    { url: `${siteUrl}/video`, lastModified: now, changeFrequency: "weekly", priority: 0.7 },
+    { url: `${siteUrl}/chinh-sach`, lastModified: now, changeFrequency: "monthly", priority: 0.5 },
+    { url: `${siteUrl}/bao-gia`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
   ];
 }
 

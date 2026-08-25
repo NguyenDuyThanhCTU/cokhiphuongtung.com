@@ -16,7 +16,7 @@ export default function CustomerReviewSection({ testimonials }: { settings: Publ
     <section className="bg-white py-14 d:py-20">
       <div className="mx-auto w-full max-w-[1200px] px-4 sm:px-6 d:px-0">
         <div className="mx-auto max-w-2xl text-center">
-          <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-brand-600">Phản hồi hành khách</p>
+          <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-brand-600">Phản hồi khách hàng</p>
           <h2 className="mt-3 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">Trải nghiệm từ khách hàng</h2>
         </div>
         <div className="mt-9 grid gap-5 d:grid-cols-3">

@@ -14,8 +14,8 @@ export function ProductCta({ slug, mode = "detail", className }: ProductCtaProps
     return null;
   }
 
-  const href = mode === "contact" ? routes.contact : `${routes.products}/${slug}`;
-  const label = mode === "contact" ? "Liên hệ tư vấn" : "Xem chi tiết";
+  const href = mode === "contact" ? `${routes.booking}?san-pham=${encodeURIComponent(slug)}` : `/san-pham/${slug}`;
+  const label = mode === "contact" ? "Yêu cầu báo giá" : "Xem chi tiết";
 
   return (
     <Link

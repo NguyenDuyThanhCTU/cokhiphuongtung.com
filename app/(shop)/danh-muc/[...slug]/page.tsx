@@ -17,7 +17,6 @@ import {
   isCatalogCategoryVisible,
 } from "@/components/catalog/CatalogSlug/catalog-category-tree";
 import { CatalogCategoryHero } from "@/components/catalog/CatalogSlug/CatalogCategoryHero";
-import { CatalogChildCategoryNavigator } from "@/components/catalog/CatalogSlug/CatalogChildCategoryNavigator";
 import { CatalogActiveFilters } from "@/components/catalog/CatalogSlug/CatalogActiveFilters";
 import { CatalogPagination } from "@/components/catalog/CatalogSlug/CatalogPagination";
 import { CatalogEmptyState } from "@/components/catalog/CatalogSlug/CatalogEmptyState";
@@ -100,8 +99,8 @@ export async function generateMetadata({
 
   if (!categorySlug) {
     return {
-      title: "Danh mục tuyến xe",
-      description: "Danh sách tuyến xe và vé xe Hà Giang",
+      title: "Danh mục sản phẩm",
+      description: "Danh sách sản phẩm và hạng mục cơ khí",
     };
   }
 
@@ -110,21 +109,22 @@ export async function generateMetadata({
 
   if (!isCatalogCategoryVisible(category)) {
     return {
-      title: "Danh mục tuyến xe",
-      description: "Danh sách tuyến xe và vé xe Hà Giang",
+      title: "Danh mục sản phẩm",
+      description: "Danh sách sản phẩm và hạng mục cơ khí",
     };
   }
 
   return {
-    title: `${category.name} | Tuyến xe và vé xe Hà Giang`,
+    title: `${category.name} | Cơ Khí Phương Tùng`,
     description:
       category.description ??
-      `Danh sách tuyến xe và vé xe thuộc danh mục ${category.name}`,
+      `Sản phẩm và hạng mục cơ khí thuộc danh mục ${category.name}`,
+    alternates: { canonical: `/danh-muc/${category.slug}` },
     openGraph: {
-      title: `${category.name} | Tuyến xe và vé xe`,
+      title: `${category.name} | Cơ Khí Phương Tùng`,
       description:
         category.description ??
-        `Danh sách tuyến xe và vé xe thuộc danh mục ${category.name}`,
+        `Sản phẩm và hạng mục cơ khí thuộc danh mục ${category.name}`,
       images: category.thumbnailUrl ? [category.thumbnailUrl] : undefined,
     },
   };
@@ -145,16 +145,12 @@ export default async function CatalogCategoryPage({
   const basePath = `/danh-muc/${category.slug}`;
   const settings = await getPublicSiteSettings();
   return (
-    <div className="mx-auto w-full max-w-[1200px] px-4 py-10 sm:px-6 d:px-0 d:py-12">
+    <div className="min-h-screen bg-[url(https://www.vstarcam.com/wp-content/uploads/2022/11/CS49-K%E8%8B%B1%E6%96%87%E8%AF%A6%E6%83%85%E9%A1%B5_14.jpg)] bg-cover bg-no-repeat">
+      <div className="min-h-screen bg-[rgba(255,255,255,0.85)] py-5">
       <CatalogCategoryHero
         category={category}
         breadcrumbs={breadcrumbs}
         total={meta.total}
-      />
-
-      <CatalogChildCategoryNavigator
-        categories={categories}
-        currentCategory={category}
       />
 
       <CatalogActiveFilters
@@ -163,8 +159,7 @@ export default async function CatalogCategoryPage({
         tags={tags}
       />
 
-      <div className="min-h-screen py-8">
-        <div className="py-5">
+      <div className="py-5">
           {catalog.items.length ? (
             <>
               <CatalogGrid
@@ -179,11 +174,11 @@ export default async function CatalogCategoryPage({
             </>
           ) : (
             <CatalogEmptyState
-              title={`Chưa có tuyến xe hoặc vé xe thuộc danh mục ${category.name}.`}
-              description="Nội dung đang được cập nhật. Bạn có thể quay lại danh sách tuyến xe hoặc liên hệ hotline để được tư vấn."
+              title={`Chưa có sản phẩm thuộc danh mục ${category.name}.`}
+              description="Nội dung đang được cập nhật. Bạn có thể quay lại danh mục sản phẩm hoặc liên hệ để được tư vấn."
             />
           )}
-        </div>
+      </div>
       </div>
     </div>
   );

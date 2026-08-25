@@ -20,7 +20,7 @@ export function ProductSortSelect({ value }: ProductSortSelectProps) {
       params.delete("sort");
     }
     params.delete("page");
-    router.push(`/products?${params.toString()}`);
+    router.push(`/danh-muc?${params.toString()}`);
   }
 
   return (

@@ -13,7 +13,7 @@ export function ServicePriceBox({
   hotline?: string;
 }) {
   const priceInfo = getServicePriceInfo(service);
-  const bookingHref = `/?tuyen=${encodeURIComponent(service.title)}#dat-ve`;
+  const bookingHref = `/bao-gia?san-pham=${encodeURIComponent(service.title)}#yeu-cau-bao-gia`;
 
   return (
     <aside className="rounded-3xl border border-brand-100 bg-white p-5 shadow-[0_20px_60px_rgba(15,23,42,0.08)] sm:p-6">
@@ -39,19 +39,19 @@ export function ServicePriceBox({
           href={bookingHref}
           className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-brand-400 px-5 py-3 text-sm font-extrabold text-slate-950 transition hover:bg-brand-300"
         >
-          <Send size={17} /> Gửi yêu cầu đặt vé
+          <Send size={17} /> Yêu cầu báo giá
         </Link>
         {hotline ? (
           <a
             href={getPhoneHref(hotline)}
             className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-slate-950 px-5 py-3 text-sm font-extrabold text-white transition hover:bg-brand-600"
           >
-            <Phone size={17} /> Gọi xác nhận vé
+            <Phone size={17} /> Gọi tư vấn
           </a>
         ) : null}
       </div>
       <p className="mt-4 text-center text-xs leading-5 text-slate-500">
-        Yêu cầu chỉ được xác nhận sau khi nhân viên liên hệ lại.
+        Báo giá chính xác được xác nhận sau khi trao đổi yêu cầu thực tế.
       </p>
     </aside>
   );

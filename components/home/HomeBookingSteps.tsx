@@ -1,9 +1,9 @@
 import { CheckCircle2, Headphones, Search, Send } from "lucide-react";
 
 const steps = [
-  { icon: Search, title: "Chọn tuyến xe", description: "Xem danh sách tuyến và vé xe phù hợp với nhu cầu của bạn." },
-  { icon: Send, title: "Gửi yêu cầu", description: "Điền ngày dự kiến, số lượng vé và số điện thoại liên hệ." },
-  { icon: Headphones, title: "Nhận xác nhận", description: "Nhân viên gọi lại xác nhận thông tin và hướng dẫn đặt vé." },
+  { icon: Search, title: "Chọn hạng mục", description: "Tham khảo sản phẩm hoặc mô tả nhu cầu thực tế của công trình." },
+  { icon: Send, title: "Gửi yêu cầu", description: "Cung cấp kích thước, địa điểm và thông tin liên hệ cơ bản." },
+  { icon: Headphones, title: "Nhận tư vấn", description: "Đội ngũ kỹ thuật liên hệ làm rõ phương án và gửi báo giá." },
 ];
 
 export default function HomeBookingSteps() {
@@ -12,8 +12,8 @@ export default function HomeBookingSteps() {
       <div className="mx-auto w-full max-w-[1200px] px-4 sm:px-6 d:px-0">
         <div className="max-w-2xl">
           <p className="inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-[0.18em] text-brand-300"><CheckCircle2 size={16} /> Quy trình đơn giản</p>
-          <h2 className="mt-3 text-3xl font-black tracking-tight sm:text-4xl">Đặt vé chỉ với 3 bước</h2>
-          <p className="mt-4 leading-7 text-slate-300">Website tiếp nhận yêu cầu đặt vé; thông tin cuối cùng sẽ được nhân viên xác nhận trực tiếp.</p>
+          <h2 className="mt-3 text-3xl font-black tracking-tight sm:text-4xl">Nhận tư vấn chỉ với 3 bước</h2>
+          <p className="mt-4 leading-7 text-slate-300">Mỗi báo giá được xây dựng theo yêu cầu, kích thước và điều kiện thi công thực tế.</p>
         </div>
         <div className="mt-9 grid gap-4 d:grid-cols-3">
           {steps.map((step, index) => (

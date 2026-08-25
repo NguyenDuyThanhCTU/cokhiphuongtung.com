@@ -79,6 +79,7 @@ export async function generateMetadata({
   return {
     title,
     description,
+    alternates: { canonical: `/chuyen-muc/${rootCategory.slug}` },
     openGraph: {
       title,
       description,

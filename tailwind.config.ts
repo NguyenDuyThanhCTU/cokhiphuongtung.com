@@ -19,6 +19,10 @@ const config: Config = {
       },
 
       colors: {
+        mainColor: "#f3c529",
+        mainColorHover: "#59431a",
+        mainOrange: "#f3c529",
+        mainOrangeHover: "#59431a",
         primary: "#F5B800",
         main: "#F5B800",
         mainBold: "#1F2937",

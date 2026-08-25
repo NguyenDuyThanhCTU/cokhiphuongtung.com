@@ -14,7 +14,7 @@ export default function BlogCategoryPostGrid({
   }
 
   return (
-    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 d:grid-cols-3">
+    <div className="flex flex-col gap-7">
       {posts.map((post) => (
         <div key={post.id}>
           <BlogCard Data={post} />

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, MapPinned } from "lucide-react";
+import { ArrowUpRight, Layers3 } from "lucide-react";
 
 import type { CatalogCategory } from "@/features/catalog/types";
 
@@ -16,12 +16,12 @@ export default function HomeCategories({ categories }: { categories: CatalogCate
       <div className="mx-auto w-full max-w-[1200px] px-4 sm:px-6 d:px-0">
         <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
           <div className="max-w-2xl">
-            <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-brand-600">Danh mục tuyến xe</p>
-            <h2 className="mt-3 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">Chọn tuyến xe bạn quan tâm</h2>
-            <p className="mt-4 text-base leading-7 text-slate-600">Tìm nhanh các nhóm tuyến và vé xe đang được cung cấp trên website.</p>
+            <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-brand-600">Danh mục sản phẩm</p>
+            <h2 className="mt-3 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">Giải pháp cho từng hạng mục</h2>
+            <p className="mt-4 text-base leading-7 text-slate-600">Khám phá các nhóm sản phẩm cơ khí, sắt mỹ thuật và hạng mục thi công.</p>
           </div>
           <Link href="/danh-muc" className="inline-flex items-center gap-2 text-sm font-extrabold text-brand-700 transition hover:text-brand-500">
-            Xem tất cả tuyến xe <ArrowUpRight size={17} aria-hidden="true" />
+            Xem tất cả sản phẩm <ArrowUpRight size={17} aria-hidden="true" />
           </Link>
         </div>
 
@@ -36,12 +36,12 @@ export default function HomeCategories({ categories }: { categories: CatalogCate
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/35 to-transparent" />
               <div className="relative flex min-h-[230px] flex-col justify-between p-6 text-white">
                 <div className="flex items-center justify-between">
-                  <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-brand-400 text-slate-950"><MapPinned size={21} aria-hidden="true" /></span>
+                  <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-brand-400 text-slate-950"><Layers3 size={21} aria-hidden="true" /></span>
                   <span className="text-xs font-bold text-white/60">0{index + 1}</span>
                 </div>
                 <div>
                   <h3 className="text-xl font-extrabold leading-snug">{category.name}</h3>
-                  <p className="mt-2 line-clamp-2 text-sm leading-6 text-slate-300">{category.description || "Xem thông tin tuyến xe, giá vé tham khảo và gửi yêu cầu đặt vé."}</p>
+                  <p className="mt-2 line-clamp-2 text-sm leading-6 text-slate-300">{category.description || "Xem mẫu, thông tin kỹ thuật và gửi yêu cầu báo giá theo kích thước."}</p>
                 </div>
               </div>
             </Link>

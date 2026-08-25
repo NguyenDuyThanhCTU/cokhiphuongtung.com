@@ -6,6 +6,7 @@ import {
   getBlogPosts,
   getPostCategories,
 } from "@/features/content/services/content.service";
+import { isPostInGroup } from "@/features/content/utils/post-groups";
 import { publicApiFetch } from "@/lib/api/public-api";
 import { cacheTags } from "@/lib/cache/cache-tags";
 import {
@@ -204,7 +205,7 @@ async function collectCatalogPaths(
       pushPath(
         sources,
         "catalog",
-        normalizePublicPath(`/dich-vu/${item.slug}`),
+        normalizePublicPath(`/san-pham/${item.slug}`),
       );
     }
   } catch (error) {
@@ -245,6 +246,9 @@ async function collectPostPaths(
     const posts = await getBlogPosts();
     for (const post of posts) {
       pushPath(sources, "posts", normalizePublicPath(`/bai-viet/${post.slug}`));
+      if (isPostInGroup(post, "du-an")) {
+        pushPath(sources, "posts", normalizePublicPath(`/du-an/${post.slug}`));
+      }
     }
   } catch (error) {
     errors.push(

@@ -1,11 +1,9 @@
-import BlogsH1 from "@/components/blogs/BlogsH1";
 import {
   CatalogSearchParamsInput,
   parseCatalogListSearchParams,
 } from "@/components/catalog/catalog-list-query";
 import { CatalogActiveFilters } from "@/components/catalog/CatalogActiveFilters";
 import { CatalogEmptyState } from "@/components/catalog/CatalogEmptyState";
-import { CatalogFilters } from "@/components/catalog/CatalogFilters";
 import { CatalogGrid } from "@/components/catalog/CatalogGrid";
 import { CatalogPageHeader } from "@/components/catalog/CatalogPageHeader";
 import { CatalogPagination } from "@/components/catalog/CatalogPagination";
@@ -18,12 +16,12 @@ import type { CatalogListResult } from "@/features/catalog/types";
 import { getPublicSiteSettings } from "@/features/site/services/site.service";
 
 import type { Metadata } from "next";
-import { CatalogCategoryNav } from "@/components/catalog/CatalogCategoryNav";
 
 export const metadata: Metadata = {
-  title: "Tuyến xe và vé xe Hà Giang",
+  title: "Danh mục sản phẩm cơ khí",
   description:
-    "Xem danh sách tuyến xe, vé xe đi Hà Giang và gửi yêu cầu đặt vé nhanh.",
+    "Khám phá sản phẩm cơ khí, sắt mỹ thuật và các hạng mục thi công của Cơ Khí Phương Tùng.",
+  alternates: { canonical: "/danh-muc" },
 };
 
 type CatalogPageProps = {
@@ -62,33 +60,23 @@ export default async function CatalogPage({
   });
 
   return (
-    <>
-      <BlogsH1
-        Content="Tuyến xe & vé xe"
-        description="Chọn tuyến phù hợp, tham khảo giá vé và gửi yêu cầu để được xác nhận nhanh."
-      />
-
-      <div className="min-h-screen bg-bgcontent py-10">
-        <div className="mx-auto w-full max-w-[1200px] px-4 py-5 sm:px-6 d:px-0">
-          <CatalogCategoryNav categories={categories} />
+      <div className="min-h-screen bg-[url(https://www.vstarcam.com/wp-content/uploads/2022/11/CS49-K%E8%8B%B1%E6%96%87%E8%AF%A6%E6%83%85%E9%A1%B5_14.jpg)] bg-cover bg-no-repeat">
+        <div className="min-h-screen bg-[rgba(255,255,255,0.85)] py-5">
           <CatalogPageHeader query={query} meta={meta} />
-
-          {/* <CatalogFilters tags={tags} searchParams={searchParams} /> */}
 
           <CatalogActiveFilters tags={tags} searchParams={searchParams} />
 
-          {catalog.items.length > 0 ? (
+          <div className="mt-4">{catalog.items.length > 0 ? (
             <CatalogGrid
               items={catalog.items}
               hotline={settings.hotline ? settings.hotline : ""}
             />
           ) : (
             <CatalogEmptyState />
-          )}
+          )}</div>
 
           <CatalogPagination meta={meta} searchParams={searchParams} />
-        </div>
       </div>
-    </>
+    </div>
   );
 }

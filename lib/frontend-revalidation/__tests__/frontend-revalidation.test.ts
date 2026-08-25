@@ -97,10 +97,10 @@ test("oldSlug/newSlug expansion covers catalog concrete and dynamic routes", asy
     { collectPaths: emptyPathCollection },
   );
 
-  assert.ok(expansion.paths.includes("/dich-vu/dich-vu-cu"));
-  assert.ok(expansion.paths.includes("/dich-vu/dich-vu-moi"));
+  assert.ok(expansion.paths.includes("/san-pham/dich-vu-cu"));
+  assert.ok(expansion.paths.includes("/san-pham/dich-vu-moi"));
   assert.ok(expansion.paths.includes("/"));
-  assert.ok(expansion.dynamicPatterns.includes("/dich-vu/[slug]"));
+  assert.ok(expansion.dynamicPatterns.includes("/san-pham/[slug]"));
 });
 
 test("blog/category expansion covers concrete and dynamic routes", async () => {
@@ -175,8 +175,8 @@ test("engine invalidates tags before reading fresh routes", async () => {
       async expandRoutes() {
         actions.push("expand");
         return {
-          paths: ["/dich-vu/moi"],
-          dynamicPatterns: ["/dich-vu/[slug]"],
+          paths: ["/san-pham/moi"],
+          dynamicPatterns: ["/san-pham/[slug]"],
           tags: [],
           layoutRevalidate: false,
           reason: "catalog-event",
@@ -208,8 +208,8 @@ test("engine invalidates tags before reading fresh routes", async () => {
   );
 
   assert.ok(actions.indexOf("tag:catalog") < actions.indexOf("expand"));
-  assert.deepEqual(result.revalidatedPatterns, ["/dich-vu/[slug]"]);
-  assert.ok(actions.includes("path:/dich-vu/[slug]:page"));
+  assert.deepEqual(result.revalidatedPatterns, ["/san-pham/[slug]"]);
+  assert.ok(actions.includes("path:/san-pham/[slug]:page"));
 });
 
 function v2Payload(eventId = "evt-health") {
@@ -432,13 +432,14 @@ test("legacy is disabled in v2 mode and enabled only by explicit legacy mode", a
 test("route registry covers every public dynamic page and both API routes delegate", async () => {
   assert.deepEqual(CATALOG_DYNAMIC_PAGE_PATTERNS, [
     "/danh-muc/[...slug]",
-    "/dich-vu/[slug]",
+    "/san-pham/[slug]",
   ]);
   assert.deepEqual(POSTS_DYNAMIC_PAGE_PATTERNS, [
     "/chuyen-muc/[...slug]",
     "/bai-viet/[slug]",
+    "/du-an/[slug]",
   ]);
-  assert.deepEqual(PAGES_DYNAMIC_PAGE_PATTERNS, ["/[slug]"]);
+  assert.deepEqual(PAGES_DYNAMIC_PAGE_PATTERNS, ["/[slug]", "/chinh-sach/[slug]"]);
 
   for (const route of [
     "app/api/revalidate/route.ts",

@@ -131,7 +131,7 @@ function pathSegments(path: string): string[] {
 function mapLegacyPaths(paths: string[]) {
   const mapped: string[] = [];
   const detectedCatalogLegacy = paths.some((path) =>
-    hasLegacyPrefix(path, ["/products", "/san-pham"]),
+    hasLegacyPrefix(path, ["/products"]),
   );
   const detectedBlogLegacy = paths.some((path) =>
     hasLegacyPrefix(path, ["/blog", "/bai-viet"]),
@@ -141,13 +141,13 @@ function mapLegacyPaths(paths: string[]) {
     const lowerPath = path.toLowerCase();
     const segments = pathSegments(lowerPath);
 
-    if (hasLegacyPrefix(lowerPath, ["/products", "/san-pham"])) {
+    if (hasLegacyPrefix(lowerPath, ["/products"])) {
       for (const root of CATALOG_ROOT_ROUTES) pushPath(mapped, root);
 
       if (segments[1] === "category" && segments[2]) {
         pushPath(mapped, `/danh-muc/${segments[2]}`);
       } else if (segments[1]) {
-        pushPath(mapped, `/dich-vu/${segments[1]}`);
+        pushPath(mapped, `/san-pham/${segments[1]}`);
       }
     }
 
@@ -191,7 +191,7 @@ function collectEntityHintPaths(
       pushPath(paths, `/danh-muc/${slug}`);
     }
     for (const slug of slugs) {
-      pushPath(paths, `/dich-vu/${slug}`);
+      pushPath(paths, `/san-pham/${slug}`);
     }
   }
 
@@ -255,7 +255,7 @@ export async function expandRevalidationRoutes(
   sources.legacyMapped = legacyMapped;
   sources.requested = uniquePaths(contract.paths).filter(
     (path) =>
-      !hasLegacyPrefix(path, ["/products", "/san-pham", "/blog", "/bai-viet"]),
+      !hasLegacyPrefix(path, ["/products", "/blog", "/bai-viet"]),
   );
 
   const shouldExpandFullSite = fullSiteEvent;

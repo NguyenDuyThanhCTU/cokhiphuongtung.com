@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { ArrowRight, CornerUpLeft, Route as RouteIcon, Search } from "lucide-react";
+import { ArrowRight, CornerUpLeft, Layers3, Search } from "lucide-react";
 
 import type { CatalogCategory } from "@/features/catalog/types";
 import { getCatalogCategoryNavigationContext } from "./catalog-category-tree";
@@ -55,19 +55,19 @@ export function CatalogChildCategoryNavigator({
       <div className="flex flex-col gap-5 d:flex-row d:items-end d:justify-between">
         <div className="max-w-2xl">
           <p className="inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-[0.16em] text-brand-700">
-            <RouteIcon size={17} aria-hidden="true" />
-            {isViewingChildCategory ? "Đổi tuyến xe" : "Danh mục tuyến xe"}
+            <Layers3 size={17} aria-hidden="true" />
+            {isViewingChildCategory ? "Đổi nhóm sản phẩm" : "Danh mục sản phẩm"}
           </p>
           <h2
             id="catalog-route-navigator-title"
             className="mt-3 text-2xl font-black tracking-tight text-slate-950 sm:text-3xl"
           >
-            Chọn tuyến xe phù hợp
+            Chọn hạng mục phù hợp
           </h2>
           <p className="mt-3 text-sm leading-7 text-slate-600 sm:text-base">
             {isViewingChildCategory
-              ? `Bạn đang xem một tuyến thuộc ${navigation.groupCategory.name}. Chọn tuyến khác để đổi danh sách vé và dịch vụ.`
-              : `Chọn một tuyến thuộc ${navigation.groupCategory.name} để xem vé xe và dịch vụ phù hợp.`}
+              ? `Bạn đang xem một nhóm thuộc ${navigation.groupCategory.name}. Chọn nhóm khác để đổi danh sách sản phẩm.`
+              : `Chọn một nhóm thuộc ${navigation.groupCategory.name} để xem các sản phẩm phù hợp.`}
           </p>
         </div>
 
@@ -84,7 +84,7 @@ export function CatalogChildCategoryNavigator({
 
       {shouldShowSearch ? (
         <label className="relative mt-6 block max-w-xl">
-          <span className="sr-only">Tìm nhanh tuyến xe</span>
+          <span className="sr-only">Tìm nhanh nhóm sản phẩm</span>
           <Search
             size={18}
             className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
@@ -94,7 +94,7 @@ export function CatalogChildCategoryNavigator({
             type="search"
             value={searchTerm}
             onChange={(event) => setSearchTerm(event.target.value)}
-            placeholder="Tìm nhanh tuyến xe..."
+            placeholder="Tìm nhanh nhóm sản phẩm..."
             className="min-h-12 w-full rounded-2xl border border-slate-200 bg-white py-3 pl-11 pr-4 text-sm text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-brand-400 focus:ring-4 focus:ring-brand-100"
           />
         </label>
@@ -123,7 +123,7 @@ export function CatalogChildCategoryNavigator({
                       : "flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-100 text-brand-800 transition group-hover:bg-brand-400 group-hover:text-slate-950"
                   }
                 >
-                  <RouteIcon size={20} aria-hidden="true" />
+                  <Layers3 size={20} aria-hidden="true" />
                 </span>
                 <span className="min-w-0 flex-1">
                   <strong className="line-clamp-2 block text-sm leading-5">
@@ -136,7 +136,7 @@ export function CatalogChildCategoryNavigator({
                         : "mt-1 block text-xs font-semibold text-slate-500"
                     }
                   >
-                    {isCurrent ? "Đang xem" : "Xem vé và dịch vụ"}
+                    {isCurrent ? "Đang xem" : "Xem sản phẩm"}
                   </span>
                 </span>
                 <ArrowRight
@@ -155,7 +155,7 @@ export function CatalogChildCategoryNavigator({
       ) : (
         <div className="mt-6 rounded-2xl border border-dashed border-slate-300 bg-white px-5 py-8 text-center">
           <p className="font-bold text-slate-900">
-            Không tìm thấy tuyến xe phù hợp
+            Không tìm thấy nhóm sản phẩm phù hợp
           </p>
           <p className="mt-2 text-sm text-slate-500">
             Hãy thử một từ khóa ngắn hơn hoặc xóa nội dung tìm kiếm.

@@ -144,7 +144,7 @@ export function getServicePriceInfo(service: CatalogItem): ServicePriceInfo {
         formattedPrice && formattedPrice !== formattedFinalPrice
           ? formattedPrice
           : null,
-      note: "Giá áp dụng sẽ được nhân viên xác nhận trực tiếp tại thời điểm tiếp nhận yêu cầu đặt vé.",
+      note: "Giá áp dụng được xác nhận theo kích thước, vật liệu và điều kiện thi công thực tế.",
       hasPrice: true,
       hasDiscount: Boolean(discountPercent || service.isDiscounted),
     };
@@ -163,7 +163,7 @@ export function getServicePriceInfo(service: CatalogItem): ServicePriceInfo {
   return {
     label: "Thông tin giá vé",
     value: "Liên hệ xác nhận giá",
-    note: "Vui lòng gửi tuyến xe, ngày dự kiến đi và số lượng vé để được tư vấn nhanh.",
+    note: "Vui lòng gửi hạng mục, kích thước và địa điểm thi công để được tư vấn nhanh.",
     hasPrice: false,
     hasDiscount: false,
   };

@@ -20,7 +20,7 @@ export function ServiceRelatedServices({
             Có thể bạn quan tâm
           </p>
           <h2 className="mt-2 text-2xl font-bold tracking-tight text-zinc-950">
-            Tuyến xe và vé xe liên quan
+            Sản phẩm liên quan
           </h2>
         </div>
       </div>

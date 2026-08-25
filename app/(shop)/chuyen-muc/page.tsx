@@ -5,8 +5,9 @@ import { BlogCard } from "@/components/home/HomeNews";
 import { getBlogPosts, getPostCategories } from "@/features/content/services/content.service";
 
 export const metadata: Metadata = {
-  title: "Cẩm nang xe khách và du lịch Hà Giang",
-  description: "Chuyên mục bài viết về tuyến xe, vé xe và kinh nghiệm hữu ích cho hành trình Hà Giang.",
+  title: "Tin tức cơ khí và sắt mỹ thuật",
+  description: "Chuyên mục bài viết về sản phẩm cơ khí, sắt mỹ thuật, vật liệu và kinh nghiệm thi công.",
+  alternates: { canonical: "/chuyen-muc" },
 };
 
 export default async function BlogPage() {
@@ -14,13 +15,11 @@ export default async function BlogPage() {
 
   return (
     <>
-      <BlogsH1 Content="Cẩm nang Hà Giang" description="Thông tin tuyến xe, vé xe và kinh nghiệm hữu ích cho hành trình của bạn." />
-      <div className="min-h-screen bg-bgcontent py-12">
-        <div className="mx-auto w-full max-w-[1200px] px-4 sm:px-6 d:px-0">
+      <BlogsH1 Content="Tin tức & kinh nghiệm" description="Kiến thức về vật liệu, thiết kế, bảo dưỡng và thi công các hạng mục cơ khí." />
+      <div className="min-h-screen">
           <BlogCategoryDirectory categories={categories} />
-          <div className="flex items-end justify-between gap-4"><div><p className="text-xs font-extrabold uppercase tracking-[0.16em] text-brand-700">Bài viết mới</p><h2 className="mt-2 text-2xl font-black text-slate-950">Tất cả bài viết</h2></div><span className="text-sm font-semibold text-slate-500">{posts.length} bài viết</span></div>
-          {posts.length ? <div className="mt-6 grid gap-5 sm:grid-cols-2 d:grid-cols-3">{posts.map((item) => <BlogCard key={item.id} Data={item} />)}</div> : <div className="mt-6 rounded-3xl border border-dashed border-slate-300 bg-white p-10 text-center text-sm text-slate-600">Nội dung đang được cập nhật.</div>}
-        </div>
+          <div className="mb-3 flex items-end justify-between gap-4"><h2 className="text-[22px] font-normal text-mainColorHover">Tất cả bài viết</h2><span className="text-sm">{posts.length} bài viết</span></div>
+          {posts.length ? <div className="flex flex-col gap-7">{posts.map((item) => <BlogCard key={item.id} Data={item} />)}</div> : <div className="border bg-white p-10 text-center text-sm">Nội dung đang được cập nhật.</div>}
       </div>
     </>
   );

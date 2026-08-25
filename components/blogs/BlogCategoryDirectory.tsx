@@ -8,8 +8,8 @@ export default function BlogCategoryDirectory({ categories }: { categories: Post
 
   return (
     <section className="mb-10">
-      <h2 className="text-2xl font-black text-slate-950">Chuyên mục cẩm nang</h2>
-      <p className="mt-2 text-sm leading-6 text-slate-600">Chọn chủ đề để xem các bài viết phù hợp với hành trình Hà Giang.</p>
+      <h2 className="text-2xl font-black text-slate-950">Chuyên mục bài viết</h2>
+      <p className="mt-2 text-sm leading-6 text-slate-600">Chọn chủ đề để xem kinh nghiệm và thông tin kỹ thuật phù hợp.</p>
       <div className="mt-5 grid gap-3 sm:grid-cols-2 d:grid-cols-3">
         {visibleCategories.map((category) => (
           <Link key={category.id} href={`/chuyen-muc/${category.slug}`} className="group flex items-center gap-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:border-brand-300 hover:bg-brand-50">

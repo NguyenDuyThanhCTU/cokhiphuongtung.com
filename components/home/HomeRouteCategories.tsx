@@ -108,31 +108,31 @@ export default async function HomeRouteCategories({
         <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
           <div className="max-w-2xl">
             <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-brand-600">
-              Danh sách tuyến xe
+              Bộ sưu tập sản phẩm
             </p>
             <h2
               id="home-routes-title"
               className="mt-3 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl"
             >
-              Khám phá các tuyến xe từ Hà Giang
+              Khám phá theo nhóm sản phẩm
             </h2>
             <p className="mt-4 leading-7 text-slate-600">
               Chọn nhóm tuyến phù hợp để xem thông tin, tham khảo giá vé và gửi
-              yêu cầu đặt vé nhanh.
+              nhận tư vấn và báo giá theo nhu cầu.
             </p>
           </div>
           <Link
             href={`/danh-muc/${ROUTE_CATEGORY_SLUG}`}
             className="inline-flex items-center gap-2 text-sm font-extrabold text-brand-700 transition hover:text-brand-500"
           >
-            Xem tất cả tuyến xe
+            Xem tất cả sản phẩm
             <ArrowRight size={17} aria-hidden="true" />
           </Link>
         </div>
 
         <nav
           className="mt-8 flex gap-2 overflow-x-auto pb-2"
-          aria-label="Đi đến nhóm tuyến xe"
+          aria-label="Đi đến nhóm sản phẩm"
         >
           {groups.map(({ category, items }) => (
             <a
@@ -169,7 +169,7 @@ export default async function HomeRouteCategories({
                       {category.name}
                     </h3>
                     <p className="mt-1 text-sm text-slate-500">
-                      {items.length} tuyến xe đang phục vụ
+                      {items.length} sản phẩm đang giới thiệu
                     </p>
                   </div>
                 </div>

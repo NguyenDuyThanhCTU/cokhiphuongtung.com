@@ -15,7 +15,7 @@ export function ServiceGallery({ service }: ServiceGalleryProps) {
       <div className="flex min-h-[320px] items-center justify-center rounded-[28px] bg-gradient-to-br from-brand-100 via-brand-50 to-zinc-100 p-8 text-center">
         <div>
           <p className="text-sm font-semibold uppercase tracking-[0.25em] text-brand-700">
-            Tuyến xe & vé xe
+            Cơ khí Phương Tùng
           </p>
           <p className="mt-3 text-2xl font-bold text-zinc-950">
             {service.title}

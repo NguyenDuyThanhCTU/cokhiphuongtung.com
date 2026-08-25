@@ -3,9 +3,9 @@ import { formatServiceCurrency } from "./catalog-service-detail";
 
 export function ServiceQuickInfo({ service }: { service: CatalogItem }) {
   const items = [
-    { label: "Sản phẩm", value: "Vé xe theo tuyến", description: "Thông tin tuyến xe và vé xe được trình bày như một dịch vụ cụ thể." },
-    { label: "Giá tham khảo", value: formatServiceCurrency(service.finalPrice ?? service.price) || "Liên hệ", description: "Giá áp dụng được nhân viên xác nhận trực tiếp tại thời điểm đặt vé." },
-    { label: "Xác nhận", value: "Qua hotline/Zalo", description: "Gửi yêu cầu trên website, sau đó nhân viên liên hệ lại để xác nhận." },
+    { label: "Hạng mục", value: service.category?.name ?? service.categories?.[0]?.name ?? "Gia công theo yêu cầu", description: "Sản phẩm được tư vấn theo nhu cầu và điều kiện thực tế của công trình." },
+    { label: "Giá tham khảo", value: formatServiceCurrency(service.finalPrice ?? service.price) || "Liên hệ", description: "Giá chính xác phụ thuộc kích thước, vật liệu và phương án thi công." },
+    { label: "Tư vấn", value: "Qua hotline/Zalo", description: "Gửi yêu cầu trên website để đội ngũ kỹ thuật liên hệ và trao đổi chi tiết." },
   ];
 
   return (
