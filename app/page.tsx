@@ -6,11 +6,17 @@ import HomeNews from "@/components/home/HomeNews";
 import HomeProducts from "@/components/home/HomeProducts";
 import { getCatalogCategories, getCatalogItems } from "@/features/catalog/services/catalog.service";
 import type { CatalogItem } from "@/features/catalog/types";
-import { getBanners, getBlogPosts, getTestimonials } from "@/features/content/services/content.service";
+import {
+  getBanners,
+  getBlogPosts,
+  getOptionalBlogPostBySlug,
+  getTestimonials,
+} from "@/features/content/services/content.service";
 import { isPostInGroup } from "@/features/content/utils/post-groups";
 import { getPublicSiteSettings } from "@/features/site/services/site.service";
 
 const CATALOG_PAGE_SIZE = 60;
+const INTRODUCTION_POST_SLUG = "gioi-thieu-ve-co-khi-phuong-tung";
 
 async function getAllHomeCatalogItems(): Promise<CatalogItem[]> {
   const firstPage = await getCatalogItems({ page: 1, limit: CATALOG_PAGE_SIZE, sort: "sort_order" });
@@ -24,15 +30,18 @@ async function getAllHomeCatalogItems(): Promise<CatalogItem[]> {
 }
 
 export default async function Home() {
-  const [settings, banners, categories, products, posts, testimonials] = await Promise.all([
+  const [settings, banners, categories, products, posts, testimonials, introductionPost] = await Promise.all([
     getPublicSiteSettings(),
     getBanners(),
     getCatalogCategories(),
     getAllHomeCatalogItems(),
     getBlogPosts(),
     getTestimonials(),
+    getOptionalBlogPostBySlug(INTRODUCTION_POST_SLUG),
   ]);
-  const introduction = posts.find((post) => post.slug === "gioi-thieu" || post.id === "introductory") ?? posts[0];
+  const introduction =
+    introductionPost ??
+    posts.find((post) => post.slug === INTRODUCTION_POST_SLUG);
   const news = posts.filter((post) => post.id !== introduction?.id && !isPostInGroup(post, "du-an") && !isPostInGroup(post, "video"));
 
   return (

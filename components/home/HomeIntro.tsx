@@ -18,7 +18,7 @@ export default function HomeIntro({ post, settings }: { post?: BlogPost; setting
             <h2 className="font-UTMFleur text-[42px] leading-none">Giới thiệu</h2>
             <h3 className="mt-2 text-center font-UTMAmericanSans text-[30px] font-bold uppercase leading-8 text-mainColor">Tại sao chọn Sắt Mỹ Thuật Phương Tùng</h3>
             <p className="mt-5 indent-3 leading-7">{post?.excerpt || settings.description || settings.slogan}</p>
-            <Link href="/gioi-thieu" className="mt-5 inline-block font-bold text-white hover:text-red-700">Đọc thêm _</Link>
+            <Link href={post ? `/bai-viet/${post.slug}` : "/gioi-thieu"} className="mt-5 inline-block font-bold text-white hover:text-red-700">Đọc thêm _</Link>
           </div>
         </div>
       </div>

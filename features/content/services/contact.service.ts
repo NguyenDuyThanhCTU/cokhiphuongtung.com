@@ -9,6 +9,7 @@ type ContactSubmitResponse = {
 
 export async function submitContactForm(
   input: ContactFormInput,
+  options: { sourceUrl?: string } = {},
 ): Promise<ApiResponse<ContactSubmitResponse>> {
   const safeInput = contactFormSchema.parse(input);
 
@@ -20,7 +21,9 @@ export async function submitContactForm(
       phone: safeInput.phone,
       email: safeInput.email || undefined,
       message: safeInput.message,
-      sourceUrl: typeof window !== "undefined" ? window.location.href : undefined,
+      sourceUrl:
+        options.sourceUrl ??
+        (typeof window !== "undefined" ? window.location.href : undefined),
     },
     cache: "no-store",
   });

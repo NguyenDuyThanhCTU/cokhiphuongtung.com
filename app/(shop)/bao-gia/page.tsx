@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import BlogsH1 from "@/components/blogs/BlogsH1";
 import QuoteRequestSection from "@/components/layout/Booking";
-import { getPublicSiteSettings } from "@/features/site/services/site.service";
 
 export const metadata: Metadata = {
   title: "Yêu cầu báo giá",
@@ -9,7 +8,6 @@ export const metadata: Metadata = {
   alternates: { canonical: "/bao-gia" },
 };
 
-export default async function QuotePage() {
-  const settings = await getPublicSiteSettings();
-  return <><div><BlogsH1 Content="Để lại thông tin" /><p>Chúng tôi sẽ tư vấn cho bạn</p></div><QuoteRequestSection settings={settings} /></>;
+export default function QuotePage() {
+  return <><div><BlogsH1 Content="Để lại thông tin" /><p>Chúng tôi sẽ tư vấn cho bạn</p></div><QuoteRequestSection /></>;
 }

@@ -2,6 +2,7 @@ import "@/styles/globals.css";
 import "@/styles/CKGlobal.css";
 import "@/styles/Animation.css";
 import "@/styles/article-toc.css";
+import "react-toastify/dist/ReactToastify.css";
 import type { Metadata } from "next";
 import Script from "next/script";
 import { SiteFooter } from "@/components/layout/SiteFooter";

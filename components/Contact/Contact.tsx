@@ -16,7 +16,7 @@ export default function Contact({ settings }: { settings: PublicSiteSettings }) 
   return (
     <section className="flex flex-col gap-10 py-10">
       <div className="grid gap-10 py-5 p:grid-cols-1 d:grid-cols-3">
-        <div><h2 className="py-5 text-[20px] font-semibold">Chúng tôi luôn lắng nghe bạn!</h2><QuoteRequestSection settings={settings} /></div>
+        <div><h2 className="py-5 text-[20px] font-semibold">Chúng tôi luôn lắng nghe bạn!</h2><QuoteRequestSection /></div>
         <div className="col-span-2 flex w-full flex-col items-start justify-start gap-3 font-extralight">
           <h1 className="text-[48px] font-light"><strong className="font-bold">Liên hệ</strong> với chúng tôi</h1>
           <div className="flex flex-col gap-3 py-3"><p>Hãy để lại thông tin đầy đủ theo mẫu bên cạnh, chúng tôi sẽ liên hệ hỗ trợ bạn trong thời gian sớm nhất.</p><p className="text-red-500">* là các thông tin bắt buộc</p></div>

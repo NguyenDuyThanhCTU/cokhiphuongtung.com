@@ -120,6 +120,28 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPost> {
   return parsed.data;
 }
 
+export async function getOptionalBlogPostBySlug(
+  slug: string,
+): Promise<BlogPost | undefined> {
+  try {
+    const payload = await publicApiFetch<unknown>(
+      `/api/public/posts/${encodeURIComponent(slug)}`,
+      { next: { tags: [cacheTags.posts] } },
+    );
+    const parsed = blogPostSchema.safeParse(extractResponseData(payload));
+
+    if (!parsed.success) {
+      reportContentFallback(`blog post "${slug}"`, parsed.error);
+      return undefined;
+    }
+
+    return parsed.data;
+  } catch (error) {
+    reportContentFallback(`blog post "${slug}"`, error);
+    return undefined;
+  }
+}
+
 export async function getPostCategories(): Promise<PostCategory[]> {
   try {
     const payload = await publicApiFetch<unknown>("/api/public/post-categories", {
