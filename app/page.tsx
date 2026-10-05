@@ -15,6 +15,10 @@ import {
 import { isPostInGroup } from "@/features/content/utils/post-groups";
 import { getPublicSiteSettings } from "@/features/site/services/site.service";
 
+// Webhook revalidation updates the page immediately. This interval is a
+// fallback so homepage catalog data cannot remain stale if a webhook is missed.
+export const revalidate = 60;
+
 const CATALOG_PAGE_SIZE = 60;
 const INTRODUCTION_POST_SLUG = "gioi-thieu-ve-co-khi-phuong-tung";
 

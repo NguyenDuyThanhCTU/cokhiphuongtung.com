@@ -173,6 +173,34 @@ test("catalog invalidation refreshes the root layout category menu", async () =>
   assert.equal(expansion.layoutRevalidate, true);
 });
 
+test("product aliases and public category paths invalidate the homepage", async () => {
+  const productContract = parseRevalidationContract({
+    eventId: "evt-product-update",
+    websiteId: "site-1",
+    event: "product.updated",
+    module: "products",
+    paths: ["/danh-muc/cua-cong"],
+    tags: [],
+    scopes: [],
+    source: "dashboard-admin",
+    timestamp: "1700000000000",
+    meta: {
+      contractVersion: "frontend-revalidation-v2",
+      entityType: "product",
+      operation: "update",
+      newSlug: "mau-cua-cong-01",
+    },
+  });
+  const expansion = await expandRevalidationRoutes(productContract, {
+    collectPaths: emptyPathCollection,
+  });
+
+  assert.ok(expansion.paths.includes("/"));
+  assert.ok(expansion.paths.includes("/danh-muc"));
+  assert.ok(expansion.paths.includes("/san-pham/mau-cua-cong-01"));
+  assert.equal(expansion.layoutRevalidate, true);
+});
+
 test("engine invalidates tags before reading fresh routes", async () => {
   const actions: string[] = [];
   const result = await runRevalidationEngine(

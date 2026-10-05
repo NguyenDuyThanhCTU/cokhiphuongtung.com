@@ -9,6 +9,7 @@ This folder is the canonical website receiver for frontend cache invalidation.
 Credentials are independent: `PUBLIC_SITE_KEY` identifies the website and must never be used as a signing secret. V2 accepts `REVALIDATION_SECRET` as the preferred name and `FRONTEND_REVALIDATE_SECRET` as the compatibility name used by the Dashboard. Explicit legacy mode also uses `FRONTEND_REVALIDATE_SECRET`.
 
 Invalidation order is semantic tags, fresh-data route expansion, concrete paths, dynamic page patterns, then conditional root layout.
+Catalog detection accepts both `catalog` and `product(s)` event/module names, plus the public `/danh-muc`, `/san-pham`, and legacy `/products` paths. The homepage also has a 60-second time-based fallback in case a webhook delivery is missed.
 
 ## Cache-tag coverage
 

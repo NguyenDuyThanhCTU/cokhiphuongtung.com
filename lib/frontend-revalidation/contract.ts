@@ -344,8 +344,12 @@ export function isCatalogEvent(
     contract.meta.entityType === "catalog-item" ||
     contract.meta.entityType === "catalog-category" ||
     contract.meta.entityType === "catalog-tag" ||
+    contract.meta.entityType === "product" ||
+    contract.meta.entityType === "product-category" ||
     contract.module === "catalog" ||
-    includesAny(contract.event, ["catalog"]) ||
+    contract.module === "product" ||
+    contract.module === "products" ||
+    includesAny(contract.event, ["catalog", "product"]) ||
     hasAny(contract.tags, [
       cacheTags.catalog,
       cacheTags.catalogCategories,
@@ -356,7 +360,11 @@ export function isCatalogEvent(
       cacheTags.catalogCategories,
       cacheTags.catalogTags,
     ]) ||
-    pathHasAny(getAllSignalPaths(contract), ["/products", "/san-pham"])
+    pathHasAny(getAllSignalPaths(contract), [
+      "/products",
+      "/san-pham",
+      "/danh-muc",
+    ])
   );
 }
 
