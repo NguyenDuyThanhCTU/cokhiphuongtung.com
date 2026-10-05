@@ -383,7 +383,13 @@ export async function expandRevalidationRoutes(
     paths: finalPaths,
     dynamicPatterns: uniquePaths(dynamicPatterns),
     tags: contract.tags,
-    layoutRevalidate: shouldExpandFullSite || globalEvent,
+    // Product categories are rendered inside the root SiteHeader. Catalog
+    // updates therefore need to refresh the root layout as well as catalog pages.
+    layoutRevalidate:
+      shouldExpandFullSite ||
+      globalEvent ||
+      catalogEvent ||
+      legacySignals.detectedCatalogLegacy,
     reason: shouldExpandFullSite
       ? "full-site-event"
       : shouldExpandGlobal

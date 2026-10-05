@@ -1,11 +1,26 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 
 import type { CatalogCategory, CatalogItem } from "@/features/catalog/types";
 import { getProductPriceLabel } from "@/features/catalog/utils/get-product-price-label";
+import {
+  buildCatalogCategoryMenuTree,
+  type CatalogCategoryMenuNode,
+} from "@/features/catalog/utils/category-menu-tree";
 
-export const InterprovincialCard = ({ Data }: { Data: CatalogItem; Hotline?: string }) => (
-  <Link href={`/san-pham/${Data.slug}`} className="group block h-full cursor-pointer">
+export const InterprovincialCard = ({
+  Data,
+}: {
+  Data: CatalogItem;
+  Hotline?: string;
+}) => (
+  <Link
+    href={`/san-pham/${Data.slug}`}
+    className="group block h-full cursor-pointer"
+  >
     <article className="flex h-full min-h-[330px] flex-col border border-[#d8c391] bg-white shadow-[0_8px_24px_rgba(59,40,20,0.08)] transition duration-300 group-hover:-translate-y-1 group-hover:border-mainColorHover group-hover:shadow-[0_16px_32px_rgba(59,40,20,0.16)]">
       <div className="relative flex h-[220px] w-full items-center justify-center overflow-hidden bg-[#faf8f2]">
         {Data.thumbnailUrl ? <Image src={Data.thumbnailUrl} alt={Data.title} width={500} height={500} className="h-full w-full object-contain p-2 duration-500 group-hover:scale-105" /> : <div className="flex h-full w-full items-center justify-center text-mainColorHover">Đang cập nhật</div>}
@@ -25,19 +40,51 @@ function belongsToCategory(item: CatalogItem, category: CatalogCategory) {
   return item.categories?.some((value) => value.id === category.id || value.slug === category.slug) ?? false;
 }
 
-function sortCategories(categories: CatalogCategory[]) {
-  return categories
-    .map((category, index) => ({ category, index }))
-    .filter(({ category }) => category.isActive !== false)
-    .sort((left, right) => (left.category.sortOrder ?? Number.MAX_SAFE_INTEGER) - (right.category.sortOrder ?? Number.MAX_SAFE_INTEGER) || left.index - right.index)
-    .map(({ category }) => category);
+function getCategoryBranch(
+  category: CatalogCategoryMenuNode,
+): CatalogCategoryMenuNode[] {
+  return [
+    category,
+    ...category.children.flatMap((child) => getCategoryBranch(child)),
+  ];
 }
 
-export default function HomeProducts({ Data, categories = [] }: { Data: CatalogItem[]; categories?: CatalogCategory[] }) {
-  const orderedCategories = sortCategories(categories);
-  const groups = orderedCategories.length
-    ? orderedCategories.map((category) => ({ category, items: Data.filter((item) => belongsToCategory(item, category)) }))
-    : [{ category: { id: "all", name: "Sản phẩm", slug: "" } as CatalogCategory, items: Data }];
+function belongsToCategoryBranch(
+  item: CatalogItem,
+  category: CatalogCategoryMenuNode,
+) {
+  return getCategoryBranch(category).some((branchCategory) =>
+    belongsToCategory(item, branchCategory),
+  );
+}
+
+export default function HomeProducts({
+  Data,
+  categories = [],
+}: {
+  Data: CatalogItem[];
+  categories?: CatalogCategory[];
+}) {
+  const [selectedCategories, setSelectedCategories] = useState<
+    Record<string, string>
+  >({});
+  const categoryRoots = buildCatalogCategoryMenuTree(categories);
+  const groups = categoryRoots.length
+    ? categoryRoots.map((category) => ({
+        category,
+        items: Data.filter((item) => belongsToCategoryBranch(item, category)),
+      }))
+    : [
+        {
+          category: {
+            id: "all",
+            name: "Sản phẩm",
+            slug: "",
+            children: [],
+          } as CatalogCategoryMenuNode,
+          items: Data,
+        },
+      ];
 
   return (
     <section className="bg-[#fffdf8] py-10 d:py-14">
@@ -48,8 +95,23 @@ export default function HomeProducts({ Data, categories = [] }: { Data: CatalogI
       </header>
 
       <div className="space-y-16 px-2 d:px-5">
-        {groups.map(({ category, items }, groupIndex) => (
-          <section key={category.id || category.slug} aria-labelledby={`home-category-${category.slug || groupIndex}`}>
+        {groups.map(({ category, items }, groupIndex) => {
+          const groupId = String(category.id || category.slug || groupIndex);
+          const selectedCategoryId = selectedCategories[groupId] ?? "all";
+          const selectedCategory = category.children.find(
+            (child) => String(child.id) === selectedCategoryId,
+          );
+          const visibleItems = selectedCategory
+            ? items.filter((item) =>
+                belongsToCategoryBranch(item, selectedCategory),
+              )
+            : items;
+
+          return (
+            <section
+              key={groupId}
+              aria-labelledby={`home-category-${category.slug || groupIndex}`}
+            >
             <div className="mb-7 flex flex-col items-center text-center">
               <span className="font-UTMFleur text-[30px] leading-none text-mainColorHover/80">Bộ sưu tập</span>
               <Link href={category.slug ? `/danh-muc/${category.slug}` : "/danh-muc"} className="mt-1 transition hover:text-mainColorHover">
@@ -57,17 +119,57 @@ export default function HomeProducts({ Data, categories = [] }: { Data: CatalogI
               </Link>
               <div className="mt-3 flex w-full max-w-[520px] items-center gap-3"><span className="h-px flex-1 bg-gradient-to-r from-transparent to-mainColorHover/60" /><span className="h-2.5 w-2.5 rotate-45 bg-mainColorHover" /><span className="h-px flex-1 bg-gradient-to-l from-transparent to-mainColorHover/60" /></div>
               {category.description ? <p className="mt-3 max-w-2xl text-sm leading-7 text-stone-600">{category.description}</p> : null}
+              <div
+                className="mt-5 flex w-full max-w-full gap-2 overflow-x-auto pb-2 p:justify-start d:flex-wrap d:justify-center"
+                role="group"
+                aria-label={`Lọc sản phẩm ${category.name}`}
+              >
+                <button
+                  type="button"
+                  onClick={() =>
+                    setSelectedCategories((current) => ({
+                      ...current,
+                      [groupId]: "all",
+                    }))
+                  }
+                  aria-pressed={selectedCategoryId === "all"}
+                  className={`shrink-0 whitespace-nowrap border px-4 py-2 text-sm font-medium duration-200 ${selectedCategoryId === "all" ? "border-mainColorHover bg-mainColorHover text-white" : "border-mainColorHover/45 bg-white text-[#332514] hover:border-mainColorHover hover:text-mainColorHover"}`}
+                >
+                  Tất cả
+                </button>
+                {category.children.map((child) => {
+                  const childId = String(child.id);
+                  const isSelected = selectedCategoryId === childId;
+                  return (
+                    <button
+                      key={childId}
+                      type="button"
+                      onClick={() =>
+                        setSelectedCategories((current) => ({
+                          ...current,
+                          [groupId]: childId,
+                        }))
+                      }
+                      aria-pressed={isSelected}
+                      className={`shrink-0 whitespace-nowrap border px-4 py-2 text-sm font-medium duration-200 ${isSelected ? "border-mainColorHover bg-mainColorHover text-white" : "border-mainColorHover/45 bg-white text-[#332514] hover:border-mainColorHover hover:text-mainColorHover"}`}
+                    >
+                      {child.name}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
 
-            {items.length ? (
+            {visibleItems.length ? (
               <div className="grid w-full gap-4 p:grid-cols-2 d:grid-cols-5">
-                {items.map((item) => <InterprovincialCard key={item.id || item.slug} Data={item} />)}
+                {visibleItems.map((item) => <InterprovincialCard key={item.id || item.slug} Data={item} />)}
               </div>
             ) : (
-              <div className="border border-dashed border-mainColorHover/35 bg-white px-5 py-8 text-center text-sm text-stone-500">Sản phẩm thuộc danh mục này đang được cập nhật.</div>
+              <div className="border border-dashed border-mainColorHover/35 bg-white px-5 py-8 text-center text-sm text-stone-500">Sản phẩm thuộc {selectedCategory?.name || category.name} đang được cập nhật.</div>
             )}
-          </section>
-        ))}
+            </section>
+          );
+        })}
       </div>
     </section>
   );

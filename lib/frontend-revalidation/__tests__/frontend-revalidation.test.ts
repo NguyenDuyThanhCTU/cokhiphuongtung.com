@@ -160,6 +160,19 @@ test("home invalidation avoids layout while settings invalidates layout", async 
   );
 });
 
+test("catalog invalidation refreshes the root layout category menu", async () => {
+  const expansion = await expandRevalidationRoutes(
+    contract({
+      entityType: "catalog-category",
+      operation: "update",
+      newSlug: "cua-cong",
+    }),
+    { collectPaths: emptyPathCollection },
+  );
+
+  assert.equal(expansion.layoutRevalidate, true);
+});
+
 test("engine invalidates tags before reading fresh routes", async () => {
   const actions: string[] = [];
   const result = await runRevalidationEngine(
