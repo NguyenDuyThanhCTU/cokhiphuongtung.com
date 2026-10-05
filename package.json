@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
-    "test": "tsx --test lib/frontend-revalidation/__tests__/frontend-revalidation.test.ts"
+    "test": "tsx --test lib/frontend-revalidation/__tests__/frontend-revalidation.test.ts lib/cache/__tests__/shared-ttl-cache.test.ts",
+    "test:home:production": "node scripts/test-home-catalog-production.mjs"
   },
   "dependencies": {
     "antd": "^6.5.1",

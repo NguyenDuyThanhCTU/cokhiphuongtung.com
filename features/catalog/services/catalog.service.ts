@@ -33,6 +33,7 @@ function parseQuery(query?: CatalogListQuery): CatalogListQuery {
 type CatalogFetchOptions = {
   cache?: RequestCache;
   revalidate?: number;
+  throwOnError?: boolean;
 };
 
 export async function getCatalogItems(
@@ -55,6 +56,7 @@ export async function getCatalogItems(
 
     return normalizeCatalogListResponse(payload);
   } catch (error) {
+    if (options.throwOnError) throw error;
     if (process.env.NODE_ENV !== "production") {
       console.error("Failed to load catalog items", error);
     }
@@ -112,7 +114,8 @@ export async function getCatalogCategories(
     );
 
     return catalogCategoryListSchema.parse(normalized);
-  } catch {
+  } catch (error) {
+    if (options.throwOnError) throw error;
     return [];
   }
 }

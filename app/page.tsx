@@ -4,8 +4,7 @@ import HomeBookingSteps from "@/components/home/HomeBookingSteps";
 import HomeIntro from "@/components/home/HomeIntro";
 import HomeNews from "@/components/home/HomeNews";
 import HomeProducts from "@/components/home/HomeProducts";
-import { getCatalogCategories, getCatalogItems } from "@/features/catalog/services/catalog.service";
-import type { CatalogItem } from "@/features/catalog/types";
+import { getHomeCatalog } from "@/features/catalog/services/home-catalog.service";
 import {
   getBanners,
   getBlogPosts,
@@ -15,41 +14,17 @@ import {
 import { isPostInGroup } from "@/features/content/utils/post-groups";
 import { getPublicSiteSettings } from "@/features/site/services/site.service";
 
-const CATALOG_PAGE_SIZE = 60;
-const HOME_CATALOG_REVALIDATE_SECONDS = 60;
+// Render fresh HTML for every visit; the catalog service shares API responses
+// for five seconds and coalesces concurrent refreshes on each server process.
+export const revalidate = 0;
+export const fetchCache = "default-cache";
 const INTRODUCTION_POST_SLUG = "gioi-thieu-ve-co-khi-phuong-tung";
 
-async function getAllHomeCatalogItems(): Promise<CatalogItem[]> {
-  const firstPage = await getCatalogItems(
-    { page: 1, limit: CATALOG_PAGE_SIZE, sort: "sort_order" },
-    { revalidate: HOME_CATALOG_REVALIDATE_SECONDS },
-  );
-  const totalPages = Math.max(firstPage.meta?.totalPages ?? 1, 1);
-  const remainingPages = totalPages > 1
-    ? await Promise.all(
-        Array.from({ length: totalPages - 1 }, (_, index) =>
-          getCatalogItems(
-            {
-              page: index + 2,
-              limit: CATALOG_PAGE_SIZE,
-              sort: "sort_order",
-            },
-            { revalidate: HOME_CATALOG_REVALIDATE_SECONDS },
-          ),
-        ),
-      )
-    : [];
-  const uniqueItems = new Map<string, CatalogItem>();
-  [firstPage, ...remainingPages].forEach((page) => page.items.forEach((item) => uniqueItems.set(item.id || item.slug, item)));
-  return Array.from(uniqueItems.values());
-}
-
 export default async function Home() {
-  const [settings, banners, categories, products, posts, testimonials, introductionPost] = await Promise.all([
+  const [settings, banners, catalog, posts, testimonials, introductionPost] = await Promise.all([
     getPublicSiteSettings(),
     getBanners(),
-    getCatalogCategories({ revalidate: HOME_CATALOG_REVALIDATE_SECONDS }),
-    getAllHomeCatalogItems(),
+    getHomeCatalog(),
     getBlogPosts(),
     getTestimonials(),
     getOptionalBlogPostBySlug(INTRODUCTION_POST_SLUG),
@@ -64,7 +39,7 @@ export default async function Home() {
       <Hero Data={banners} settings={settings} />
       <div className="mx-auto mt-5 flex flex-col gap-4 p:w-auto d:w-[1200px]">
         <HomeIntro post={introduction} settings={settings} />
-        <HomeProducts Data={products} categories={categories} />
+        <HomeProducts Data={catalog.products} categories={catalog.categories} />
       </div>
       <HomeBookingSteps />
       <CustomerReviewSection settings={settings} testimonials={testimonials} />

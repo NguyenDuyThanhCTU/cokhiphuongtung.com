@@ -32,9 +32,20 @@ function isSameDestination(request: NextRequest, destination: URL) {
   );
 }
 
+function continueRequest(request: NextRequest) {
+  const response = NextResponse.next();
+  if (request.nextUrl.pathname === "/") {
+    response.headers.set(
+      "Cache-Control",
+      "private, no-cache, no-store, max-age=0, must-revalidate",
+    );
+  }
+  return response;
+}
+
 export async function middleware(request: NextRequest) {
   // Keep the website available if its SAAS environment variables are not ready.
-  if (!PUBLIC_API_BASE_URL || !PUBLIC_SITE_KEY) return NextResponse.next();
+  if (!PUBLIC_API_BASE_URL || !PUBLIC_SITE_KEY) return continueRequest(request);
 
   try {
     const lookupUrl = new URL("/api/public/redirects", PUBLIC_API_BASE_URL);
@@ -48,11 +59,11 @@ export async function middleware(request: NextRequest) {
       cache: "no-store",
     });
 
-    if (!response.ok) return NextResponse.next();
+    if (!response.ok) return continueRequest(request);
 
     const payload = (await response.json()) as PublicRedirectResponse;
     const rule = payload.success ? payload.data?.redirect : null;
-    if (!rule?.destination) return NextResponse.next();
+    if (!rule?.destination) return continueRequest(request);
 
     const destination = new URL(rule.destination, request.url);
 
@@ -62,12 +73,12 @@ export async function middleware(request: NextRequest) {
       destination.search = request.nextUrl.search;
     }
 
-    if (isSameDestination(request, destination)) return NextResponse.next();
+    if (isSameDestination(request, destination)) return continueRequest(request);
 
     return NextResponse.redirect(destination, rule.permanent ? 301 : 302);
   } catch {
     // A redirect lookup must never make the public website unavailable.
-    return NextResponse.next();
+    return continueRequest(request);
   }
 }
 

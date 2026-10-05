@@ -1,5 +1,6 @@
 import { revalidatePath, revalidateTag } from "next/cache";
 import { cacheTags } from "@/lib/cache/cache-tags";
+import { invalidateHomeCatalog } from "@/features/catalog/services/home-catalog.service";
 import {
   isCatalogEvent,
   isFaqEvent,
@@ -155,6 +156,10 @@ export async function runRevalidationEngine(
   const ignoredPaths = requestedPaths.filter(
     (path) => !normalizePublicRevalidationPath(path),
   );
+
+  if (revalidatedTags.includes(cacheTags.catalog) || revalidatedTags.includes(cacheTags.home)) {
+    invalidateHomeCatalog();
+  }
 
   for (const tag of revalidatedTags) {
     dependencies.invalidateTag(tag);
