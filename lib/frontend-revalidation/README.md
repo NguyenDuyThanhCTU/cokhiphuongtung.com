@@ -6,7 +6,7 @@ This folder is the canonical website receiver for frontend cache invalidation.
 - `FRONTEND_REVALIDATION_PROTOCOL=legacy` accepts only the explicitly configured legacy adapter.
 - `FRONTEND_REVALIDATION_PROTOCOL=dual` is temporary migration mode. Metadata alone never upgrades a legacy request.
 
-Credentials are independent: `PUBLIC_SITE_KEY` identifies the website and must never be used as a signing secret. V2 accepts `REVALIDATION_SECRET` as the preferred name and `FRONTEND_REVALIDATE_SECRET` as the compatibility name used by the Dashboard. Explicit legacy mode also uses `FRONTEND_REVALIDATE_SECRET`.
+Credentials are independent: `PUBLIC_SITE_KEY` identifies the website and must never be used as a signing secret. V2 accepts `REVALIDATION_SECRET` and the Dashboard-compatible `FRONTEND_REVALIDATE_SECRET`; when both are configured, either may verify a request so deployments can rotate keys without interrupting cache invalidation. Explicit legacy mode uses `FRONTEND_REVALIDATE_SECRET`.
 
 Invalidation order is semantic tags, fresh-data route expansion, concrete paths, dynamic page patterns, then conditional root layout.
 Catalog detection accepts both `catalog` and `product(s)` event/module names, plus the public `/danh-muc`, `/san-pham`, and legacy `/products` paths. Homepage catalog requests use shared 60-second revalidation as a fallback; normal admin updates invalidate the catalog tags immediately through the webhook.

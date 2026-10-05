@@ -354,6 +354,27 @@ test("v2 accepts the Dashboard FRONTEND_REVALIDATE_SECRET compatibility name", a
   );
 });
 
+test("v2 accepts the Dashboard secret while a different rotation secret is configured", async () => {
+  await withEnv(
+    {
+      PUBLIC_SITE_KEY: "site-key",
+      REVALIDATION_SECRET: "next-rotation-secret",
+      FRONTEND_REVALIDATE_SECRET: "v2-secret",
+      FRONTEND_REVALIDATION_PROTOCOL: "v2",
+    },
+    async () => {
+      const response = await handleFrontendRevalidationRequest(
+        signedRequest(v2Payload("evt-secret-rotation")),
+      );
+      const ack = (await response.json()) as Record<string, unknown>;
+
+      assert.equal(response.status, 200);
+      assert.equal(ack.status, "accepted");
+      assert.equal(ack.eventId, "evt-secret-rotation");
+    },
+  );
+});
+
 test("v2 receiver rejects an expired header timestamp", async () => {
   await withEnv(
     {

@@ -62,12 +62,12 @@ function verifyPublicSiteKey(request: Request, expected?: string) {
 function authenticateV2(
   request: Request,
   exactRawBody: string,
-  secret?: string,
+  secrets: string[],
 ) {
   const timestamp = request.headers.get("x-revalidate-timestamp")?.trim();
   const signature = request.headers.get("x-revalidate-signature")?.trim();
 
-  if (!secret || !timestamp || !signature) {
+  if (!secrets.length || !timestamp || !signature) {
     return {
       ok: false as const,
       response: errorResponse(
@@ -89,7 +89,10 @@ function authenticateV2(
       ),
     };
   }
-  if (!verifyV2Signature({ timestamp, exactRawBody, secret, signature })) {
+  const signatureMatches = secrets.some((secret) =>
+    verifyV2Signature({ timestamp, exactRawBody, secret, signature }),
+  );
+  if (!signatureMatches) {
     return {
       ok: false as const,
       response: errorResponse(
@@ -133,9 +136,9 @@ async function handleV2(
   request: Request,
   exactRawBody: string,
   payload: unknown,
-  secret?: string,
+  secrets: string[],
 ) {
-  const authentication = authenticateV2(request, exactRawBody, secret);
+  const authentication = authenticateV2(request, exactRawBody, secrets);
   if (!authentication.ok) return authentication.response;
 
   let v2Request: FrontendRevalidationRequestV2;
@@ -239,7 +242,7 @@ export async function handleFrontendRevalidationRequest(request: Request) {
 
   const protocol = selectRequestProtocol(config.protocol, payload);
   if (protocol === "v2")
-    return handleV2(request, exactRawBody, payload, config.v2Secret);
+    return handleV2(request, exactRawBody, payload, config.v2Secrets);
   if (!config.legacyEnabled) {
     return errorResponse(
       "Legacy revalidation đang bị tắt.",
