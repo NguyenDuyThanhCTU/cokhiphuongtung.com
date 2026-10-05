@@ -30,8 +30,14 @@ function parseQuery(query?: CatalogListQuery): CatalogListQuery {
   return catalogListQuerySchema.parse(query ?? {});
 }
 
+type CatalogFetchOptions = {
+  cache?: RequestCache;
+  revalidate?: number;
+};
+
 export async function getCatalogItems(
   query?: CatalogListQuery,
+  options: CatalogFetchOptions = {},
 ): Promise<CatalogListResult> {
   try {
     const safeQuery = parseQuery(query);
@@ -39,7 +45,11 @@ export async function getCatalogItems(
     const payload = await publicApiFetch<unknown>(
       `/api/public/catalog${buildCatalogQuery(safeQuery)}`,
       {
-        next: { tags: [cacheTags.catalog] },
+        next: {
+          tags: [cacheTags.catalog],
+          revalidate: options.revalidate,
+        },
+        cache: options.cache,
       },
     );
 
@@ -83,12 +93,18 @@ export async function getCatalogItemBySlug(slug: string): Promise<CatalogItem> {
   }
 }
 
-export async function getCatalogCategories(): Promise<CatalogCategory[]> {
+export async function getCatalogCategories(
+  options: CatalogFetchOptions = {},
+): Promise<CatalogCategory[]> {
   try {
     const payload = await publicApiFetch<unknown>(
       "/api/public/catalog/categories",
       {
-        next: { tags: [cacheTags.catalog, cacheTags.catalogCategories] },
+        next: {
+          tags: [cacheTags.catalog, cacheTags.catalogCategories],
+          revalidate: options.revalidate,
+        },
+        cache: options.cache,
       },
     );
     const normalized = asArray(payload).map((item, index) =>

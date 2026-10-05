@@ -15,18 +15,29 @@ import {
 import { isPostInGroup } from "@/features/content/utils/post-groups";
 import { getPublicSiteSettings } from "@/features/site/services/site.service";
 
-// Webhook revalidation updates the page immediately. This interval is a
-// fallback so homepage catalog data cannot remain stale if a webhook is missed.
-export const revalidate = 60;
-
 const CATALOG_PAGE_SIZE = 60;
+const HOME_CATALOG_REVALIDATE_SECONDS = 60;
 const INTRODUCTION_POST_SLUG = "gioi-thieu-ve-co-khi-phuong-tung";
 
 async function getAllHomeCatalogItems(): Promise<CatalogItem[]> {
-  const firstPage = await getCatalogItems({ page: 1, limit: CATALOG_PAGE_SIZE, sort: "sort_order" });
+  const firstPage = await getCatalogItems(
+    { page: 1, limit: CATALOG_PAGE_SIZE, sort: "sort_order" },
+    { revalidate: HOME_CATALOG_REVALIDATE_SECONDS },
+  );
   const totalPages = Math.max(firstPage.meta?.totalPages ?? 1, 1);
   const remainingPages = totalPages > 1
-    ? await Promise.all(Array.from({ length: totalPages - 1 }, (_, index) => getCatalogItems({ page: index + 2, limit: CATALOG_PAGE_SIZE, sort: "sort_order" })))
+    ? await Promise.all(
+        Array.from({ length: totalPages - 1 }, (_, index) =>
+          getCatalogItems(
+            {
+              page: index + 2,
+              limit: CATALOG_PAGE_SIZE,
+              sort: "sort_order",
+            },
+            { revalidate: HOME_CATALOG_REVALIDATE_SECONDS },
+          ),
+        ),
+      )
     : [];
   const uniqueItems = new Map<string, CatalogItem>();
   [firstPage, ...remainingPages].forEach((page) => page.items.forEach((item) => uniqueItems.set(item.id || item.slug, item)));
@@ -37,7 +48,7 @@ export default async function Home() {
   const [settings, banners, categories, products, posts, testimonials, introductionPost] = await Promise.all([
     getPublicSiteSettings(),
     getBanners(),
-    getCatalogCategories(),
+    getCatalogCategories({ revalidate: HOME_CATALOG_REVALIDATE_SECONDS }),
     getAllHomeCatalogItems(),
     getBlogPosts(),
     getTestimonials(),
