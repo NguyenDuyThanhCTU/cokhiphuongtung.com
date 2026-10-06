@@ -11,6 +11,8 @@ import {
   type CatalogCategoryMenuNode,
 } from "@/features/catalog/utils/category-menu-tree";
 
+const MAX_PRODUCTS_PER_COLLECTION = 10;
+
 export const InterprovincialCard = ({
   Data,
 }: {
@@ -106,6 +108,10 @@ export default function HomeProducts({
                 belongsToCategoryBranch(item, selectedCategory),
               )
             : items;
+          const activeCategory = selectedCategory ?? category;
+          const moreHref = activeCategory.slug
+            ? `/danh-muc/${activeCategory.slug}`
+            : "/danh-muc";
 
           return (
             <section
@@ -162,11 +168,20 @@ export default function HomeProducts({
 
             {visibleItems.length ? (
               <div className="grid w-full gap-4 p:grid-cols-2 d:grid-cols-5">
-                {visibleItems.map((item) => <InterprovincialCard key={item.id || item.slug} Data={item} />)}
+                {visibleItems.slice(0, MAX_PRODUCTS_PER_COLLECTION).map((item) => <InterprovincialCard key={item.id || item.slug} Data={item} />)}
               </div>
             ) : (
               <div className="border border-dashed border-mainColorHover/35 bg-white px-5 py-8 text-center text-sm text-stone-500">Sản phẩm thuộc {selectedCategory?.name || category.name} đang được cập nhật.</div>
             )}
+            <div className="mt-6 flex justify-center">
+              <Link
+                href={moreHref}
+                aria-label={`Xem thêm sản phẩm ${activeCategory.name}`}
+                className="inline-flex min-h-[44px] items-center justify-center border border-mainColorHover bg-mainColorHover px-7 py-2.5 text-sm font-medium text-white transition hover:bg-mainColor focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-mainColorHover"
+              >
+                Xem thêm
+              </Link>
+            </div>
             </section>
           );
         })}

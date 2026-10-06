@@ -73,6 +73,23 @@ export async function getCatalogItems(
   }
 }
 
+// Use the same tagged Next.js fetch cache as catalog pages, including every page.
+export async function getAllCatalogItems(
+  query: Omit<CatalogListQuery, "page" | "limit"> = {},
+): Promise<CatalogItem[]> {
+  const pageSize = 50;
+  const firstPage = await getCatalogItems({ ...query, page: 1, limit: pageSize });
+  const remainingPages = await Promise.all(
+    Array.from({ length: Math.max((firstPage.meta?.totalPages ?? 1) - 1, 0) },
+      (_, index) => getCatalogItems({ ...query, page: index + 2, limit: pageSize })),
+  );
+  const items = new Map<string, CatalogItem>();
+  for (const page of [firstPage, ...remainingPages]) {
+    for (const item of page.items) items.set(item.id || item.slug, item);
+  }
+  return Array.from(items.values());
+}
+
 export async function getCatalogItemBySlug(slug: string): Promise<CatalogItem> {
   try {
     const payload = await publicApiFetch<unknown>(
