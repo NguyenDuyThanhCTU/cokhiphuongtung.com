@@ -15,22 +15,54 @@ type HeroProps = { Data: BannerItem[]; settings: PublicSiteSettings };
 
 export default function Hero({ Data, settings }: HeroProps) {
   const banners = Data.filter((banner) => Boolean(banner.imageUrl));
+  const hasMultipleBanners = banners.length > 1;
 
   if (!banners.length) {
     return <div className="flex min-h-[360px] items-center justify-center bg-black px-4 text-center text-white"><div><h1 className="text-3xl font-semibold uppercase text-mainColor">{settings.siteName}</h1><p className="mt-3">{settings.slogan}</p></div></div>;
   }
 
   return (
-    <h1>
-      <Swiper modules={[Navigation, Pagination, A11y, Autoplay]} spaceBetween={30} loop centeredSlides slidesPerView={1} slidesPerGroup={1} pagination={{ clickable: true, dynamicBullets: true }} autoplay={{ delay: 8000, disableOnInteraction: false }} navigation className="relative">
-        {banners.map((item) => (
+    <section aria-label="Banner trang chủ">
+      <Swiper
+        modules={[Navigation, Pagination, A11y, Autoplay]}
+        slidesPerView={1}
+        slidesPerGroup={1}
+        spaceBetween={0}
+        speed={650}
+        loop={hasMultipleBanners}
+        loopPreventsSliding
+        watchOverflow
+        navigation={hasMultipleBanners}
+        pagination={hasMultipleBanners ? { clickable: true, dynamicBullets: true } : false}
+        autoplay={
+          hasMultipleBanners
+            ? {
+                delay: 8000,
+                disableOnInteraction: false,
+                waitForTransition: false,
+              }
+            : false
+        }
+        grabCursor={hasMultipleBanners}
+        className="relative"
+      >
+        {banners.map((item, index) => (
           <SwiperSlide key={item.id}>
             <Link href={item.linkUrl || "/"}>
-              <Image src={item.imageUrl || ""} alt={item.title || "banner"} width={1920} height={900} priority className="w-full object-cover p:h-auto d:h-[70vh]" />
+              <Image
+                src={item.imageUrl || ""}
+                alt={item.title || "Banner trang chủ"}
+                width={1920}
+                height={900}
+                priority={index === 0}
+                sizes="100vw"
+                draggable={false}
+                className="w-full object-cover p:h-auto d:h-[70vh]"
+              />
             </Link>
           </SwiperSlide>
         ))}
       </Swiper>
-    </h1>
+    </section>
   );
 }
