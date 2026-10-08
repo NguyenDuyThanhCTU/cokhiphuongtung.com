@@ -22,7 +22,7 @@ export default function Hero({ Data, settings }: HeroProps) {
 
   return (
     <h1>
-      <Swiper modules={[Navigation, Pagination, A11y, Autoplay]} spaceBetween={30} loop centeredSlides slidesPerView={1} slidesPerGroup={1} pagination={{ clickable: true, dynamicBullets: true }} autoplay={{ delay: 2500, disableOnInteraction: false }} navigation className="relative">
+      <Swiper modules={[Navigation, Pagination, A11y, Autoplay]} spaceBetween={30} loop centeredSlides slidesPerView={1} slidesPerGroup={1} pagination={{ clickable: true, dynamicBullets: true }} autoplay={{ delay: 8000, disableOnInteraction: false }} navigation className="relative">
         {banners.map((item) => (
           <SwiperSlide key={item.id}>
             <Link href={item.linkUrl || "/"}>
