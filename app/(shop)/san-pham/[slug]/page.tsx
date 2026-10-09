@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 
 import { CatalogGrid } from "@/components/catalog/CatalogGrid";
-import { getServicePrimaryImage } from "@/components/catalog/Detail/catalog-service-detail";
+import { getServiceGallery, getServicePrimaryImage } from "@/components/catalog/Detail/catalog-service-detail";
+import { ProductImageGallery } from "@/components/catalog/ProductImageGallery";
 import { HtmlContent } from "@/components/StaticPage/HtmlContent";
 import { getCatalogItemBySlug, getCatalogItems } from "@/features/catalog/services/catalog.service";
 import { getProductPriceLabel } from "@/features/catalog/utils/get-product-price-label";
@@ -26,13 +26,14 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
   const categorySlug = product.category?.slug ?? product.categories?.[0]?.slug;
   const related = categorySlug ? (await getCatalogItems({ category: categorySlug, limit: 4, sort: "sort_order" })).items.filter((item) => item.slug !== product.slug).slice(0, 3) : [];
   const image = getServicePrimaryImage(product);
+  const gallery = image
+    ? [image, ...getServiceGallery(product).filter((item) => item !== image)]
+    : [];
 
   return (
     <div>
       <div className="grid gap-5 p:grid-cols-1 d:grid-cols-2">
-        <div className="flex min-h-[420px] w-full items-center justify-center border-2 border-mainColorHover bg-white">
-          {image ? <Image src={image} alt={product.title} width={700} height={700} priority className="h-full max-h-[560px] w-full object-contain p-2 duration-500 hover:scale-105" /> : <div className="text-gray-500">Hình ảnh đang cập nhật</div>}
-        </div>
+        <ProductImageGallery images={gallery} title={product.title} />
         <div className="flex flex-col gap-3">
           <div><h1 className="text-[18px] uppercase">{product.title}</h1><div className="h-1 w-24 bg-black" /></div>
           <div className="text-[14px] font-normal text-red-500">Giá: {getProductPriceLabel(product, "Liên hệ")}</div>
