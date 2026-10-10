@@ -19,6 +19,18 @@ function asRecord(value: unknown): Record<string, unknown> {
     : {};
 }
 
+function normalizeCatalogImage(value: unknown): string | undefined {
+  const directUrl = normalizeString(value);
+  if (directUrl) return directUrl;
+
+  const image = asRecord(value);
+  return (
+    normalizeString(image.url) ??
+    normalizeString(image.imageUrl) ??
+    normalizeString(image.src)
+  );
+}
+
 function numberOrNull(value: unknown): number | null | undefined {
   if (value === "" || value == null) return undefined;
   const number = Number(value);
@@ -175,14 +187,17 @@ export function normalizeCatalogItem(
     : null;
   const salePrice =
     numberOrNull(item.salePrice) ?? numberOrNull(item.finalPrice) ?? null;
-  const gallerySource = Array.isArray(item.galleryUrls)
-    ? item.galleryUrls
-    : Array.isArray(item.gallery)
-      ? item.gallery
-      : item.images;
-  const gallery = asArray(gallerySource)
-    .map((image) => normalizeString(image))
-    .filter((image): image is string => Boolean(image));
+  const gallery = Array.from(
+    new Set(
+      [
+        ...asArray(item.gallery),
+        ...asArray(item.galleryUrls),
+        ...asArray(item.images),
+      ]
+        .map(normalizeCatalogImage)
+        .filter((image): image is string => Boolean(image)),
+    ),
+  );
   const specifications = asArray(item.specifications)
     .map(normalizeCatalogSpecification)
     .filter(

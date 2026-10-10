@@ -68,6 +68,7 @@ export function getServicePrimaryImage(service: CatalogItem) {
   return (
     service.ogImage ??
     service.thumbnailUrl ??
+    service.gallery?.find(Boolean) ??
     service.galleryUrls?.find(Boolean) ??
     null
   );
@@ -76,6 +77,7 @@ export function getServicePrimaryImage(service: CatalogItem) {
 export function getServiceGallery(service: CatalogItem) {
   return uniqueStrings([
     service.thumbnailUrl,
+    ...(service.gallery ?? []),
     ...(service.galleryUrls ?? []),
     service.ogImage,
   ]).slice(0, 8);

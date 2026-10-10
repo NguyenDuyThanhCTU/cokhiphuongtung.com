@@ -8,7 +8,9 @@ type ProductGalleryProps = {
 
 export function ProductGallery({ product }: ProductGalleryProps) {
   const primaryImage = getProductPrimaryImage(product);
-  const gallery = product.galleryUrls?.filter((image) => image !== primaryImage) ?? [];
+  const gallery = Array.from(
+    new Set([...(product.gallery ?? []), ...(product.galleryUrls ?? [])]),
+  ).filter((image) => image !== primaryImage);
 
   return (
     <div className="space-y-3">

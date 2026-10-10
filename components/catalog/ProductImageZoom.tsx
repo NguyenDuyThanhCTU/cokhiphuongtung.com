@@ -1,20 +1,40 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, type PointerEvent } from "react";
+import { useEffect, useRef, useState, type PointerEvent } from "react";
+import { createPortal } from "react-dom";
 
 type ProductImageZoomProps = {
   src: string;
   alt: string;
 };
 
-const ZOOM_LEVEL = 2.5;
-const MAX_LENS_SIZE = 200;
-const LENS_OFFSET = 18;
+const ZOOM_LEVEL = 3.5;
+const MAX_LENS_SIZE = 360;
+const MIN_LENS_SIZE = 220;
+const LENS_OFFSET = 20;
+const VIEWPORT_MARGIN = 16;
 
 export function ProductImageZoom({ src, alt }: ProductImageZoomProps) {
   const imageRef = useRef<HTMLImageElement>(null);
   const lensRef = useRef<HTMLDivElement>(null);
+  const [portalTarget, setPortalTarget] = useState<HTMLElement | null>(null);
+
+  useEffect(() => {
+    setPortalTarget(document.body);
+
+    const hideLens = () => {
+      if (lensRef.current) lensRef.current.style.opacity = "0";
+    };
+
+    window.addEventListener("scroll", hideLens, true);
+    window.addEventListener("resize", hideLens);
+
+    return () => {
+      window.removeEventListener("scroll", hideLens, true);
+      window.removeEventListener("resize", hideLens);
+    };
+  }, []);
 
   function handlePointerMove(event: PointerEvent<HTMLDivElement>) {
     if (event.pointerType !== "mouse") return;
@@ -55,25 +75,35 @@ export function ProductImageZoom({ src, alt }: ProductImageZoomProps) {
       return;
     }
 
+    const rightSpace =
+      window.innerWidth - bounds.right - LENS_OFFSET - VIEWPORT_MARGIN;
+    const leftSpace = bounds.left - LENS_OFFSET - VIEWPORT_MARGIN;
+    const availableSideSpace = Math.max(rightSpace, leftSpace);
     const lensSize = Math.min(
       MAX_LENS_SIZE,
-      bounds.width * 0.45,
-      bounds.height * 0.45,
+      availableSideSpace,
+      window.innerHeight - VIEWPORT_MARGIN * 2,
     );
+
+    // The zoom result must stay fully outside the product image.
+    if (lensSize < MIN_LENS_SIZE) {
+      lens.style.opacity = "0";
+      return;
+    }
+
     const relativeX = x - imageLeft;
     const relativeY = y - imageTop;
-    let lensLeft = x + LENS_OFFSET;
-    let lensTop = y + LENS_OFFSET;
-
-    if (lensLeft + lensSize > bounds.width) {
-      lensLeft = x - lensSize - LENS_OFFSET;
-    }
-    if (lensTop + lensSize > bounds.height) {
-      lensTop = y - lensSize - LENS_OFFSET;
-    }
-
-    lensLeft = Math.max(0, Math.min(lensLeft, bounds.width - lensSize));
-    lensTop = Math.max(0, Math.min(lensTop, bounds.height - lensSize));
+    const showOnRight = rightSpace >= lensSize || rightSpace >= leftSpace;
+    const lensLeft = showOnRight
+      ? bounds.right + LENS_OFFSET
+      : bounds.left - LENS_OFFSET - lensSize;
+    const lensTop = Math.max(
+      VIEWPORT_MARGIN,
+      Math.min(
+        bounds.top,
+        window.innerHeight - lensSize - VIEWPORT_MARGIN,
+      ),
+    );
 
     lens.style.width = `${lensSize}px`;
     lens.style.height = `${lensSize}px`;
@@ -108,11 +138,16 @@ export function ProductImageZoom({ src, alt }: ProductImageZoomProps) {
         sizes="(max-width: 1023px) 100vw, 50vw"
         className="h-full max-h-[560px] w-full select-none object-contain p-2"
       />
-      <div
-        ref={lensRef}
-        aria-hidden="true"
-        className="pointer-events-none absolute z-20 border-2 border-white bg-white bg-no-repeat opacity-0 shadow-[0_8px_30px_rgba(0,0,0,0.35)] transition-opacity duration-100"
-      />
+      {portalTarget
+        ? createPortal(
+            <div
+              ref={lensRef}
+              aria-hidden="true"
+              className="pointer-events-none fixed z-[100] border-2 border-white bg-white bg-no-repeat opacity-0 shadow-[0_12px_36px_rgba(0,0,0,0.42)] transition-opacity duration-100"
+            />,
+            portalTarget,
+          )
+        : null}
     </div>
   );
 }

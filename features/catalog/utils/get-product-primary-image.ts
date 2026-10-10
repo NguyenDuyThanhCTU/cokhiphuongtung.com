@@ -5,5 +5,7 @@ export function getProductPrimaryImage(product: CatalogItem): string | null {
     return product.thumbnailUrl;
   }
 
-  return product.galleryUrls?.find(Boolean) ?? null;
+  return (
+    product.gallery?.find(Boolean) ?? product.galleryUrls?.find(Boolean) ?? null
+  );
 }
