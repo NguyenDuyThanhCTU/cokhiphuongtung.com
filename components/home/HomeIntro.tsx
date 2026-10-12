@@ -8,13 +8,13 @@ export default function HomeIntro({ post, settings }: { post?: BlogPost; setting
   return (
     <section className="bg-[url(https://firebasestorage.googleapis.com/v0/b/quangcaocokhixaydung.appspot.com/o/UI%2F201313823_1160040927807717_7589381226147591092_n.jpg?alt=media&token=675fe7a8-72a8-4c33-9dcf-35b463488a38)] bg-center bg-no-repeat">
       <div className="bg-[rgba(0,0,0,0.70)]">
-        <div className="flex gap-2 py-5 p:flex-col p:px-0 d:flex-row d:px-5">
+        <div className="flex gap-2  p:flex-col p:px-0 d:flex-row d:px-5">
           <div className="flex h-[500px] flex-[45%] items-center justify-center">
-            <div className="p:h-auto p:w-auto ">
+            <div className="h-full w-full">
               {post?.thumbnailUrl ? <Image src={post.thumbnailUrl} alt={post.title} width={800} height={600} className="h-full w-full  object-cover" /> : <div className="flex h-full min-h-[280px] w-full items-center justify-center border-4 border-white bg-mainColorHover text-5xl font-semibold text-mainColor">PT</div>}
             </div>
           </div>
-          <div className="flex-[55%] text-white p:px-3 d:px-10">
+          <div className="flex-[55%] text-white p:px-3 d:px-10 py-5">
             <h2 className="font-UTMFleur text-[42px] leading-none">Giới thiệu</h2>
             <h3 className="mt-2 text-center font-UTMAmericanSans text-[30px] font-bold uppercase leading-8 text-mainColor">Tại sao chọn Sắt Mỹ Thuật Phương Tùng</h3>
             <p className="mt-5 indent-3 leading-7">{post?.excerpt || settings.description || settings.slogan}</p>
