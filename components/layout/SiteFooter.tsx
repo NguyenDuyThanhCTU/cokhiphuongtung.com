@@ -47,7 +47,7 @@ export function SiteFooter({ settings }: SiteFooterProps) {
       </div>
       <div className="flex justify-center bg-black px-2 py-5 text-center text-[14px] font-normal">
         <p className="pr-2">©{new Date().getFullYear()} All Rights reserved</p>
-        <p className="border-l border-gray-400 pl-2">Designed by ADS Company</p>
+        <p className="border-l border-gray-400 pl-2">Designed by <Link href="https://www.facebook.com/DnaAgencyVN/" target="_blank">DNA Agency</Link></p>
       </div>
     </footer>
   );

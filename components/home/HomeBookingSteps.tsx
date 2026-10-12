@@ -9,9 +9,9 @@ const steps = [
 
 export default function HomeBookingSteps() {
   return (
-    <section className="relative overflow-hidden bg-[#241b14] py-16 text-white d:py-20">
-      <div className="absolute inset-0 opacity-25 [background-image:linear-gradient(135deg,transparent_48%,rgba(243,197,41,.18)_49%,rgba(243,197,41,.18)_51%,transparent_52%)] [background-size:44px_44px]" />
-      <div className="relative mx-auto w-full max-w-[1200px] px-4 sm:px-6 d:px-0">
+    <section className="relative overflow-hidden bg-processSurface py-16 text-white d:py-20">
+      <div className="absolute inset-0 bg-processDiagonal bg-processDiagonalSize opacity-25" />
+      <div className="relative w-full px-4 sm:px-6 d:px-5">
         <header className="mx-auto max-w-3xl text-center">
           <p className="font-UTMFleur text-[38px] leading-none text-mainColor">Tận tâm từ ý tưởng đến công trình</p>
           <h2 className="mt-3 font-UTMAmericanSans text-[31px] uppercase tracking-[0.08em] d:text-[40px]">Quy trình xử lý chuyên nghiệp</h2>

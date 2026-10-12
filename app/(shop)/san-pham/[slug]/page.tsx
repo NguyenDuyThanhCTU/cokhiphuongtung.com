@@ -29,15 +29,35 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
   const gallery = image
     ? [image, ...getServiceGallery(product).filter((item) => item !== image)]
     : [];
+  const visibleSpecifications = [...(product.specifications ?? [])]
+    .filter((specification) => specification.isVisible !== false)
+    .sort((left, right) => left.sortOrder - right.sortOrder);
 
   return (
     <div>
       <div className="grid gap-5 p:grid-cols-1 d:grid-cols-2">
         <ProductImageGallery images={gallery} title={product.title} />
-        <div className="flex flex-col gap-3">
-          <div><h1 className="text-[18px] uppercase">{product.title}</h1><div className="h-1 w-24 bg-black" /></div>
-          <div className="text-[14px] font-normal text-red-500">Giá: {getProductPriceLabel(product, "Liên hệ")}</div>
-          {product.shortDescription ? <p className="italic leading-7">{product.shortDescription}</p> : <div className="bg-white p-3 text-[14px]"><div className="grid grid-cols-5 border-b py-1"><strong className="col-span-2 font-normal">Khuyến mãi:</strong><p className="col-span-3 italic">Liên hệ để nhận tư vấn và báo giá theo nhu cầu thực tế.</p></div><div className="grid grid-cols-5 py-1"><span className="col-span-2">Thông số sản phẩm:</span><span className="col-span-3 italic">Đang cập nhật</span></div></div>}
+        <div className="flex flex-col gap-2">
+          <div><h1 className="text-[18px] font-bold uppercase">{product.title}</h1></div>
+          <div className="text-[14px] pt-1 border-t-2 w-max border-black font-normal text-red-500">Giá: {getProductPriceLabel(product, "Liên hệ")}</div>
+          {product.shortDescription ? <p className="italic leading-7">{product.shortDescription}</p> : null}
+          <div className="border border-gray-200 bg-white p-3 text-[14px]">
+            <h2 className="border-b border-gray-200 pb-2 font-semibold">Thông số sản phẩm</h2>
+            {visibleSpecifications.length ? (
+              <dl className="divide-y divide-gray-100">
+                {visibleSpecifications.map((specification) => (
+                  <div key={specification.key} className="grid grid-cols-5 gap-3 py-2">
+                    <dt className="col-span-2 text-gray-600">{specification.label}</dt>
+                    <dd className="col-span-3 font-medium text-gray-900">{specification.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            ) : product.specs?.trim() ? (
+              <p className="whitespace-pre-line py-2 leading-6 text-gray-800">{product.specs}</p>
+            ) : (
+              <p className="py-2 italic text-gray-500">Đang cập nhật</p>
+            )}
+          </div>
           <a href={getPhoneHref(hotline)} className="rounded-md border bg-orange-500 py-2 text-center text-[18px] font-normal uppercase text-white duration-300 hover:bg-orange-600" data-track="click_hotline_product">hotline: {hotline}</a>
         </div>
       </div>

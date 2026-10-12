@@ -128,6 +128,7 @@ function CategorySidebar({ categories, posts, pathname }: { categories: CatalogC
 export default function CategoryPageShell({ children, categories, posts }: { children: React.ReactNode; categories: CatalogCategory[]; posts: BlogPost[] }) {
   const pathname = usePathname();
   if (pathname === "/lien-he" || pathname === "/gioi-thieu") return <>{children}</>;
+  if (pathname === "/chuyen-muc") return <div className="mx-2 py-10 d:mx-5">{children}</div>;
 
-  return <div className="grid gap-5 py-10 p:mx-2 p:w-auto p:grid-cols-1 d:mx-auto d:w-[1200px] d:grid-cols-4"><div className="col-span-3 min-w-0">{children}</div><CategorySidebar categories={categories} posts={posts} pathname={pathname} /></div>;
+  return <div className="grid gap-5 py-10 p:mx-2 p:w-auto p:grid-cols-1 d:mx-auto d:w-[1600px] d:grid-cols-4"><div className="col-span-3 min-w-0">{children}</div><CategorySidebar categories={categories} posts={posts} pathname={pathname} /></div>;
 }

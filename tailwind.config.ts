@@ -30,6 +30,7 @@ const config: Config = {
         main: "#F5B800",
         mainBold: "#1F2937",
         bgcontent: "#FFFDF5",
+        processSurface: "#241B14",
         brand: {
           50: "#FFFBEA",
           100: "#FFF3BF",
@@ -45,6 +46,13 @@ const config: Config = {
       },
       width: {
         default: "1200px",
+      },
+      backgroundImage: {
+        processDiagonal:
+          "linear-gradient(135deg, transparent 48%, rgba(243, 197, 41, 0.18) 49%, rgba(243, 197, 41, 0.18) 51%, transparent 52%)",
+      },
+      backgroundSize: {
+        processDiagonalSize: "44px 44px",
       },
     },
   },

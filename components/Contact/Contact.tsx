@@ -15,14 +15,13 @@ export default function Contact({ settings }: { settings: PublicSiteSettings }) 
   const website = settings.domain || "cokhiphuongtung.com";
   return (
     <section className="flex flex-col gap-10 py-10">
-      <div className="grid gap-10 py-5 p:grid-cols-1 d:grid-cols-3">
-        <div><h2 className="py-5 text-[20px] font-semibold">Chúng tôi luôn lắng nghe bạn!</h2><QuoteRequestSection /></div>
+      {/* <div className="grid gap-10 py-5 p:grid-cols-1 d:grid-cols-3">
         <div className="col-span-2 flex w-full flex-col items-start justify-start gap-3 font-extralight">
           <h1 className="text-[48px] font-light"><strong className="font-bold">Liên hệ</strong> với chúng tôi</h1>
           <div className="flex flex-col gap-3 py-3"><p>Hãy để lại thông tin đầy đủ theo mẫu bên cạnh, chúng tôi sẽ liên hệ hỗ trợ bạn trong thời gian sớm nhất.</p><p className="text-red-500">* là các thông tin bắt buộc</p></div>
-          <Image src="https://firebasestorage.googleapis.com/v0/b/cokhiphuongtung-960eb.appspot.com/o/editor%2Fz5116918608020_d01a1e6462915e378a84909c8e918ab0.jpg?alt=media&token=e95cbb8a-80b4-4a0d-855d-2ee4fb766f3d" width={400} height={400} alt="Cơ khí Phương Tùng" className="max-w-full" />
+          <Image src="" width={400} height={400} alt="Cơ khí Phương Tùng" className="max-w-full" />
         </div>
-      </div>
+      </div> */}
       <div className="grid gap-5 font-extralight p:grid-cols-1 d:grid-cols-2">
         <div className="min-h-[520px] w-full border-r">{settings.mapIframe ? <div className="h-full w-full [&_iframe]:h-full [&_iframe]:w-[80%]" dangerouslySetInnerHTML={{ __html: settings.mapIframe }} /> : null}</div>
         <div>

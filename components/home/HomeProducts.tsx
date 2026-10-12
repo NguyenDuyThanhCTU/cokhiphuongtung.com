@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 
 import type { CatalogCategory, CatalogItem } from "@/features/catalog/types";
 import { getProductPriceLabel } from "@/features/catalog/utils/get-product-price-label";
@@ -12,6 +12,14 @@ import {
 } from "@/features/catalog/utils/category-menu-tree";
 
 const MAX_PRODUCTS_PER_COLLECTION = 10;
+
+function CollectionDivider() {
+  return (
+    <div aria-hidden="true" className="relative h-14 overflow-hidden bg-processSurface">
+      <span className="absolute inset-0 bg-processDiagonal bg-processDiagonalSize opacity-25" />
+    </div>
+  );
+}
 
 export const InterprovincialCard = ({
   Data,
@@ -31,7 +39,7 @@ export const InterprovincialCard = ({
       </div>
       <div className="flex flex-1 flex-col items-center gap-2 border-t border-[#eadfbe] px-4 py-4 text-center">
         <h3 className="truncate2 font-medium leading-6 text-[#332514] transition group-hover:text-mainColorHover">{Data.title}</h3>
-        <div className="mt-auto font-normal text-red-600">{getProductPriceLabel(Data, "Liên hệ")}</div>
+        <div className="mt-auto font-normal text-red-600">{getProductPriceLabel(Data, "")}</div>
       </div>
     </article>
   </Link>
@@ -89,14 +97,15 @@ export default function HomeProducts({
       ];
 
   return (
-    <section className="bg-[#fffdf8] py-10 d:py-14">
-      <header className="mx-auto mb-12 max-w-3xl px-4 text-center">
-        <p className="font-UTMFleur text-[38px] leading-none text-mainColorHover">Tinh hoa trong từng đường nét</p>
-        <h2 className="mt-3 font-iCielPequena text-[28px] uppercase tracking-[0.08em] text-[#241a10] d:text-[34px]">Danh mục sắt mỹ thuật</h2>
+    <section className="bg-[#fffdf8] pb-10 d:pb-14">
+      <CollectionDivider />
+      <header className="mx-auto max-w-3xl px-4 py-10 text-center ">
+        <p className="font-UTMFleur text-[68px] leading-none text-mainColorHover">Tinh hoa trong từng đường nét</p>
+        <h2 className="sr-only">Danh mục sắt mỹ thuật</h2>
         <div className="mx-auto mt-5 flex max-w-[360px] items-center justify-center gap-3"><span className="h-px flex-1 bg-mainColorHover/40" /><span className="h-3 w-3 rotate-45 border border-mainColorHover bg-mainColor" /><span className="h-px flex-1 bg-mainColorHover/40" /></div>
       </header>
 
-      <div className="space-y-16 px-2 d:px-5">
+      <div>
         {groups.map(({ category, items }, groupIndex) => {
           const groupId = String(category.id || category.slug || groupIndex);
           const selectedCategoryId = selectedCategories[groupId] ?? "all";
@@ -114,8 +123,10 @@ export default function HomeProducts({
             : "/danh-muc";
 
           return (
+            <Fragment key={groupId}>
+            {groupIndex > 0 ? <CollectionDivider /> : null}
             <section
-              key={groupId}
+              className="px-2 py-6 d:px-5 "
               aria-labelledby={`home-category-${category.slug || groupIndex}`}
             >
             <div className="mb-7 flex flex-col items-center text-center">
@@ -183,6 +194,7 @@ export default function HomeProducts({
               </Link>
             </div>
             </section>
+            </Fragment>
           );
         })}
       </div>

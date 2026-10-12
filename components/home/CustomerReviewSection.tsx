@@ -12,7 +12,7 @@ function clampRating(rating?: number | null) {
 export default function CustomerReviewSection({ testimonials }: { settings: PublicSiteSettings; testimonials: Testimonial[] }) {
   return (
     <section className="bg-[#f3eee4] py-16 d:py-20">
-      <div className="mx-auto w-full max-w-[1200px] px-4 sm:px-6 d:px-0">
+      <div className="w-full px-4 sm:px-6 d:px-5">
         <header className="mx-auto max-w-3xl text-center">
           <p className="font-UTMFleur text-[38px] leading-none text-mainColorHover">Niềm tin được tạo nên từ chất lượng</p>
           <h2 className="mt-3 font-UTMAmericanSans text-[31px] uppercase tracking-[0.08em] text-[#2d2116] d:text-[40px]">Đánh giá từ khách hàng</h2>

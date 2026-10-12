@@ -37,7 +37,7 @@ export default async function Home() {
   return (
     <div className="mb-3">
       <Hero Data={banners} settings={settings} />
-      <div className="mx-auto mt-5 flex flex-col gap-4 p:w-auto d:w-[1200px]">
+      <div className="mt-5 flex w-full flex-col gap-4">
         <HomeIntro post={introduction} settings={settings} />
         <HomeProducts Data={products} categories={categories} />
       </div>

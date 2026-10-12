@@ -5,16 +5,17 @@ import { ArrowRight, CalendarDays } from "lucide-react";
 import type { BlogPost } from "@/features/content/types";
 import { formatDate } from "@/lib/utils/format-date";
 
-export const BlogCard = ({ Data }: { Data: BlogPost }) => {
+export const BlogCard = ({ Data, variant = "list" }: { Data: BlogPost; variant?: "list" | "grid" }) => {
   const date = Data.publishedAt ?? Data.createdAt;
+  const isGrid = variant === "grid";
   return (
-    <Link href={`/bai-viet/${Data.slug}`} className="block cursor-pointer rounded-lg border border-gray-300 bg-white">
-      <article className="p-4">
-        <div className="grid grid-cols-6 gap-5">
-          <div className="col-span-2 h-[200px]">
+    <Link href={`/bai-viet/${Data.slug}`} className={`group block cursor-pointer rounded-lg border border-gray-300 bg-white transition hover:border-mainColorHover hover:shadow-md ${isGrid ? "h-full" : ""}`}>
+      <article className="flex h-full flex-col p-4">
+        <div className={isGrid ? "flex flex-1 flex-col gap-4" : "grid grid-cols-1 gap-5 sm:grid-cols-6"}>
+          <div className={isGrid ? "h-[220px] w-full overflow-hidden" : "h-[180px] overflow-hidden sm:col-span-2 sm:h-[200px]"}>
             {Data.thumbnailUrl ? <Image src={Data.thumbnailUrl} alt={Data.title} width={400} height={400} className="h-full w-full object-cover" /> : <div className="h-full w-full bg-gray-200" />}
           </div>
-          <div className="col-span-4 font-bold text-mainColorHover"><h2>{Data.title}</h2>{Data.excerpt ? <p className="mt-2 text-[12px] font-light text-black">{Data.excerpt} ...</p> : null}</div>
+          <div className={isGrid ? "font-bold text-mainColorHover" : "font-bold text-mainColorHover sm:col-span-4"}><h2>{Data.title}</h2>{Data.excerpt ? <p className={`mt-2 text-[12px] font-light leading-6 text-black ${isGrid ? "line-clamp-3" : ""}`}>{Data.excerpt} ...</p> : null}</div>
         </div>
         <div className="mt-4 flex items-center justify-between border-y border-gray-200 py-1 text-[14px] text-mainColorHover"><p>{date ? formatDate(date) : ""}</p><span className="duration-300 hover:text-blue-500">Xem thêm</span></div>
       </article>
@@ -25,7 +26,7 @@ export const BlogCard = ({ Data }: { Data: BlogPost }) => {
 export default function HomeNews({ Data }: { Data: BlogPost[] }) {
   return (
     <section className="bg-white py-16 d:py-20">
-      <div className="mx-auto w-full max-w-[1200px] px-4 sm:px-6 d:px-0">
+      <div className="w-full px-4 sm:px-6 d:px-5">
         <header className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="font-UTMFleur text-[38px] leading-none text-mainColorHover">Chuyện nghề & cảm hứng</p>
