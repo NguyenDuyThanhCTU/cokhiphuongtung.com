@@ -1,7 +1,7 @@
 export const routes = {
   home: "/",
   products: "/danh-muc",
-  blog: "/chuyen-muc",
+  blog: "/chuyen-muc/tin-tuc",
   faq: "/#faq",
   contact: "/lien-he",
   pages: "/chinh-sach",

@@ -26,9 +26,9 @@ const navigation = [
   { label: "Trang chủ", href: "/" },
   { label: "Sản phẩm", href: "/danh-muc", products: true },
   { label: "Báo giá", href: "/bao-gia" },
-  { label: "Dự Án", href: "/du-an" },
+  { label: "Dự Án", href: "/chuyen-muc/du-an" },
   { label: "Liên hệ", href: "/lien-he" },
-  { label: "Tin tức", href: "/chuyen-muc" },
+  { label: "Tin tức", href: "/chuyen-muc/tin-tuc" },
 ];
 
 function DesktopCategoryBranch({
@@ -132,7 +132,7 @@ export function SiteHeader({ settings, catalogCategories }: SiteHeaderProps) {
   return (
     <header className="fixed top-0 z-50 w-full font-LexendDeca">
       <div className="hidden bg-black d:block">
-        <div className="mx-auto grid h-[100px] w-[1200px] grid-cols-4 items-center justify-between">
+        <div className="mx-auto grid h-[100px] w-[1600px] grid-cols-4 items-center justify-between">
           <Link href="/" className="flex h-[100px] items-center">
             {settings.logoUrl ? (
               <Image src={settings.logoUrl} alt={siteName} width={100} height={100} priority className="h-[94px] w-[100px] object-contain" />

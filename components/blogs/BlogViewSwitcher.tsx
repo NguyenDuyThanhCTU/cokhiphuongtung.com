@@ -1,8 +1,9 @@
 /* Hallmark · pre-emit critique: P4 H4 E5 S5 R5 V4 */
 "use client";
 
-import { Grid3X3, List } from "lucide-react";
-import { useEffect, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
+import { BsGrid3X3Gap, BsListUl } from "react-icons/bs";
 
 import type { BlogPost } from "@/features/content/types";
 import { BlogCard } from "@/components/home/HomeNews";
@@ -10,9 +11,26 @@ import { BlogCard } from "@/components/home/HomeNews";
 type ViewMode = "list" | "grid";
 
 const COMPACT_VIEW_QUERY = "(max-width: 1280px)";
+const PAGE_SIZE: Record<ViewMode, number> = {
+  list: 5,
+  grid: 9,
+};
 
-export default function BlogViewSwitcher({ posts }: { posts: BlogPost[] }) {
-  const [selectedMode, setSelectedMode] = useState<ViewMode>("list");
+function parsePage(value: string | null) {
+  const page = Number(value);
+  return Number.isInteger(page) && page > 0 ? page : 1;
+}
+
+export default function BlogViewSwitcher({
+  posts,
+  categorySlug,
+}: {
+  posts: BlogPost[];
+  categorySlug: string;
+}) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [isCompactViewport, setIsCompactViewport] = useState(false);
 
   useEffect(() => {
@@ -24,45 +42,83 @@ export default function BlogViewSwitcher({ posts }: { posts: BlogPost[] }) {
     return () => mediaQuery.removeEventListener("change", syncViewport);
   }, []);
 
-  const effectiveMode: ViewMode = isCompactViewport ? "grid" : selectedMode;
+  const requestedMode: ViewMode = searchParams.get("view") === "grid" ? "grid" : "list";
+  const effectiveMode: ViewMode = isCompactViewport ? "grid" : requestedMode;
+  const pageSize = PAGE_SIZE[effectiveMode];
+  const totalPages = Math.max(1, Math.ceil(posts.length / pageSize));
+  const requestedPage = parsePage(searchParams.get("page"));
+  const currentPage = Math.min(requestedPage, totalPages);
+  const visiblePosts = useMemo(
+    () => posts.slice((currentPage - 1) * pageSize, currentPage * pageSize),
+    [currentPage, pageSize, posts],
+  );
+
+  function updateQuery(mode: ViewMode, page = 1) {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("view", mode);
+
+    if (page > 1) params.set("page", String(page));
+    else params.delete("page");
+
+    router.push(`${pathname}?${params.toString()}`, { scroll: false });
+  }
 
   if (!posts.length) {
     return <div className="border bg-white p-10 text-center text-sm">Nội dung đang được cập nhật.</div>;
   }
 
+  const postHref = (post: BlogPost) => categorySlug === "du-an" ? `/du-an/${post.slug}` : `/bai-viet/${post.slug}`;
+
   return (
-    <section aria-labelledby="all-posts-heading">
+    <section aria-label="Danh sách bài viết">
       <div className="mb-5 flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <h2 id="all-posts-heading" className="text-[22px] font-normal text-mainColorHover">Tất cả bài viết</h2>
-          <p className="mt-1 text-sm text-gray-500">{posts.length} bài viết</p>
-        </div>
+        <p className="mt-1 text-sm text-gray-500">{posts.length} bài viết</p>
 
         <div className="inline-flex border border-mainColorHover bg-white p-1" role="group" aria-label="Chọn chế độ hiển thị bài viết">
           <button
             type="button"
-            onClick={() => setSelectedMode("list")}
+            onClick={() => updateQuery("list")}
             disabled={isCompactViewport}
+            aria-label="Hiển thị dạng danh sách"
             aria-pressed={effectiveMode === "list"}
-            className={`inline-flex min-h-10 items-center gap-2 whitespace-nowrap px-4 text-sm font-medium transition ${effectiveMode === "list" ? "bg-mainColorHover text-white" : "text-mainColorHover hover:bg-mainColor/25"} disabled:cursor-not-allowed disabled:opacity-45`}
+            className={`inline-flex min-h-10 items-center gap-2 whitespace-nowrap px-4 text-sm font-medium transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-mainColorHover active:bg-mainColor ${effectiveMode === "list" ? "bg-mainColorHover text-white" : "text-mainColorHover hover:bg-mainColor/25"} disabled:cursor-not-allowed disabled:opacity-45`}
             title={isCompactViewport ? "Chế độ 2 được dùng tự động khi màn hình thu hẹp hoặc phóng to" : "Hiển thị dạng danh sách"}
           >
-            <List size={17} aria-hidden="true" /> Chế độ 1
+            <BsListUl size={17} aria-hidden="true" />
           </button>
           <button
             type="button"
-            onClick={() => setSelectedMode("grid")}
+            onClick={() => updateQuery("grid")}
+            aria-label="Hiển thị dạng lưới"
             aria-pressed={effectiveMode === "grid"}
-            className={`inline-flex min-h-10 items-center gap-2 whitespace-nowrap px-4 text-sm font-medium transition ${effectiveMode === "grid" ? "bg-mainColorHover text-white" : "text-mainColorHover hover:bg-mainColor/25"}`}
+            className={`inline-flex min-h-10 items-center gap-2 whitespace-nowrap px-4 text-sm font-medium transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-mainColorHover active:bg-mainColor disabled:cursor-not-allowed disabled:opacity-45 ${effectiveMode === "grid" ? "bg-mainColorHover text-white" : "text-mainColorHover hover:bg-mainColor/25"}`}
+            title="Hiển thị dạng lưới"
           >
-            <Grid3X3 size={17} aria-hidden="true" /> Chế độ 2
+            <BsGrid3X3Gap size={17} aria-hidden="true" />
           </button>
         </div>
       </div>
 
       <div className={effectiveMode === "list" ? "flex flex-col gap-7" : "grid gap-6 sm:grid-cols-2 md:grid-cols-3"}>
-        {posts.map((post) => <BlogCard key={post.id} Data={post} variant={effectiveMode} />)}
+        {visiblePosts.map((post) => <BlogCard key={post.id} Data={post} variant={effectiveMode} href={postHref(post)} />)}
       </div>
+
+      {totalPages > 1 ? (
+        <nav className="mt-9 flex flex-wrap justify-center gap-2" aria-label="Phân trang bài viết">
+          {Array.from({ length: totalPages }, (_, index) => index + 1).map((page) => (
+            <button
+              key={page}
+              type="button"
+              onClick={() => updateQuery(effectiveMode, page)}
+              aria-current={page === currentPage ? "page" : undefined}
+              aria-label={`Trang ${page}`}
+              className={`flex h-10 min-w-10 items-center justify-center border px-3 text-sm font-medium transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-mainColorHover active:bg-mainColor disabled:cursor-not-allowed disabled:opacity-45 ${page === currentPage ? "border-mainColorHover bg-mainColorHover text-white" : "border-mainColorHover/40 bg-white text-mainColorHover hover:border-mainColorHover hover:bg-mainColor/25"}`}
+            >
+              {page}
+            </button>
+          ))}
+        </nav>
+      ) : null}
     </section>
   );
 }

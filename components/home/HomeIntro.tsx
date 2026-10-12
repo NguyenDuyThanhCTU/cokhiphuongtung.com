@@ -11,7 +11,7 @@ export default function HomeIntro({ post, settings }: { post?: BlogPost; setting
         <div className="flex gap-2 py-5 p:flex-col p:px-0 d:flex-row d:px-5">
           <div className="flex h-[500px] flex-[45%] items-center justify-center">
             <div className="p:h-auto p:w-auto ">
-              {post?.thumbnailUrl ? <Image src={post.thumbnailUrl} alt={post.title} width={800} height={600} className="h-full w-full border-4 border-white object-cover" /> : <div className="flex h-full min-h-[280px] w-full items-center justify-center border-4 border-white bg-mainColorHover text-5xl font-semibold text-mainColor">PT</div>}
+              {post?.thumbnailUrl ? <Image src={post.thumbnailUrl} alt={post.title} width={800} height={600} className="h-full w-full  object-cover" /> : <div className="flex h-full min-h-[280px] w-full items-center justify-center border-4 border-white bg-mainColorHover text-5xl font-semibold text-mainColor">PT</div>}
             </div>
           </div>
           <div className="flex-[55%] text-white p:px-3 d:px-10">

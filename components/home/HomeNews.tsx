@@ -5,11 +5,11 @@ import { ArrowRight, CalendarDays } from "lucide-react";
 import type { BlogPost } from "@/features/content/types";
 import { formatDate } from "@/lib/utils/format-date";
 
-export const BlogCard = ({ Data, variant = "list" }: { Data: BlogPost; variant?: "list" | "grid" }) => {
+export const BlogCard = ({ Data, variant = "list", href }: { Data: BlogPost; variant?: "list" | "grid"; href?: string }) => {
   const date = Data.publishedAt ?? Data.createdAt;
   const isGrid = variant === "grid";
   return (
-    <Link href={`/bai-viet/${Data.slug}`} className={`group block cursor-pointer rounded-lg border border-gray-300 bg-white transition hover:border-mainColorHover hover:shadow-md ${isGrid ? "h-full" : ""}`}>
+    <Link href={href ?? `/bai-viet/${Data.slug}`} className={`group block cursor-pointer rounded-lg border border-gray-300 bg-white transition hover:border-mainColorHover hover:shadow-md ${isGrid ? "h-full" : ""}`}>
       <article className="flex h-full flex-col p-4">
         <div className={isGrid ? "flex flex-1 flex-col gap-4" : "grid grid-cols-1 gap-5 sm:grid-cols-6"}>
           <div className={isGrid ? "h-[220px] w-full overflow-hidden" : "h-[180px] overflow-hidden sm:col-span-2 sm:h-[200px]"}>
@@ -32,7 +32,7 @@ export default function HomeNews({ Data }: { Data: BlogPost[] }) {
             <p className="font-UTMFleur text-[38px] leading-none text-mainColorHover">Chuyện nghề & cảm hứng</p>
             <h2 className="mt-3 font-UTMAmericanSans text-[31px] uppercase tracking-[0.08em] text-[#2d2116] d:text-[40px]">Tin tức</h2>
           </div>
-          <Link href="/chuyen-muc" className="inline-flex items-center gap-2 border-b border-mainColorHover pb-1 text-sm font-semibold text-mainColorHover transition hover:text-mainColor">Xem tất cả bài viết <ArrowRight size={17} aria-hidden="true" /></Link>
+          <Link href="/chuyen-muc/tin-tuc" className="inline-flex items-center gap-2 border-b border-mainColorHover pb-1 text-sm font-semibold text-mainColorHover transition hover:text-mainColor">Xem tất cả bài viết <ArrowRight size={17} aria-hidden="true" /></Link>
         </header>
 
         {Data.length ? (

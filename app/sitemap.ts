@@ -89,6 +89,12 @@ function getItems(payload: unknown): RawSitemapItem[] {
 }
 
 function normalizeLegacyPath(pathname: string) {
+  if (pathname === "/chuyen-muc") {
+    return "/chuyen-muc/tin-tuc";
+  }
+  if (pathname === "/du-an") {
+    return "/chuyen-muc/du-an";
+  }
   if (pathname.startsWith("/blog/category/")) {
     return pathname.replace(/^\/blog\/category\//, "/chuyen-muc/");
   }
@@ -120,9 +126,9 @@ function fallbackSitemap(siteUrl: string): MetadataRoute.Sitemap {
   return [
     { url: `${siteUrl}/`, lastModified: now, changeFrequency: "daily", priority: 1 },
     { url: `${siteUrl}/danh-muc`, lastModified: now, changeFrequency: "daily", priority: 0.9 },
-    { url: `${siteUrl}/chuyen-muc`, lastModified: now, changeFrequency: "weekly", priority: 0.7 },
+    { url: `${siteUrl}/chuyen-muc/tin-tuc`, lastModified: now, changeFrequency: "weekly", priority: 0.7 },
     { url: `${siteUrl}/lien-he`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },
-    { url: `${siteUrl}/du-an`, lastModified: now, changeFrequency: "weekly", priority: 0.8 },
+    { url: `${siteUrl}/chuyen-muc/du-an`, lastModified: now, changeFrequency: "weekly", priority: 0.8 },
     { url: `${siteUrl}/video`, lastModified: now, changeFrequency: "weekly", priority: 0.7 },
     { url: `${siteUrl}/chinh-sach`, lastModified: now, changeFrequency: "monthly", priority: 0.5 },
     { url: `${siteUrl}/bao-gia`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },

@@ -1,50 +1,47 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
+import BlogsH1 from "@/components/blogs/BlogsH1";
+import BlogViewSwitcher from "@/components/blogs/BlogViewSwitcher";
+import {
+  buildCategoryTreeContext,
+  filterBlogPostsByCategory,
+} from "@/components/blogs/BlogSlug/blog-category-filter";
 import {
   getBlogPosts,
   getPostCategories,
 } from "@/features/content/services/content.service";
-import {
-  BlogCategorySearchParams,
-  buildCategoryTreeContext,
-  filterBlogPostsByCategory,
-  findRootCategoryBySlug,
-  parseBlogCategorySearchParams,
-} from "@/components/blogs/BlogSlug/blog-category-filter";
-import BlogCategoryHero from "@/components/blogs/BlogSlug/BlogCategoryHero";
-import BlogCategoryFilters from "@/components/blogs/BlogSlug/BlogCategoryFilters";
-import BlogCategoryPostGrid from "@/components/blogs/BlogSlug/BlogCategoryPostGrid";
-import BlogCategoryPagination from "@/components/blogs/BlogSlug/BlogCategoryPagination";
 
 export type CategoryBlogPageProps = {
   params: {
     slug: string[];
   };
-  searchParams?: BlogCategorySearchParams;
 };
 
-async function loadCategoryPageData(mainCategorySlug: string) {
+async function loadCategoryPageData(categorySlug: string) {
   try {
     const [posts, categories] = await Promise.all([
       getBlogPosts(),
       getPostCategories(),
     ]);
-
     const categoryContext = buildCategoryTreeContext(categories);
-    const rootCategory = findRootCategoryBySlug(
-      categoryContext,
-      mainCategorySlug,
+    const category = categoryContext.flatCategories.find(
+      (item) => item.slug === categorySlug,
     );
 
-    if (!rootCategory) {
-      notFound();
-    }
+    if (!category) notFound();
+
+    const result = filterBlogPostsByCategory(posts, category, categoryContext, {
+      q: "",
+      subSlugs: [],
+      sort: "newest",
+      page: 1,
+      limit: 9,
+    });
 
     return {
-      posts,
-      categoryContext,
-      rootCategory,
+      category,
+      posts: result.filteredPosts,
     };
   } catch (error: unknown) {
     if (process.env.NODE_ENV === "development") {
@@ -55,91 +52,39 @@ async function loadCategoryPageData(mainCategorySlug: string) {
   }
 }
 
-function getMainCategorySlug(params: CategoryBlogPageProps["params"]) {
-  const [mainCategorySlug, ...restSlugs] = params.slug ?? [];
+function getCategorySlug(params: CategoryBlogPageProps["params"]) {
+  const [categorySlug, ...restSlugs] = params.slug ?? [];
 
-  if (!mainCategorySlug || restSlugs.length > 0) {
-    notFound();
-  }
+  if (!categorySlug || restSlugs.length > 0) notFound();
 
-  return mainCategorySlug;
+  return categorySlug;
 }
 
 export async function generateMetadata({
   params,
 }: CategoryBlogPageProps): Promise<Metadata> {
-  const mainCategorySlug = getMainCategorySlug(params);
-  const { rootCategory } = await loadCategoryPageData(mainCategorySlug);
-
-  const title = `${rootCategory.name} - Bài viết`;
-  const description =
-    rootCategory.description ??
-    `Tổng hợp các bài viết mới nhất thuộc chuyên mục ${rootCategory.name}.`;
+  const categorySlug = getCategorySlug(params);
+  const { category } = await loadCategoryPageData(categorySlug);
+  const title = category.slug === "du-an" ? "Dự án đã triển khai" : category.name;
+  const description = category.description ?? `Tổng hợp các bài viết mới nhất thuộc chuyên mục ${category.name}.`;
 
   return {
     title,
     description,
-    alternates: { canonical: `/chuyen-muc/${rootCategory.slug}` },
-    openGraph: {
-      title,
-      description,
-      type: "website",
-    },
+    alternates: { canonical: `/chuyen-muc/${category.slug}` },
+    openGraph: { title, description, type: "website" },
   };
 }
 
-export default async function CategoryBlogPage({
-  params,
-  searchParams = {},
-}: CategoryBlogPageProps) {
-  const mainCategorySlug = getMainCategorySlug(params);
-  const query = parseBlogCategorySearchParams(searchParams);
-  const { posts, categoryContext, rootCategory } =
-    await loadCategoryPageData(mainCategorySlug);
-
-  const result = filterBlogPostsByCategory(
-    posts,
-    rootCategory,
-    categoryContext,
-    query,
-  );
+export default async function CategoryBlogPage({ params }: CategoryBlogPageProps) {
+  const categorySlug = getCategorySlug(params);
+  const { category, posts } = await loadCategoryPageData(categorySlug);
 
   return (
     <>
-      <BlogCategoryHero
-        category={rootCategory}
-        totalPosts={result.categoryPosts.length}
-        filteredPosts={result.totalFiltered}
-        searchTerm={query.q}
-      />
-
-      <BlogCategoryFilters
-        mainCategorySlug={mainCategorySlug}
-        childCategories={result.childCategories}
-        selectedSubSlugs={result.selectedChildCategories.map(
-          (category) => category.slug,
-        )}
-        q={query.q}
-        sort={query.sort}
-        limit={query.limit}
-      />
-
-      <div className="min-h-screen bg-bgcontent py-10">
-        <div className="mx-auto w-full max-w-[1200px] px-4 py-5 sm:px-6 d:px-0">
-          <BlogCategoryPostGrid posts={result.paginatedPosts} />
-
-          <BlogCategoryPagination
-            mainCategorySlug={mainCategorySlug}
-            currentPage={result.currentPage}
-            totalPages={result.totalPages}
-            q={query.q}
-            selectedSubSlugs={result.selectedChildCategories.map(
-              (category) => category.slug,
-            )}
-            sort={query.sort}
-            limit={query.limit}
-          />
-        </div>
+      <BlogsH1 Content={category.name} />
+      <div className="min-h-screen">
+        <BlogViewSwitcher posts={posts} categorySlug={category.slug} />
       </div>
     </>
   );
