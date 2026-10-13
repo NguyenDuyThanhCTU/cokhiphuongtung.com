@@ -13,7 +13,7 @@ export default async function ContactPage() {
   const settings = await getPublicSiteSettings();
 
   return (
-      <div className="p:mx-2 p:w-auto d:mx-auto d:w-[1300px]">
+      <div className="p:mx-5 p:w-auto d:mx-auto ">
           <Contact settings={settings} />
       </div>
   );

@@ -20,7 +20,7 @@ export function SiteFooter({ settings }: SiteFooterProps) {
   return (
     <footer className="font-LexendDeca text-white">
       <div className="bg-mainColorHover">
-        <div className="grid gap-10 py-10 p:mx-2 p:w-auto p:grid-cols-1 d:mx-auto d:w-[1200px] d:grid-cols-3 d:text-[16px]">
+        <div className="grid gap-10 py-10 p:px-5 p:w-auto p:grid-cols-1 d:mx-auto  d:grid-cols-3 d:text-[16px]">
           <section>
             <h2 className="text-[22px] font-normal uppercase">{siteName}</h2>
             <div className="mt-3 flex flex-col gap-2 text-[15px]">

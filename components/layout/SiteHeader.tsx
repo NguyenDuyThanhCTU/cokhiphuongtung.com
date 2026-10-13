@@ -194,9 +194,9 @@ export function SiteHeader({ settings, catalogCategories }: SiteHeaderProps) {
               ))}
             </nav>
 
-            <form onSubmit={submitSearch} className="relative ml-2 flex items-center bg-mainColorHover">
-              <div className="flex bg-white px-3 py-2">
-                <input value={search} onChange={(event) => setSearch(event.target.value)} className="outline-none" placeholder="Tìm kiếm ..." aria-label="Tìm kiếm sản phẩm" />
+            <form onSubmit={submitSearch} className="pr-2 relative flex items-center  bg-mainColorHover w-[390px]">
+              <div className="flex bg-white px-3 py-2 w-full justify-between">
+                <input value={search} onChange={(event) => setSearch(event.target.value)} className="outline-none w-full" placeholder="Tìm kiếm ..." aria-label="Tìm kiếm sản phẩm" />
                 <button type="submit" className="border-l-2 border-mainColorHover pl-2 text-[20px]" aria-label="Tìm kiếm"><IoIosSearch /></button>
               </div>
             </form>
