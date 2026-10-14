@@ -3,7 +3,7 @@
 
 import Image from "next/image";
 import { ChevronLeft, ChevronRight, Quote, Star } from "lucide-react";
-import { A11y, Navigation, Pagination } from "swiper/modules";
+import { A11y, Navigation, Pagination, Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -55,7 +55,7 @@ export default function CustomerReviewSection({ testimonials }: { settings: Publ
         {hasMoreThanOnePage ? (
           <div className="customer-review-carousel mt-10">
             <Swiper
-              modules={[A11y, Navigation, Pagination]}
+              modules={[A11y, Navigation, Pagination, Autoplay]}
               slidesPerView={1}
               slidesPerGroup={1}
               spaceBetween={24}
@@ -79,6 +79,11 @@ export default function CustomerReviewSection({ testimonials }: { settings: Publ
                 containerMessage: "Danh sách đánh giá từ khách hàng",
                 slideLabelMessage: "Nhóm đánh giá {{index}} trên {{slidesLength}}",
               }}
+              autoplay={
+                { delay: 4000,
+                disableOnInteraction: false,
+                waitForTransition: false,}
+              }
               className="customer-review-swiper"
             >
               {testimonialPages.map((page, pageIndex) => (

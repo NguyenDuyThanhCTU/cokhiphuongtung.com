@@ -132,7 +132,7 @@ export function SiteHeader({ settings, catalogCategories }: SiteHeaderProps) {
   return (
     <header className="fixed top-0 z-50 w-full font-LexendDeca">
       <div className="hidden bg-black d:block">
-        <div className="mx-auto grid h-[100px] w-full px-5 grid-cols-4 items-center justify-between">
+        <div className="relative mx-auto grid h-[100px] w-full grid-cols-4 items-center justify-between px-5">
           <Link href="/" className="flex h-[100px] items-center">
             {settings.logoUrl ? (
               <Image src={settings.logoUrl} alt={siteName} width={100} height={100} priority className="h-[94px] w-[100px] object-contain" />
@@ -145,9 +145,9 @@ export function SiteHeader({ settings, catalogCategories }: SiteHeaderProps) {
             <Image src="https://pub-84f5bb6490a34f289a7c796e2210e0fc.r2.dev/cokhiphuongtung/1787679691249-z5224833034659_98bc73f9a5398df649cd6675ebad5b95.webp" alt={settings.slogan || siteName} width={1000} height={500} className="h-full w-full object-contain py-2" />
           </Link>
 
-         <div className="w-full flex justify-end">
+         <div className="absolute right-5 top-1/2 flex w-[calc((100%_-_4.5rem)_/_3)] -translate-y-1/2 justify-end lg:w-[calc((100%_-_6.5rem)_/_5)]">
   {/* Khung viền sắt đen nguyên khối */}
-<div className="relative h-[80px]  group cursor-pointer p-1 w-[360px]">
+<div className="group relative h-[80px] w-full cursor-pointer p-1">
     <div className="absolute inset-0 bg-gradient-to-b from-zinc-800 via-zinc-900 to-black border-[3px] border-zinc-700 rounded-sm shadow-[0_5px_15px_rgba(0,0,0,0.8),inset_0_2px_4px_rgba(255,255,255,0.15)] transition-all duration-300 group-hover:border-orange-800 group-hover:shadow-[0_0_20px_rgba(194,65,12,0.5),inset_0_2px_4px_rgba(255,255,255,0.1)]"></div>
 
   {/* Đường viền trang trí chìm bên trong (phong cách cổng sắt) */}
@@ -177,7 +177,7 @@ export function SiteHeader({ settings, catalogCategories }: SiteHeaderProps) {
         </div>
 
         <div className="bg-mainColorHover">
-          <div className="mx-auto flex w-full px-5 justify-between">
+          <div className="mx-auto flex w-full justify-between px-5">
             <nav className="flex items-center" aria-label="Điều hướng chính">
               {navigation.map((item, index) => (
                 <div key={item.href} className="group relative">
@@ -196,7 +196,7 @@ export function SiteHeader({ settings, catalogCategories }: SiteHeaderProps) {
               ))}
             </nav>
 
-            <form onSubmit={submitSearch} className=" relative flex items-center  bg-mainColorHover w-[360px]">
+            <form onSubmit={submitSearch} className="relative flex w-[calc((100%_-_2rem)_/_3)] shrink-0 items-center bg-mainColorHover lg:w-[calc((100%_-_4rem)_/_5)]">
               <div className="flex bg-white px-3 py-2 w-full justify-between">
                 <input value={search} onChange={(event) => setSearch(event.target.value)} className="outline-none w-full" placeholder="Tìm kiếm ..." aria-label="Tìm kiếm sản phẩm" />
                 <button type="submit" className="border-l-2 border-mainColorHover pl-2 text-[20px]" aria-label="Tìm kiếm"><IoIosSearch /></button>
