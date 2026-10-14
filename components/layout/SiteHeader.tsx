@@ -145,9 +145,10 @@ export function SiteHeader({ settings, catalogCategories }: SiteHeaderProps) {
             <Image src="https://pub-84f5bb6490a34f289a7c796e2210e0fc.r2.dev/cokhiphuongtung/1787679691249-z5224833034659_98bc73f9a5398df649cd6675ebad5b95.webp" alt={settings.slogan || siteName} width={1000} height={500} className="h-full w-full object-contain py-2" />
           </Link>
 
-         <div className="relative h-[80px] w-full max-w-sm mx-auto group cursor-pointer p-1 mr-2 ">
+         <div className="w-full flex justify-end">
   {/* Khung viền sắt đen nguyên khối */}
-  <div className="absolute inset-0 bg-gradient-to-b from-zinc-800 via-zinc-900 to-black border-[3px] border-zinc-700 rounded-sm shadow-[0_5px_15px_rgba(0,0,0,0.8),inset_0_2px_4px_rgba(255,255,255,0.15)] transition-all duration-300 group-hover:border-orange-800 group-hover:shadow-[0_0_20px_rgba(194,65,12,0.5),inset_0_2px_4px_rgba(255,255,255,0.1)]"></div>
+<div className="relative h-[80px]  group cursor-pointer p-1 w-[360px]">
+    <div className="absolute inset-0 bg-gradient-to-b from-zinc-800 via-zinc-900 to-black border-[3px] border-zinc-700 rounded-sm shadow-[0_5px_15px_rgba(0,0,0,0.8),inset_0_2px_4px_rgba(255,255,255,0.15)] transition-all duration-300 group-hover:border-orange-800 group-hover:shadow-[0_0_20px_rgba(194,65,12,0.5),inset_0_2px_4px_rgba(255,255,255,0.1)]"></div>
 
   {/* Đường viền trang trí chìm bên trong (phong cách cổng sắt) */}
   <div className="absolute inset-2 border border-zinc-600/40 rounded-sm transition-colors duration-300 group-hover:border-orange-900/50"></div>
@@ -172,6 +173,7 @@ export function SiteHeader({ settings, catalogCategories }: SiteHeaderProps) {
     <span className="">Hotline: {hotline}</span>
   </a>
 </div>
+</div>
         </div>
 
         <div className="bg-mainColorHover">
@@ -194,7 +196,7 @@ export function SiteHeader({ settings, catalogCategories }: SiteHeaderProps) {
               ))}
             </nav>
 
-            <form onSubmit={submitSearch} className="pr-2 relative flex items-center  bg-mainColorHover w-[390px]">
+            <form onSubmit={submitSearch} className=" relative flex items-center  bg-mainColorHover w-[360px]">
               <div className="flex bg-white px-3 py-2 w-full justify-between">
                 <input value={search} onChange={(event) => setSearch(event.target.value)} className="outline-none w-full" placeholder="Tìm kiếm ..." aria-label="Tìm kiếm sản phẩm" />
                 <button type="submit" className="border-l-2 border-mainColorHover pl-2 text-[20px]" aria-label="Tìm kiếm"><IoIosSearch /></button>

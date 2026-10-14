@@ -29,13 +29,11 @@ export const InterprovincialCard = ({
 }) => (
   <Link
     href={`/san-pham/${Data.slug}`}
-    className="group block h-full cursor-pointer"
+    className="group block h-full cursor-pointer w-[360px]"
   >
     <article className="flex h-full  flex-col border border-[#d8c391] bg-white shadow-[0_8px_24px_rgba(59,40,20,0.08)] transition duration-300 group-hover:-translate-y-1 group-hover:border-mainColorHover group-hover:shadow-[0_16px_32px_rgba(59,40,20,0.16)]">
       <div className="relative flex h-[220px] w-full items-center justify-center overflow-hidden bg-[#faf8f2]">
         {Data.thumbnailUrl ? <Image src={Data.thumbnailUrl} alt={Data.title} width={500} height={500} className="h-full w-full object-contain p-2 duration-500 group-hover:scale-105" /> : <div className="flex h-full w-full items-center justify-center text-mainColorHover">Đang cập nhật</div>}
-        <span className="absolute left-2 top-2 h-5 w-5 border-l border-t border-mainColorHover/50" />
-        <span className="absolute bottom-2 right-2 h-5 w-5 border-b border-r border-mainColorHover/50" />
       </div>
       <div className="flex  flex-col items-center gap-2 border-t border-[#eadfbe] px-4 py-4 text-center h-max">
         <h3 className="truncate2 font-medium leading-6 text-[#332514] transition group-hover:text-mainColorHover">{Data.title}</h3>
@@ -178,7 +176,7 @@ export default function HomeProducts({
             </div>
 
             {visibleItems.length ? (
-              <div className="grid w-full gap-4 p:grid-cols-2 d:grid-cols-5">
+              <div className="grid w-full gap-4 p:grid-cols-1 d:grid-cols-5">
                 {visibleItems.slice(0, MAX_PRODUCTS_PER_COLLECTION).map((item) => <InterprovincialCard key={item.id || item.slug} Data={item} />)}
               </div>
             ) : (

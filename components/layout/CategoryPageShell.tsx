@@ -107,7 +107,7 @@ function CategorySidebar({ categories, posts, pathname }: { categories: CatalogC
 
   return (
     <aside className="flex flex-col gap-3  items-end">
-      <div className="max-w-[390px] pr-2">
+      <div className="max-w-[360px] ">
               <SidebarPanel title="Danh mục sản phẩm">
         <nav aria-label="Danh mục sản phẩm">
           {roots.map((category) => (
@@ -133,5 +133,5 @@ export default function CategoryPageShell({ children, categories, posts }: { chi
   if (pathname === "/lien-he" || pathname === "/gioi-thieu") return <>{children}</>;
   if (pathname.startsWith("/chuyen-muc")) return <div className="mx-2 py-10 d:mx-5">{children}</div>;
 
-  return <div className="grid gap-5 py-10 p:px-5 p:w-auto p:grid-cols-1 d:mx-auto w-full d:grid-cols-4"><div className="col-span-3 min-w-0">{children}</div><CategorySidebar categories={categories} posts={posts} pathname={pathname} /></div>;
+  return <div className="grid gap-5 py-10 p:px-5 p:w-auto p:grid-cols-1 d:mx-auto w-full d:grid-cols-5"><div className="col-span-4 min-w-0">{children}</div><CategorySidebar categories={categories} posts={posts} pathname={pathname} /></div>;
 }

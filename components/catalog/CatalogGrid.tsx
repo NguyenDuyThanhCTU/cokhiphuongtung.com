@@ -8,7 +8,7 @@ type CatalogGridProps = {
 
 export function CatalogGrid({ items, hotline }: CatalogGridProps) {
   return (
-    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 d:grid-cols-3">
+    <div className="grid grid-cols-1 gap-5 sm:grid-cols-1 d:grid-cols-4">
       {items.map((item) => (
         <div key={item.id}>
           <InterprovincialCard Data={item} Hotline={hotline} />

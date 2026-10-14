@@ -25,7 +25,7 @@ export default function Contact({ settings }: { settings: PublicSiteSettings }) 
       <div className="grid gap-5 font-extralight p:grid-cols-1 d:grid-cols-2">
         <div className="min-h-[520px] w-full border-r">{settings.mapIframe ? <div className="h-full w-full [&_iframe]:h-full [&_iframe]:w-[80%]" dangerouslySetInnerHTML={{ __html: settings.mapIframe }} /> : null}</div>
         <div>
-          <div className="flex flex-col gap-5"><h2 className="text-[26px] font-bold">Liên hệ</h2><div className="h-1 w-10 bg-black" /></div>
+          <div className="flex flex-col gap-5"><h2 className="text-[50px] font-bold">Liên hệ</h2><div className="h-1 w-10 bg-black" /></div>
           <p className="mt-5 py-2">Mọi thông tin liên hệ hợp tác, đặt hàng, tư vấn sản phẩm xin vui lòng liên hệ với chúng tôi qua</p>
           <div className="flex flex-col gap-5">
             <h2 className="text-[25px] font-normal uppercase text-red-500">Công ty TNHH Cơ Khí - Xây dựng Phương Tùng</h2>

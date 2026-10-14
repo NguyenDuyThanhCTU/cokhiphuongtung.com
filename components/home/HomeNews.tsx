@@ -12,10 +12,10 @@ export const BlogCard = ({ Data, variant = "list", href }: { Data: BlogPost; var
     <Link href={href ?? `/bai-viet/${Data.slug}`} className={`group block cursor-pointer rounded-lg border border-gray-300 bg-white transition hover:border-mainColorHover hover:shadow-md ${isGrid ? "h-full" : ""}`}>
       <article className="flex h-full flex-col p-4">
         <div className={isGrid ? "flex flex-1 flex-col gap-4" : "grid grid-cols-1 gap-5 sm:grid-cols-6"}>
-          <div className={isGrid ? "h-[220px] w-full overflow-hidden" : "h-[180px] overflow-hidden sm:col-span-2 sm:h-[200px]"}>
+          <div className={isGrid ? "  sm:h-[600px] sm:h-[400px] overflow-hidden " : " overflow-hidden sm:col-span-2 sm:h-[600px] sm:h-[400px]"}>
             {Data.thumbnailUrl ? <Image src={Data.thumbnailUrl} alt={Data.title} width={400} height={400} className="h-full w-full object-cover" /> : <div className="h-full w-full bg-gray-200" />}
           </div>
-          <div className={isGrid ? "font-bold text-mainColorHover" : "font-bold text-mainColorHover sm:col-span-4"}><h2>{Data.title}</h2>{Data.excerpt ? <p className={`mt-2 text-[12px] font-light leading-6 text-black ${isGrid ? "line-clamp-3" : ""}`}>{Data.excerpt} ...</p> : null}</div>
+          <div className={isGrid ? "font-bold text-mainColorHover text-[30px]" : "font-bold text-mainColorHover sm:col-span-4 text-[30px]"}><h2>{Data.title}</h2>{Data.excerpt ? <p className={`mt-2 text-[12px] font-light leading-6 text-black ${isGrid ? "line-clamp-3" : ""}`}>{Data.excerpt} ...</p> : null}</div>
         </div>
         <div className="mt-4 flex items-center justify-between border-y border-gray-200 py-1 text-[14px] text-mainColorHover"><p>{date ? formatDate(date) : ""}</p><span className="duration-300 hover:text-blue-500">Xem thêm</span></div>
       </article>
