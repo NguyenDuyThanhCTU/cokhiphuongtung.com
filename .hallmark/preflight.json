@@ -1,0 +1,9 @@
+{
+  "scannedAt": "2026-10-14",
+  "framework": "Next.js 13.5.11 (App Router)",
+  "styling": "Tailwind CSS 3 with project theme tokens",
+  "fonts": ["Lexend Deca", "iCielPequena", "UTMAmericanSans", "UTMFleur"],
+  "palette": "Warm yellow and brown brand palette from tailwind.config.ts and styles/globals.css",
+  "motion": "Motion-cut; Swiper is available for purposeful carousel interaction",
+  "spacing": "Tailwind 4px-derived spacing scale"
+}

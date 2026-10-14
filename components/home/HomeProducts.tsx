@@ -100,7 +100,7 @@ export default function HomeProducts({
       <header className="mx-auto max-w-3xl px-4 py-10 text-center ">
         <p className="font-UTMFleur text-[68px] leading-none text-mainColorHover">Tinh hoa trong từng đường nét</p>
         <h2 className="sr-only">Danh mục sắt mỹ thuật</h2>
-        <div className="mx-auto mt-5 flex max-w-[360px] items-center justify-center gap-3"><span className="h-px flex-1 bg-mainColorHover/40" /><span className="h-3 w-3 rotate-45 border border-mainColorHover bg-mainColor" /><span className="h-px flex-1 bg-mainColorHover/40" /></div>
+        <div className="mx-auto mt-12 flex max-w-[360px] items-center justify-center gap-3"><span className="h-px flex-1 bg-mainColorHover/40" /><span className="h-3 w-3 rotate-45 border border-mainColorHover bg-mainColor" /><span className="h-px flex-1 bg-mainColorHover/40" /></div>
       </header>
 
       <div>

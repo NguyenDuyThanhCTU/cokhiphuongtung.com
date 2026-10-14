@@ -40,6 +40,8 @@
   --brand-yellow-dark: #c98200;
   --brand-ink: #1f2937;
   --brand-surface: #fffdf5;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-micro: 120ms;
 }
 
 * {
@@ -178,6 +180,102 @@ img {
   min-height: 220px;
   border: 0;
   border-radius: 16px;
+}
+
+.customer-review-swiper {
+  --swiper-pagination-color: var(--brand-yellow-dark);
+}
+
+.customer-review-swiper .swiper-wrapper {
+  align-items: stretch;
+}
+
+.customer-review-swiper .swiper-slide {
+  height: auto;
+}
+
+.customer-review-controls {
+  display: flex;
+  min-height: 32px;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.customer-review-prev,
+.customer-review-next {
+  position: relative;
+  display: inline-flex;
+  width: 32px;
+  height: 32px;
+  flex: 0 0 32px;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 1px solid var(--brand-yellow-dark);
+  background: var(--brand-surface);
+  color: var(--brand-yellow-dark);
+  cursor: pointer;
+  transition: background-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out), transform var(--dur-micro) var(--ease-out);
+}
+
+.customer-review-prev::before,
+.customer-review-next::before {
+  position: absolute;
+  inset: -6px;
+  content: "";
+}
+
+.customer-review-prev:focus-visible,
+.customer-review-next:focus-visible {
+  outline: 3px solid var(--brand-yellow-dark);
+  outline-offset: 2px;
+}
+
+.customer-review-prev:active,
+.customer-review-next:active {
+  transform: translateY(1px);
+}
+
+.customer-review-prev:disabled,
+.customer-review-next:disabled,
+.customer-review-prev.swiper-button-disabled,
+.customer-review-next.swiper-button-disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.customer-review-pagination {
+  position: static !important;
+  display: flex;
+  width: auto !important;
+  min-width: 24px;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+  transform: none !important;
+}
+
+.customer-review-pagination .swiper-pagination-bullet {
+  width: 7px;
+  height: 7px;
+  margin: 0 3px !important;
+  border: 1px solid var(--brand-yellow-dark);
+  background: transparent;
+  opacity: 1;
+}
+
+.customer-review-pagination .swiper-pagination-bullet-active {
+  background: var(--brand-yellow-dark);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .customer-review-prev:hover,
+  .customer-review-next:hover {
+    background: var(--brand-yellow-dark);
+    color: var(--brand-surface);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
