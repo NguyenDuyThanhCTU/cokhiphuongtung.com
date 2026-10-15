@@ -63,7 +63,7 @@ export const BlogCard = ({
               </p>
             ) : null
           ) : Data.content ? (
-            <div className="mt-2 max-h-[288px] overflow-hidden">
+            <div className="mt-2 max-h-[330px] overflow-hidden">
               <HtmlContent html={Data.content} />
             </div>
           ) : previewText ? (
