@@ -9,6 +9,7 @@ import {
 } from "@/components/blogs/BlogSlug/blog-category-filter";
 import {
   getBlogPosts,
+  getOptionalBlogPostBySlug,
   getPostCategories,
 } from "@/features/content/services/content.service";
 
@@ -18,7 +19,10 @@ export type CategoryBlogPageProps = {
   };
 };
 
-async function loadCategoryPageData(categorySlug: string) {
+async function loadCategoryPageData(
+  categorySlug: string,
+  includePostContent = false,
+) {
   try {
     const [posts, categories] = await Promise.all([
       getBlogPosts(),
@@ -39,9 +43,18 @@ async function loadCategoryPageData(categorySlug: string) {
       limit: 9,
     });
 
+    const postsWithContent = includePostContent
+      ? await Promise.all(
+          result.filteredPosts.map(async (post) => {
+            const detailedPost = await getOptionalBlogPostBySlug(post.slug);
+            return detailedPost ? { ...post, ...detailedPost } : post;
+          }),
+        )
+      : result.filteredPosts;
+
     return {
       category,
-      posts: result.filteredPosts,
+      posts: postsWithContent,
     };
   } catch (error: unknown) {
     if (process.env.NODE_ENV === "development") {
@@ -65,8 +78,11 @@ export async function generateMetadata({
 }: CategoryBlogPageProps): Promise<Metadata> {
   const categorySlug = getCategorySlug(params);
   const { category } = await loadCategoryPageData(categorySlug);
-  const title = category.slug === "du-an" ? "Dự án đã triển khai" : category.name;
-  const description = category.description ?? `Tổng hợp các bài viết mới nhất thuộc chuyên mục ${category.name}.`;
+  const title =
+    category.slug === "du-an" ? "Dự án đã triển khai" : category.name;
+  const description =
+    category.description ??
+    `Tổng hợp các bài viết mới nhất thuộc chuyên mục ${category.name}.`;
 
   return {
     title,
@@ -76,9 +92,11 @@ export async function generateMetadata({
   };
 }
 
-export default async function CategoryBlogPage({ params }: CategoryBlogPageProps) {
+export default async function CategoryBlogPage({
+  params,
+}: CategoryBlogPageProps) {
   const categorySlug = getCategorySlug(params);
-  const { category, posts } = await loadCategoryPageData(categorySlug);
+  const { category, posts } = await loadCategoryPageData(categorySlug, true);
 
   return (
     <>

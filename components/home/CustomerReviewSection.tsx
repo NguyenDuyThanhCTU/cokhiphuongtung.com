@@ -30,7 +30,7 @@ function ReviewCard({ item }: { item: Testimonial }) {
         <div><h3 className="font-iCielPequena text-[19px] uppercase text-[#332514]">{item.fullName}</h3>{item.position ? <p className="mt-1 text-xs text-stone-500">{item.position}</p> : null}</div>
       </div>
       <div className="mt-5 flex gap-1" aria-label={`${rating} trên 5 sao`}>{Array.from({ length: 5 }).map((_, starIndex) => <Star key={starIndex} size={16} className={starIndex < rating ? "fill-mainColor text-mainColor" : "text-stone-200"} aria-hidden="true" />)}</div>
-      <p className="mt-5 flex-1 text-sm italic leading-7 text-stone-600">“{item.content}”</p>
+      <p className="mt-5 flex-1 text-sm italic leading-7 text-black font-medium">“{item.content}”</p>
       <div className="mt-5 flex items-center gap-2"><span className="h-px flex-1 bg-[#e2d6bb]" /><span className="h-2 w-2 rotate-45 bg-mainColorHover" /></div>
     </article>
   );

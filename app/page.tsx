@@ -20,7 +20,15 @@ import { getPublicSiteSettings } from "@/features/site/services/site.service";
 const INTRODUCTION_POST_SLUG = "gioi-thieu-ve-co-khi-phuong-tung";
 
 export default async function Home() {
-  const [settings, banners, products, categories, posts, testimonials, introductionPost] = await Promise.all([
+  const [
+    settings,
+    banners,
+    products,
+    categories,
+    posts,
+    testimonials,
+    introductionPost,
+  ] = await Promise.all([
     getPublicSiteSettings(),
     getBanners(),
     getAllCatalogItems({ sort: "sort_order" }),
@@ -32,7 +40,14 @@ export default async function Home() {
   const introduction =
     introductionPost ??
     posts.find((post) => post.slug === INTRODUCTION_POST_SLUG);
-  const news = posts.filter((post) => post.id !== introduction?.id && !isPostInGroup(post, "du-an") && !isPostInGroup(post, "video"));
+  const news = posts
+    .filter(
+      (post) =>
+        post.id !== introduction?.id &&
+        !isPostInGroup(post, "du-an") &&
+        !isPostInGroup(post, "video"),
+    )
+    .slice(0, 6);
 
   return (
     <div className="mb-3">

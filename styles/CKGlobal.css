@@ -1500,6 +1500,13 @@
   color: #cbd5e1;
 }
 
+.dark .ck-content strong,
+.dark .ck-content b,
+[data-theme="dark"] .ck-content strong,
+[data-theme="dark"] .ck-content b {
+  color: #f8fafc;
+}
+
 .dark .ck-content h1,
 .dark .ck-content h2,
 .dark .ck-content h3,
