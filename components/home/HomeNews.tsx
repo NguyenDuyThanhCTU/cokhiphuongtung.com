@@ -105,7 +105,7 @@ export default function HomeNews({ Data }: { Data: BlogPost[] }) {
         </header>
 
         {Data.length ? (
-          <div className="mt-9 grid gap-6 sm:grid-cols-2 d:grid-cols-4">
+          <div className="mt-9 grid gap-6 sm:grid-cols-2 d:grid-cols-3">
             {Data.slice(0, 6).map((item) => {
               const date = item.publishedAt ?? item.createdAt;
               const previewText = getPostPreviewText(item, "excerpt");
@@ -117,7 +117,7 @@ export default function HomeNews({ Data }: { Data: BlogPost[] }) {
                   key={item.id}
                   href={postHref}
                   aria-label={`Xem bài viết ${item.title}`}
-                  className="group cursor-pointer overflow-hidden border border-[#dfd2b5] bg-[#fffdf8] shadow-[0_8px_24px_rgba(59,40,20,.07)]"
+                  className="group cursor-pointer overflow-hidden border border-[#dfd2b5] bg-white shadow-[0_8px_24px_rgba(59,40,20,.07)]"
                 >
                   <Link
                     href={postHref}

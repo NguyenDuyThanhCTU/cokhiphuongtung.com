@@ -42,7 +42,7 @@ export default function HomeIntro({
               )}
             </div>
           </div>
-          <div className="flex-[55%] text-white p:px-3 d:px-10 py-5">
+          <div className="flex-[55%] text-white p:px-3 d:px-10 py-3">
             {/* <h2 className="font-UTMFleur text-[42px] leading-none">
               Giới thiệu
             </h2>
@@ -50,7 +50,7 @@ export default function HomeIntro({
               Tại sao chọn Sắt Mỹ Thuật Phương Tùng
             </h3> */}
             <div
-              className="mt-5 max-h-[420px] overflow-hidden"
+              className="mt-5 max-h-[400px] overflow-hidden"
               data-theme="dark"
             >
               {post?.content ? (
