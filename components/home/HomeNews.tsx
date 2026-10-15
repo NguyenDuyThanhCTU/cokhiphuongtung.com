@@ -150,10 +150,10 @@ export default function HomeNews({ Data }: { Data: BlogPost[] }) {
                         {formatDate(date)}
                       </p>
                     ) : null}
-                    <h3 className="mt-3 font-iCielPequena text-[20px] uppercase leading-7 text-[#332514]">
+                    <h3 className="mt-3  text-[20px] uppercase leading-7 text-[#332514]">
                       <Link
                         href={postHref}
-                        className="transition hover:text-mainColorHover"
+                        className="transition hover:text-mainColorHover font-bold"
                       >
                         {item.title}
                       </Link>

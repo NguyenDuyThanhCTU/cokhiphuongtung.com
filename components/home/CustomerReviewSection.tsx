@@ -27,7 +27,7 @@ function ReviewCard({ item }: { item: Testimonial }) {
         <div className="relative flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-full border-2 border-mainColor bg-[#f7f0d8] font-UTMAmericanSans text-xl text-mainColorHover">
           {item.avatarUrl ? <Image src={item.avatarUrl} alt={item.fullName} fill sizes="56px" className="object-cover" /> : item.fullName.charAt(0).toUpperCase()}
         </div>
-        <div><h3 className="font-iCielPequena text-[19px] uppercase text-[#332514]">{item.fullName}</h3>{item.position ? <p className="mt-1 text-xs text-stone-500">{item.position}</p> : null}</div>
+        <div><h3 className="font-bold text-[19px] uppercase text-[#332514]">{item.fullName}</h3>{item.position ? <p className="mt-1 text-xs text-stone-500">{item.position}</p> : null}</div>
       </div>
       <div className="mt-5 flex gap-1" aria-label={`${rating} trên 5 sao`}>{Array.from({ length: 5 }).map((_, starIndex) => <Star key={starIndex} size={16} className={starIndex < rating ? "fill-mainColor text-mainColor" : "text-stone-200"} aria-hidden="true" />)}</div>
       <p className="mt-5 flex-1 text-sm italic leading-7 text-black font-medium">“{item.content}”</p>
