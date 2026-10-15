@@ -96,13 +96,21 @@ export default async function CategoryBlogPage({
   params,
 }: CategoryBlogPageProps) {
   const categorySlug = getCategorySlug(params);
-  const { category, posts } = await loadCategoryPageData(categorySlug, true);
+  const gridOnly = categorySlug === "tin-tuc" || categorySlug === "du-an";
+  const { category, posts } = await loadCategoryPageData(
+    categorySlug,
+    !gridOnly,
+  );
 
   return (
     <>
       <BlogsH1 Content={category.name} />
       <div className="min-h-screen">
-        <BlogViewSwitcher posts={posts} categorySlug={category.slug} />
+        <BlogViewSwitcher
+          posts={posts}
+          categorySlug={category.slug}
+          gridOnly={gridOnly}
+        />
       </div>
     </>
   );
