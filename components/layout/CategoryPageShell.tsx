@@ -132,6 +132,13 @@ export default function CategoryPageShell({ children, categories, posts }: { chi
   const pathname = usePathname();
   if (pathname === "/lien-he" || pathname === "/gioi-thieu") return <>{children}</>;
   if (pathname.startsWith("/chuyen-muc")) return <div className="mx-2 py-10 d:mx-5">{children}</div>;
+  if (pathname.startsWith("/bai-viet/")) {
+    return (
+      <div className="grid w-full grid-cols-1 px-5 py-10 d:grid-cols-5">
+        <div className="min-w-0 d:col-span-3 d:col-start-2">{children}</div>
+      </div>
+    );
+  }
 
   return <div className="grid w-full gap-5 py-10 p:w-auto p:grid-cols-1 p:px-5 d:mx-auto d:grid-cols-[repeat(4,minmax(0,1fr))_calc((100%_-_2rem)_/_3)] lg:grid-cols-[repeat(4,minmax(0,1fr))_calc((100%_-_4rem)_/_5)]"><div className="col-span-4 min-w-0">{children}</div><CategorySidebar categories={categories} posts={posts} pathname={pathname} /></div>;
 }

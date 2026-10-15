@@ -18,9 +18,12 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
   const post = await getBlogPostBySlug(params.slug);
   const date = post.publishedAt ?? post.createdAt;
   return (
-    <article className="rounded-lg border border-gray-300 bg-white p-4">
-      <h1 className="text-[20px] font-normal text-mainColorHover">{post.title}</h1>
-      {date ? <div className="flex items-center gap-2 text-[14px]"><CiClock2 /><p>{formatDate(date)}</p></div> : null}
+    <article className="">
+      <h1 className="text-[20px]  text-mainColorHover text-center text-[40px] font-bold uppercase">{post.title}</h1>
+      {/* {date ? <div className="flex items-center gap-2 text-[14px]"><CiClock2 /><p>{formatDate(date)}</p></div> : null} */}
+     <div className="flex justify-center mt-4">
+       <div className="h-[2px] bg-black w-36"></div>
+     </div>
       {post.content ? <HtmlContent html={post.content} className="mt-4" /> : <p className="mt-4">Chưa có nội dung.</p>}
     </article>
   );
