@@ -106,11 +106,7 @@ export default async function CategoryBlogPage({
     <>
       <BlogsH1 Content={category.name} />
       <div className="min-h-screen">
-        <BlogViewSwitcher
-          posts={posts}
-          categorySlug={category.slug}
-          gridOnly={gridOnly}
-        />
+        <BlogViewSwitcher posts={posts} gridOnly={gridOnly} />
       </div>
     </>
   );

@@ -22,11 +22,9 @@ function parsePage(value: string | null) {
 
 export default function BlogViewSwitcher({
   posts,
-  categorySlug,
   gridOnly = false,
 }: {
   posts: BlogPost[];
-  categorySlug: string;
   gridOnly?: boolean;
 }) {
   const router = useRouter();
@@ -79,8 +77,7 @@ export default function BlogViewSwitcher({
     );
   }
 
-  const postHref = (post: BlogPost) =>
-    categorySlug === "du-an" ? `/du-an/${post.slug}` : `/bai-viet/${post.slug}`;
+  const postHref = (post: BlogPost) => `/bai-viet/${post.slug}`;
 
   return (
     <section aria-label="Danh sách bài viết">
