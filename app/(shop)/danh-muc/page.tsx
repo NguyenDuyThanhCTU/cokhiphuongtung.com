@@ -9,7 +9,7 @@ import { CatalogPageHeader } from "@/components/catalog/CatalogPageHeader";
 import { CatalogPagination } from "@/components/catalog/CatalogPagination";
 import {
   getCatalogCategories,
-  getCatalogItems,
+  getCatalogItemsWithFlexibleSearch,
   getCatalogTags,
 } from "@/features/catalog/services/catalog.service";
 import type { CatalogListResult } from "@/features/catalog/types";
@@ -48,7 +48,7 @@ export default async function CatalogPage({
   const query = parseCatalogListSearchParams(searchParams);
 
   const [catalog, categories, tags, settings] = await Promise.all([
-    getCatalogItems(query),
+    getCatalogItemsWithFlexibleSearch(query),
     getCatalogCategories(),
     getCatalogTags(),
     getPublicSiteSettings(),

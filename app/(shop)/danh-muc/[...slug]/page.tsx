@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { CatalogGrid } from "@/components/catalog/CatalogGrid";
 import {
   getCatalogCategories,
-  getCatalogItems,
+  getCatalogItemsWithFlexibleSearch,
   getCatalogTags,
 } from "@/features/catalog/services/catalog.service";
 import type { CatalogListResult } from "@/features/catalog/types";
@@ -66,7 +66,7 @@ async function loadCategoryPageData(
   };
 
   const [catalog, categories, tags] = await Promise.all([
-    getCatalogItems(query),
+    getCatalogItemsWithFlexibleSearch(query),
     getCatalogCategories(),
     getCatalogTags(),
   ]);

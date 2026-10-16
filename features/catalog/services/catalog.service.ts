@@ -17,6 +17,7 @@ import {
   catalogVariantListSchema,
 } from "@/features/catalog/schemas/catalog.schema";
 import { buildCatalogQuery } from "@/features/catalog/utils/build-catalog-query";
+import { searchCatalogItems } from "@/features/catalog/utils/catalog-search";
 import {
   normalizeCatalogCategory,
   normalizeCatalogItem,
@@ -88,6 +89,38 @@ export async function getAllCatalogItems(
     for (const item of page.items) items.set(item.id || item.slug, item);
   }
   return Array.from(items.values());
+}
+
+export async function getCatalogItemsWithFlexibleSearch(
+  query: CatalogListQuery,
+): Promise<CatalogListResult> {
+  const keyword = query.q?.trim();
+
+  if (!keyword) {
+    return getCatalogItems(query);
+  }
+
+  const page = Math.max(query.page ?? 1, 1);
+  const limit = Math.max(query.limit ?? 20, 1);
+  const { q: _q, page: _page, limit: _limit, ...filters } = query;
+  const matchingItems = searchCatalogItems(
+    await getAllCatalogItems(filters),
+    keyword,
+  );
+  const total = matchingItems.length;
+  const totalPages = Math.max(1, Math.ceil(total / limit));
+  const currentPage = Math.min(page, totalPages);
+  const startIndex = (currentPage - 1) * limit;
+
+  return {
+    items: matchingItems.slice(startIndex, startIndex + limit),
+    meta: {
+      page: currentPage,
+      limit,
+      total,
+      totalPages,
+    },
+  };
 }
 
 export async function getCatalogItemBySlug(slug: string): Promise<CatalogItem> {
