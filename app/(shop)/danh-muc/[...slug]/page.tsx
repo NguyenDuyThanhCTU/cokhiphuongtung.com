@@ -79,7 +79,7 @@ async function loadCategoryPageData(
 
   const meta = getSafeCatalogMeta(catalog, {
     page: query.page ?? 1,
-    limit: query.limit ?? 12,
+    limit: query.limit ?? 20,
   });
 
   return {

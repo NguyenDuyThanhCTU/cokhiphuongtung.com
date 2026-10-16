@@ -14,10 +14,14 @@ import {
   getOptionalBlogPostBySlug,
   getTestimonials,
 } from "@/features/content/services/content.service";
-import { isPostInGroup } from "@/features/content/utils/post-groups";
 import { getPublicSiteSettings } from "@/features/site/services/site.service";
 
 const INTRODUCTION_POST_SLUG = "gioi-thieu-ve-co-khi-phuong-tung";
+
+function getPostTimestamp(value?: string | null) {
+  const timestamp = Date.parse(value ?? "");
+  return Number.isFinite(timestamp) ? timestamp : 0;
+}
 
 export default async function Home() {
   const [
@@ -43,11 +47,14 @@ export default async function Home() {
   const news = posts
     .filter(
       (post) =>
-        post.id !== introduction?.id &&
-        !isPostInGroup(post, "du-an") &&
-        !isPostInGroup(post, "video"),
+        post.id !== introduction?.id && post.category?.slug === "tin-tuc",
     )
-    .slice(0, 6);
+    .sort(
+      (a, b) =>
+        getPostTimestamp(b.publishedAt ?? b.createdAt) -
+        getPostTimestamp(a.publishedAt ?? a.createdAt),
+    )
+    .slice(0, 3);
 
   return (
     <div className="mb-3">

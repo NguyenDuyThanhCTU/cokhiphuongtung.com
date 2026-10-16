@@ -87,7 +87,7 @@ export default function HomeNews({ Data }: { Data: BlogPost[] }) {
   return (
     <section className="bg-white py-16 d:py-20">
       <div className="w-full px-4 sm:px-6 d:px-5">
-        <header className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+        <header>
           <div>
             <p className="font-UTMFleur text-[38px] leading-none text-mainColorHover">
               Chuyện nghề & cảm hứng
@@ -96,84 +96,88 @@ export default function HomeNews({ Data }: { Data: BlogPost[] }) {
               Tin tức
             </h2>
           </div>
-          <Link
-            href="/chuyen-muc/tin-tuc"
-            className="inline-flex items-center gap-2 border-b border-mainColorHover pb-1 text-sm font-semibold text-mainColorHover transition hover:text-mainColor"
-          >
-            Xem tất cả bài viết <ArrowRight size={17} aria-hidden="true" />
-          </Link>
         </header>
 
         {Data.length ? (
-          <div className="mt-9 grid gap-6 sm:grid-cols-2 d:grid-cols-3">
-            {Data.slice(0, 6).map((item) => {
-              const date = item.publishedAt ?? item.createdAt;
-              const previewText = getPostPreviewText(item, "excerpt");
-              const postHref = `/bai-viet/${item.slug}`;
+          <>
+            <div className="mt-9 grid gap-6 sm:grid-cols-2 d:grid-cols-3">
+              {Data.slice(0, 3).map((item) => {
+                const date = item.publishedAt ?? item.createdAt;
+                const previewText = getPostPreviewText(item, "excerpt");
+                const postHref = `/bai-viet/${item.slug}`;
 
-              return (
-                <ClickableContainer
-                  as="article"
-                  key={item.id}
-                  href={postHref}
-                  aria-label={`Xem bài viết ${item.title}`}
-                  className="group cursor-pointer overflow-hidden border border-[#dfd2b5] bg-white shadow-[0_8px_24px_rgba(59,40,20,.07)]"
-                >
-                  <Link
+                return (
+                  <ClickableContainer
+                    as="article"
+                    key={item.id}
                     href={postHref}
-                    className="relative block aspect-[3/2] overflow-hidden bg-stone-100"
+                    aria-label={`Xem bài viết ${item.title}`}
+                    className="group cursor-pointer overflow-hidden border border-[#dfd2b5] bg-white shadow-[0_8px_24px_rgba(59,40,20,.07)]"
                   >
-                    {item.thumbnailUrl ? (
-                      <Image
-                        src={item.thumbnailUrl}
-                        alt={item.title}
-                        fill
-                        sizes="(max-width: 767px) 100vw, 33vw"
-                        className="object-cover object-center transition duration-500 group-hover:scale-105"
-                      />
-                    ) : (
-                      <div className="flex h-full items-center justify-center font-UTMFleur text-4xl text-mainColorHover">
-                        Phương Tùng
-                      </div>
-                    )}
-                    <span className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/55 to-transparent" />
-                  </Link>
-
-                  <div className="p-5">
-                    {date ? (
-                      <p className="flex items-center gap-2 text-xs text-stone-500">
-                        <CalendarDays
-                          size={14}
-                          className="text-mainColorHover"
-                          aria-hidden="true"
-                        />
-                        {formatDate(date)}
-                      </p>
-                    ) : null}
-                    <h3 className="mt-3  text-[20px] uppercase leading-7 text-[#332514]">
-                      <Link
-                        href={postHref}
-                        className="transition hover:text-mainColorHover font-bold"
-                      >
-                        {item.title}
-                      </Link>
-                    </h3>
-                    {previewText ? (
-                      <p className="mt-3 line-clamp-3 text-sm leading-7 text-stone-600">
-                        {previewText}
-                      </p>
-                    ) : null}
                     <Link
                       href={postHref}
-                      className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-mainColorHover"
+                      className="relative block aspect-[3/2] overflow-hidden bg-stone-100"
                     >
-                      Xem thêm <ArrowRight size={15} aria-hidden="true" />
+                      {item.thumbnailUrl ? (
+                        <Image
+                          src={item.thumbnailUrl}
+                          alt={item.title}
+                          fill
+                          sizes="(max-width: 767px) 100vw, 33vw"
+                          className="object-cover object-center transition duration-500 group-hover:scale-105"
+                        />
+                      ) : (
+                        <div className="flex h-full items-center justify-center font-UTMFleur text-4xl text-mainColorHover">
+                          Phương Tùng
+                        </div>
+                      )}
+                      <span className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/55 to-transparent" />
                     </Link>
-                  </div>
-                </ClickableContainer>
-              );
-            })}
-          </div>
+
+                    <div className="p-5">
+                      {date ? (
+                        <p className="flex items-center gap-2 text-xs text-stone-500">
+                          <CalendarDays
+                            size={14}
+                            className="text-mainColorHover"
+                            aria-hidden="true"
+                          />
+                          {formatDate(date)}
+                        </p>
+                      ) : null}
+                      <h3 className="mt-3  text-[20px] uppercase leading-7 text-[#332514]">
+                        <Link
+                          href={postHref}
+                          className="transition hover:text-mainColorHover font-bold"
+                        >
+                          {item.title}
+                        </Link>
+                      </h3>
+                      {previewText ? (
+                        <p className="mt-3 line-clamp-3 text-sm leading-7 text-stone-600">
+                          {previewText}
+                        </p>
+                      ) : null}
+                      <Link
+                        href={postHref}
+                        className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-mainColorHover"
+                      >
+                        Xem thêm <ArrowRight size={15} aria-hidden="true" />
+                      </Link>
+                    </div>
+                  </ClickableContainer>
+                );
+              })}
+            </div>
+            <div className="mt-9 flex justify-center">
+              <Link
+                href="/chuyen-muc/tin-tuc"
+                className="inline-flex min-h-12 items-center justify-center gap-2 bg-mainColorHover px-7 py-3 text-sm font-semibold uppercase text-white transition hover:bg-mainColor hover:text-mainColorHover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-mainColorHover"
+              >
+                Xem tất cả bài viết <ArrowRight size={17} aria-hidden="true" />
+              </Link>
+            </div>
+          </>
         ) : (
           <div className="mt-9 border border-dashed border-mainColorHover/35 bg-[#fffdf8] px-6 py-10 text-center text-sm text-stone-500">
             Tin tức đang được cập nhật.

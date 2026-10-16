@@ -10,7 +10,7 @@ export type CatalogSearchParamsInput = Record<
 >;
 
 const DEFAULT_PAGE = 1;
-const DEFAULT_LIMIT = 12;
+const DEFAULT_LIMIT = 20;
 const MAX_LIMIT = 48;
 
 const SORT_OPTIONS = new Set<CatalogSortOption>([

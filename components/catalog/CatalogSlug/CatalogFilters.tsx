@@ -39,7 +39,7 @@ export function CatalogFilters({
   const activeTag = getFirstValue(searchParams.tag);
   const activeSort = getFirstValue(searchParams.sort) ?? "sort_order";
   const q = getFirstValue(searchParams.q) ?? "";
-  const limit = getFirstValue(searchParams.limit) ?? "12";
+  const limit = getFirstValue(searchParams.limit) ?? "20";
   const activeTags = tags.filter((tag) => tag.isActive !== false);
 
   return (
@@ -73,7 +73,7 @@ export function CatalogFilters({
           defaultValue={limit}
           className="h-11 rounded-2xl border border-zinc-200 bg-zinc-50 px-4 text-sm text-zinc-700 outline-none transition focus:border-orange-400 focus:bg-white focus:ring-4 focus:ring-orange-100"
         >
-          <option value="12">12 / trang</option>
+          <option value="20">20 / trang</option>
           <option value="24">24 / trang</option>
           <option value="36">36 / trang</option>
           <option value="48">48 / trang</option>

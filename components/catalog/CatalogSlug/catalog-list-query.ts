@@ -15,7 +15,7 @@ const SORT_OPTIONS = new Set<CatalogSortOption>([
 ]);
 
 const TRUE_VALUES = new Set(["true", "1", "yes", "on"]);
-const DEFAULT_LIMIT = 12;
+const DEFAULT_LIMIT = 20;
 const MAX_LIMIT = 48;
 
 export function getFirstValue(value: SearchParamsValue) {

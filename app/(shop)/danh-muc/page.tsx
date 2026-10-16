@@ -56,7 +56,7 @@ export default async function CatalogPage({
 
   const meta = getSafeMeta(catalog, {
     page: query.page ?? 1,
-    limit: query.limit ?? 12,
+    limit: query.limit ?? 20,
   });
 
   return (
