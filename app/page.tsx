@@ -15,6 +15,7 @@ import {
   getTestimonials,
 } from "@/features/content/services/content.service";
 import { getPublicSiteSettings } from "@/features/site/services/site.service";
+import { sortHomeCatalogItems } from "@/features/catalog/utils/sort-home-catalog-items";
 
 const INTRODUCTION_POST_SLUG = "gioi-thieu-ve-co-khi-phuong-tung";
 
@@ -35,7 +36,7 @@ export default async function Home() {
   ] = await Promise.all([
     getPublicSiteSettings(),
     getBanners(),
-    getAllCatalogItems({ sort: "sort_order" }),
+    getAllCatalogItems({ sort: "newest" }),
     getCatalogCategories(),
     getBlogPosts(),
     getTestimonials(),
@@ -61,7 +62,10 @@ export default async function Home() {
       <Hero Data={banners} settings={settings} />
       <div className="">
         <HomeIntro post={introduction} settings={settings} />
-        <HomeProducts Data={products} categories={categories} />
+        <HomeProducts
+          Data={sortHomeCatalogItems(products)}
+          categories={categories}
+        />
       </div>
       <HomeBookingSteps />
       <CustomerReviewSection settings={settings} testimonials={testimonials} />

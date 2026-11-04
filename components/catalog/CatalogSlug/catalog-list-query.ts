@@ -83,6 +83,7 @@ export function parseCatalogListSearchParams(
     limit: normalizePositiveInteger(searchParams.limit, DEFAULT_LIMIT, {
       max: MAX_LIMIT,
     }),
+    sort: "newest",
   };
 
   const q = normalizeString(searchParams.q);

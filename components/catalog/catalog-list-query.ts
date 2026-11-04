@@ -78,6 +78,7 @@ export function parseCatalogListSearchParams(
     limit: parsePositiveInteger(searchParams.limit, DEFAULT_LIMIT, {
       max: MAX_LIMIT,
     }),
+    sort: "newest",
   };
 
   const q = cleanText(searchParams.q);

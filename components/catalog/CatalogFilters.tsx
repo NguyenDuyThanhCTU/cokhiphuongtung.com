@@ -13,8 +13,8 @@ type CatalogFiltersProps = {
 };
 
 const sortOptions = [
-  { value: "sort_order", label: "Mặc định" },
   { value: "newest", label: "Mới nhất" },
+  { value: "sort_order", label: "Thứ tự tùy chỉnh" },
   { value: "price_asc", label: "Giá tăng dần" },
   { value: "price_desc", label: "Giá giảm dần" },
 ] as const;
@@ -54,7 +54,7 @@ export function CatalogFilters({
 }: CatalogFiltersProps) {
   const currentQ = getFirstValue(searchParams.q) ?? "";
   const currentTag = getFirstValue(searchParams.tag);
-  const currentSort = getFirstValue(searchParams.sort) ?? "sort_order";
+  const currentSort = getFirstValue(searchParams.sort) ?? "newest";
 
   const activeTags = tags.filter((tag) => tag.isActive !== false);
 
@@ -67,7 +67,7 @@ export function CatalogFilters({
         {currentTag ? (
           <input type="hidden" name="tag" value={currentTag} />
         ) : null}
-        {currentSort !== "sort_order" ? (
+        {currentSort !== "newest" ? (
           <input type="hidden" name="sort" value={currentSort} />
         ) : null}
         {booleanFilters.map((filter) =>
@@ -149,8 +149,7 @@ export function CatalogFilters({
               <FilterChip
                 key={option.value}
                 href={buildCatalogHref(searchParams, {
-                  sort:
-                    option.value === "sort_order" ? undefined : option.value,
+                  sort: option.value === "newest" ? undefined : option.value,
                   page: 1,
                 })}
                 isActive={currentSort === option.value}

@@ -13,8 +13,8 @@ type CatalogFiltersProps = {
 };
 
 const SORT_OPTIONS = [
-  { label: "Thứ tự mặc định", value: "sort_order" },
   { label: "Mới nhất", value: "newest" },
+  { label: "Thứ tự tùy chỉnh", value: "sort_order" },
   { label: "Giá tăng dần", value: "price_asc" },
   { label: "Giá giảm dần", value: "price_desc" },
 ];
@@ -37,7 +37,7 @@ export function CatalogFilters({
   tags,
 }: CatalogFiltersProps) {
   const activeTag = getFirstValue(searchParams.tag);
-  const activeSort = getFirstValue(searchParams.sort) ?? "sort_order";
+  const activeSort = getFirstValue(searchParams.sort) ?? "newest";
   const q = getFirstValue(searchParams.q) ?? "";
   const limit = getFirstValue(searchParams.limit) ?? "20";
   const activeTags = tags.filter((tag) => tag.isActive !== false);
