@@ -7,10 +7,10 @@ function getCreatedAtTimestamp(item: CatalogItem) {
 }
 
 /**
- * Homepage collections always show featured products first. Products in each
- * group are then ordered from newest to oldest by their creation date.
+ * Show every featured product first. Products in the featured and regular
+ * groups are each ordered from newest to oldest by creation date.
  */
-export function sortHomeCatalogItems(items: CatalogItem[]) {
+export function sortCatalogItemsFeaturedFirst(items: CatalogItem[]) {
   return [...items].sort((left, right) => {
     const featuredDifference =
       Number(Boolean(right.isFeatured)) - Number(Boolean(left.isFeatured));

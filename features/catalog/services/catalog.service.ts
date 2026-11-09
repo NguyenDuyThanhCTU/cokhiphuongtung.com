@@ -18,6 +18,7 @@ import {
 } from "@/features/catalog/schemas/catalog.schema";
 import { buildCatalogQuery } from "@/features/catalog/utils/build-catalog-query";
 import { searchCatalogItems } from "@/features/catalog/utils/catalog-search";
+import { sortCatalogItemsFeaturedFirst } from "@/features/catalog/utils/sort-home-catalog-items";
 import {
   normalizeCatalogCategory,
   normalizeCatalogItem,
@@ -80,12 +81,19 @@ export async function getAllCatalogItems(
 ): Promise<CatalogItem[]> {
   const pageSize = 50;
   const firstPage = await getCatalogItems({ ...query, page: 1, limit: pageSize });
-  const remainingPages = await Promise.all(
-    Array.from({ length: Math.max((firstPage.meta?.totalPages ?? 1) - 1, 0) },
-      (_, index) => getCatalogItems({ ...query, page: index + 2, limit: pageSize })),
-  );
+  const pages = [firstPage];
+
+  // The public API can reset connections when all catalog pages are requested
+  // concurrently. Load them in order so featured products are never omitted
+  // from the complete set before client-facing sorting and pagination.
+  for (let page = 2; page <= (firstPage.meta?.totalPages ?? 1); page += 1) {
+    pages.push(
+      await getCatalogItems({ ...query, page, limit: pageSize }),
+    );
+  }
+
   const items = new Map<string, CatalogItem>();
-  for (const page of [firstPage, ...remainingPages]) {
+  for (const page of pages) {
     for (const item of page.items) items.set(item.id || item.slug, item);
   }
   return Array.from(items.values());
@@ -96,24 +104,29 @@ export async function getCatalogItemsWithFlexibleSearch(
 ): Promise<CatalogListResult> {
   const keyword = query.q?.trim();
 
-  if (!keyword) {
+  // Other explicit sort modes can use the API's native pagination directly.
+  if (!keyword && query.sort !== "newest") {
     return getCatalogItems(query);
   }
 
   const page = Math.max(query.page ?? 1, 1);
   const limit = Math.max(query.limit ?? 20, 1);
   const { q: _q, page: _page, limit: _limit, ...filters } = query;
-  const matchingItems = searchCatalogItems(
-    await getAllCatalogItems(filters),
-    keyword,
-  );
-  const total = matchingItems.length;
+  const allItems = await getAllCatalogItems(filters);
+  const matchingItems = keyword
+    ? searchCatalogItems(allItems, keyword)
+    : allItems;
+  const orderedItems =
+    query.sort === "newest"
+      ? sortCatalogItemsFeaturedFirst(matchingItems)
+      : matchingItems;
+  const total = orderedItems.length;
   const totalPages = Math.max(1, Math.ceil(total / limit));
   const currentPage = Math.min(page, totalPages);
   const startIndex = (currentPage - 1) * limit;
 
   return {
-    items: matchingItems.slice(startIndex, startIndex + limit),
+    items: orderedItems.slice(startIndex, startIndex + limit),
     meta: {
       page: currentPage,
       limit,

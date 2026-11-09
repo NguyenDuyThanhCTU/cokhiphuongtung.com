@@ -15,7 +15,7 @@ import {
   getTestimonials,
 } from "@/features/content/services/content.service";
 import { getPublicSiteSettings } from "@/features/site/services/site.service";
-import { sortHomeCatalogItems } from "@/features/catalog/utils/sort-home-catalog-items";
+import { sortCatalogItemsFeaturedFirst } from "@/features/catalog/utils/sort-home-catalog-items";
 
 const INTRODUCTION_POST_SLUG = "gioi-thieu-ve-co-khi-phuong-tung";
 
@@ -63,7 +63,7 @@ export default async function Home() {
       <div className="">
         <HomeIntro post={introduction} settings={settings} />
         <HomeProducts
-          Data={sortHomeCatalogItems(products)}
+          Data={sortCatalogItemsFeaturedFirst(products)}
           categories={categories}
         />
       </div>
